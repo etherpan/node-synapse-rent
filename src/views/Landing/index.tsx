@@ -203,12 +203,12 @@ export function LaunchCountdown() {
         </Typography>
         <Typography fontSize={17}>
           Please check our &nbsp;
-          <Link href="https://docs.unicow.org" target="_blank" style={{ color: "#e3a3a3", fontWeight: "700" }}>
+          <Link href="https://docs.nodesynapse.org" target="_blank" style={{ color: "#e3a3a3", fontWeight: "700" }}>
             document
           </Link>
           &nbsp; for more information and stay tuned for more exciting events and updates on our social networks. &nbsp;
-          <Link target="_blank" href="https://linktr.ee/unicownft" style={{ color: "#e3a3a3", fontWeight: "700" }}>
-            https://linktr.ee/unicownft
+          <Link target="_blank" href="https://linktr.ee/nodesynapse" style={{ color: "#e3a3a3", fontWeight: "700" }}>
+            https://linktr.ee/nodesynapse
           </Link>
         </Typography>
         <FormControlLabel
@@ -535,7 +535,7 @@ function Landing() {
                   Sell Tax: 25% (
                   <a
                     target="_blank"
-                    href="https://docs.unicow.org/milk#questions-on-caramel-usdcml"
+                    href="https://docs.nodesynapse.org/milk#questions-on-caramel-usdcml"
                     style={{ color: "#fff" }}
                   >
                     why 25%

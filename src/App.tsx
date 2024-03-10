@@ -193,7 +193,7 @@ function App() {
   // ... been reloaded within App.
   useEffect(() => {
     if (shouldTriggerSafetyCheck()) {
-      toast("Safety Check: Always verify you're on unicow.org");
+      toast("Safety Check: Always verify you're on nodesynapse.org");
     }
     loadDetails("app");
   }, []);

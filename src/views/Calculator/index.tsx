@@ -57,7 +57,7 @@ function Calculator() {
             </Typography>
             <InfoNotification style={{ color: "#FFFFFF" }}>
               Visit{" "}
-              <NavLink to={"https://docs.unicow.org/unicow"} style={{ color: "#FFFFFF" }} target="_blank">
+              <NavLink to={"https://docs.nodesynapse.org/nodesynapse"} style={{ color: "#FFFFFF" }} target="_blank">
                 our documentation
               </NavLink>{" "}
               for more details.

@@ -56,7 +56,7 @@ function Footer() {
                 Telegram
               </Link>
               <Link
-                href="https://tiktok.com/@unicownft"
+                href="https://tiktok.com/@nodesynapse"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="link-text"
@@ -71,7 +71,7 @@ function Footer() {
                 Marketplace
               </Box>
               <Link
-                href="https://opensea.io/collection/unicownft"
+                href="https://opensea.io/collection/nodesynapse"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="link-text"
@@ -88,7 +88,7 @@ function Footer() {
               <Box fontSize="22px" lineHeight="24px" fontWeight={700}>
                 Resources
               </Box>
-              <Link href="https://docs.unicow.org/" target="_blank" rel="noopener noreferrer" className="link-text">
+              <Link href="https://docs.nodesynapse.org/" target="_blank" rel="noopener noreferrer" className="link-text">
                 Docs
               </Link>
               <Link href="#" target="" rel="noopener noreferrer" className="link-text">

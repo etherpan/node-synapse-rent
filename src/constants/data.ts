@@ -14,7 +14,7 @@ export const META_URL = "https://meta.cryptotigernode.club/";
 
 export const OPENSEA_ITEM_URL = "https://opensea.io/assets/base/";
 
-export const OPENSEA_COLLECTION_URL = "https://opensea.io/collection/unicow-12";
+export const OPENSEA_COLLECTION_URL = "https://opensea.io/collection/nodesynapse-12";
 
 export const INVITE_LINK = "https://nodesynapse.app//nftitem?id=";
 

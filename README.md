@@ -1,1 +1,1 @@
-## UniCow Frontend
+## NodeSynapse Frontend
