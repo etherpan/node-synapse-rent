@@ -1,0 +1,69 @@
+.referral-view {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+
+    .referral-info-card {
+        width: 100%;
+        border-radius: 20px;
+        // max-width: 450px;
+        text-align: center;
+        margin: auto;
+        padding: 12px;
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin: auto;
+        }
+    }
+    .referral-link-wrap {
+        text-align: center;
+        .referral-link-box {
+            margin-top: 24px;
+            
+            .referral-link {
+                width: 95%;
+                max-width: 600px;
+                border-radius: 25px;
+                height: 50px;
+                outline: none;
+                .MuiOutlinedInput-input {
+                    font-style: normal;
+                    font-size: 20px;
+                    padding: 10px 20px;
+                }
+                .MuiOutlinedInput-notchedOutline {
+                    border: none;
+                }
+                .referral-link-btn{
+                    margin: -15px;
+                    height: 50px;
+                    padding: 15px;
+                    border-radius: 25px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+.status-card {
+    width: 100%;
+    .title {
+        padding: 12px;
+        font-size: 24px;
+        text-align: center;
+        margin: auto;
+    }
+    .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0px;
+        .key {
+            font-size: 18px;
+        }
+        .value {
+            font-size: 18px;
+        }
+    }
+}

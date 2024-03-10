@@ -1,0 +1,174 @@
+.mint-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+
+  width: 89%;
+  margin: auto;
+  height: 100%;
+
+  .timer-wrap {
+    margin-top: -140px;
+    z-index: 2;
+
+    .timer-item-wrap {
+      width: 140px;
+      height: 120px;
+      border-radius: 16px;
+      padding: 20px 8px 8px 8px;
+      margin: 4px 8px;
+
+      .timer-value {
+        font-size: 95px;
+        line-height: 60px;
+        font-weight: 800;
+      }
+    }
+  }
+
+  .nft-mint-stats-item {
+    height: 27px;
+    border-radius: 15px;
+    text-align: center;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+
+    p {
+      padding-top: 2px;
+      font-size: 15px;
+      margin-left: 8px;
+    }
+  }
+
+  .referral-link-wrap {
+    text-align: center;
+
+    .referral-link-box {
+      margin-top: 24px;
+
+      .referral-link {
+        width: 95%;
+        max-width: 600px;
+        border-radius: 25px;
+        height: 50px;
+        outline: none;
+
+        .MuiOutlinedInput-input {
+          font-style: normal;
+          font-size: 20px;
+          padding: 10px 20px;
+        }
+
+        .MuiOutlinedInput-notchedOutline {
+          border: none;
+        }
+
+        .referral-link-btn {
+          margin: -15px;
+          height: 50px;
+          padding: 15px;
+          border-radius: 25px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .nft-mint-row-item {
+    text-align: center;
+
+    .inner-row {
+      display: flex;
+      justify-content: space-between;
+      border-radius: 25px;
+      height: 43px;
+      align-items: center;
+      padding: 8px 16px;
+    }
+  }
+
+  .quantity-row {
+    margin-top: 12px;
+    display: flex;
+    height: 80px;
+    border-radius: 40px;
+    justify-content: space-between;
+    padding: 8px;
+    align-items: center;
+
+    .quantity-value {
+      font-size: 55px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+  }
+
+  .quantity-stats {
+    border-radius: 20px;
+    padding: 8px 12px;
+    margin-top: 12px;
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 16px;
+    }
+  }
+
+  .mint-infos-wrap {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .mint-img {
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      padding: 10px;
+      z-index: -1;
+      position: relative;
+      margin-top: -120px;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .mint-view {
+    .timer-wrap {
+      margin-top: -120px;
+
+      .timer-item-wrap {
+        width: 120px;
+        height: 100px;
+
+        .timer-value {
+          font-size: 75px;
+          line-height: 40px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .mint-view {
+    .timer-wrap {
+      margin-top: -80px;
+
+      .timer-item-wrap {
+        width: 80px;
+        height: 70px;
+
+        .timer-value {
+          font-size: 55px;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+}
