@@ -1,5 +1,4 @@
 export const darkPalette = {
-  
   paper: {
     background: "#161616",
     card: "#1B1B1B",
@@ -25,8 +24,9 @@ export const darkPalette = {
     10: "#EEE9E2",
   },
   primary: {
-    300: "#1aded1",
     100: "#45f4e8",
+    200: "#ffffff",
+    300: "#1aded1",
   },
   text: {
     100: "#fff",

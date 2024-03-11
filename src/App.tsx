@@ -12,7 +12,6 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react"
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Route, Routes, useLocation } from "react-router-dom";
-import Footer from "src/components/Footer/Footer";
 import Messages from "src/components/Messages/Messages";
 import NavDrawer from "src/components/Sidebar/NavDrawer";
 import StagingNotification from "src/components/StagingNotification";
@@ -35,10 +34,9 @@ import { girth as gTheme } from "src/themes/girth.js";
 import { light as lightTheme } from "src/themes/light.js";
 import Gallery from "src/views/Gallery";
 import MyNodes from "src/views/MyNodes";
-import NftItem from "src/views/NftItem";
 import { QueryParamProvider } from "use-query-params";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
-import { useAccount, useConnect, } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 
 // Dynamic Imports for code splitting
 const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryDashboard"));
@@ -131,7 +129,7 @@ function App() {
   const { error: errorMessage } = useConnect();
   // @ts-ignore
   const { chain = { id: 8453 } } = useAccount();
-  
+
   // const provider = useProvider();
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
 
@@ -256,13 +254,13 @@ function App() {
                 <QueryParamProvider adapter={ReactRouter6Adapter}>
                   <Routes>
                     <Route path="/" element={<Gallery />} />
-                    <Route path="/mint" element={<Mint />} />
+                    {/* <Route path="/mint" element={<Mint />} /> */}
                     <Route path="/nodes" element={<Gallery />} />
-                    <Route path="/nftItem" element={<NftItem />} />
+                    {/* <Route path="/nftItem" element={<NftItem />} /> */}
                     <Route path="/mynodes" element={<MyNodes />} />
-                    <Route path="/referral" element={<Referral />} />
+                    {/* <Route path="/referral" element={<Referral />} />
                     <Route path="/calculator" element={<Calculator />} />
-                    <Route path="/dashboard/*" element={<TreasuryDashboard />} />
+                    <Route path="/dashboard/*" element={<TreasuryDashboard />} /> */}
                     <Route
                       path={"/stakednft"}
                       element={<Wallet open={true} component="info" theme={theme} toggleTheme={toggleTheme} />}

@@ -2,11 +2,9 @@
 // import { IReduxState } from "src/store/slices/state.interface";
 // import { IAccountSlice } from "src/store/slices/account-slice";
 import "src/components/NodeCard/nodecard.scss";
-import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
-import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
-import { Box, Button, Typography, useTheme } from "@mui/material";
+
+import { Button, Typography, useTheme } from "@mui/material";
 import LoadingIcon from "src/assets/icons/loading.gif";
-import OpenseaIcon from "src/assets/icons/opensea.png";
 import OwnerBadge from "src/assets/icons/owner-badge.png";
 import { NODE_MANAGER } from "src/constants/addresses";
 import { getValidChainId, OPENSEA_ITEM_URL } from "src/constants/data";
@@ -24,8 +22,6 @@ interface IUCowCardProps {
 
 function NodeCard({ nftId, totalStaked, totalStakers, owner, level, handleOpen }: IUCowCardProps) {
   const theme = useTheme();
-  console.log('debug theme')
-  // const [nftImg, setNftImg] = useState("");
   const { address = "", isConnected, isReconnecting } = useAccount();
   const { chain = { id: 8453 } } = useNetwork();
 
@@ -43,28 +39,18 @@ function NodeCard({ nftId, totalStaked, totalStakers, owner, level, handleOpen }
         {address == owner && (
           <div className="owner-badge">
             <a
-              href={`${OPENSEA_ITEM_URL}${NODE_MANAGER[getValidChainId(chain.id) as keyof typeof NODE_MANAGER]}/${nftId}`}
+              href={`${OPENSEA_ITEM_URL}${
+                NODE_MANAGER[getValidChainId(chain.id) as keyof typeof NODE_MANAGER]
+              }/${nftId}`}
               target="_blank"
             >
               <img width="55" src={OwnerBadge} />
             </a>
           </div>
         )}
-        {/* <div className="opensea-badge">
-          <a
-            href={`${OPENSEA_ITEM_URL}${NODE_MANAGER[getValidChainId(chain.id) as keyof typeof NODE_MANAGER]}/${nftId}`}
-            target="_blank"
-          >
-            <img width="55" src={OpenseaIcon} />
-          </a>
-        </div> */}
         <div className="card-image" onClick={() => handleOpen(nftId)}>
           {nftImg ? (
             <>
-              {/* <img
-                src={`data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(nftImg)))}`}
-                className="nft-image"
-              /> */}
               <div className="div">
                 <Typography className="processor">Core™ i5-10600K Intel</Typography>
                 <Typography className="processor">EPYC 7642 48-Core Processor AMD</Typography>
@@ -75,26 +61,24 @@ function NodeCard({ nftId, totalStaked, totalStakers, owner, level, handleOpen }
                 <div className="">
                   <Typography className="processor">CPU</Typography>
                   <Typography className="processor">0 GB / 40 GB</Typography>
-                  
                 </div>
-                {/* <Typography className="processor">
-                    <CloudDownloadOutlinedIcon fontSize="small" /> 118 GB
-                  </Typography> */}
-                <Box>
+                {/* <Box>
                   <CloudDownloadOutlinedIcon fontSize="small" /> 110 Mbps<span> / </span>
                   <CloudUploadOutlinedIcon fontSize="small" /> 110 Mbps
-                </Box>
+                </Box> */}
               </div>
               <div className="node-card">
-                <div className="node-circular">
-                  <div className="centered-text">0%</div><br></br>
+                {/* <div className="node-circular">
+                  <div className="centered-text">0%</div>
                   <div style={{ fontSize: "10px" }}>used</div>
-                </div>
-                <div className="div">
-                  $1.50 per Hour
-                </div>
-                <Button className="div" variant="contained" style={{ color: "#fff", borderRadius: "20px", fontSize: "15px" }}>
-                  Rent Now
+                </div> */}
+                <div className="div">$1.50 per Hour</div>
+                <Button
+                  className="div"
+                  variant="contained"
+                  style={{ color: "#fff", borderRadius: "20px", fontSize: "15px" }}
+                >
+                  {`Rent Now`}
                 </Button>
               </div>
             </>

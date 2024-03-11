@@ -5339,7 +5339,7 @@ deep-object-diff@^1.1.0:
   resolved "https://registry.npmjs.org/deep-object-diff/-/deep-object-diff-1.1.9.tgz"
   integrity sha512-Rn+RuwkmkDwCi2/oXOFS9Gsr5lJZu/yTGpK7wAaAIE75CC+LCGEZHpY6VQJa/RoJcrmaA/docWJZvYohlNkWPA==
 
-deepmerge@^4.2.2:
+deepmerge@4.2.2, deepmerge@^4.2.2:
   version "4.2.2"
   resolved "https://registry.npmjs.org/deepmerge/-/deepmerge-4.2.2.tgz"
   integrity sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==
@@ -10655,6 +10655,13 @@ ts-essentials@^7.0.1:
   version "7.0.3"
   resolved "https://registry.npmjs.org/ts-essentials/-/ts-essentials-7.0.3.tgz"
   integrity sha512-8+gr5+lqO3G84KdiTSMRLtuyJ+nTBVRKuCrK4lidMPdVeEp0uqC875uE5NMcaA7YYMN7XsNiFQuMvasF8HT/xQ==
+
+ts-form-validation@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/ts-form-validation/-/ts-form-validation-2.2.0.tgz#14392a197f93966c9f9469fcc72c69365199a062"
+  integrity sha512-UnqL8x5bhHWNHugkRdt3L+ibm8aqQl06luKCfokTJhdWTRPIZXLw0F51Ap+GT+IGRJdPcz6Ud3f+yeF1nVKErw==
+  dependencies:
+    deepmerge "4.2.2"
 
 ts-node@^10.9.1:
   version "10.9.1"

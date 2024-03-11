@@ -72,6 +72,7 @@
     "react-uid": "^2.3.2",
     "recharts": "^2.7.2",
     "tinycolor2": "^1.6.0",
+    "ts-form-validation": "^2.2.0",
     "typescript": "^5.0.4",
     "universal-cookie": "^4.0.4",
     "use-query-params": "^2.2.1",

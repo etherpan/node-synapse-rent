@@ -5,7 +5,7 @@ import { trim } from "src/helpers";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
 import { useGohmPrice, useOhmPrice } from "src/hooks/usePrices";
 import { ModalHandleSelectProps } from "src/views/Stake/components/StakeArea/components/StakeInputArea/components/TokenModal";
-import SlippageModal from "src/views/Zap/SlippageModal";
+import SlippageModal from "src/views/Zap/NodeModal";
 
 export interface OHMZapTransactionDetailsProps {
   inputQuantity: string;
@@ -30,7 +30,7 @@ const ZapTransactionDetails: FC<OHMZapTransactionDetailsProps> = ({
   handleMinAmount,
 }) => {
   const [customSlippage, setCustomSlippage] = useState<string>("1.0");
-  const handleSlippageModalOpen = () => setSlippageModalOpen(true);
+  const handleNodeModalOpen = () => setSlippageModalOpen(true);
   const [slippageModalOpen, setSlippageModalOpen] = useState(false);
 
   const ohmMarketPrice = useOhmPrice();
@@ -93,7 +93,7 @@ const ZapTransactionDetails: FC<OHMZapTransactionDetailsProps> = ({
           <Box display="flex" flexDirection="row" alignItems="center">
             <Typography>{customSlippage}%</Typography>
             <Box width="6px" />
-            <Link onClick={handleSlippageModalOpen}>
+            <Link onClick={handleNodeModalOpen}>
               <Icon name="settings" sx={{ paddingTop: "2px", fontSize: "14px" }} />
             </Link>
           </Box>

@@ -85,7 +85,6 @@ export const OhmSupplyGraph = ({ earliestDate, onMouseMove, subgraphDaysOffset }
     const byDateTokenSupplyMap = getDateTokenSupplyMap(tokenSupplyResults);
     const byDateProtocolMetricMap = getDateProtocolMetricMap(protocolMetricResults);
 
-    console.debug(`${chartName}: rebuilding by date metrics`);
     const tempByDateOhmSupply: OhmSupplyComparison[] = [];
     byDateTokenSupplyMap.forEach((dateSupplyValues, dateString) => {
       /**

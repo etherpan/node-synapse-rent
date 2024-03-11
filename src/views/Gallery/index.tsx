@@ -15,8 +15,8 @@ import { Box } from "@mui/system";
 import { ethers } from "ethers";
 import React, { useEffect, useRef, useState } from "react";
 import LoadingIcon from "src/assets/icons/loading.gif";
-import PageTitle from "src/components/PageTitle";
 import NodeCard from "src/components/NodeCard";
+import PageTitle from "src/components/PageTitle";
 import { NUMBER_OF_GALLER_VISIBLE } from "src/constants/data";
 import { useAppSelector } from "src/hooks";
 
@@ -25,7 +25,6 @@ function Gallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const gallery = useAppSelector(state => state.gallery.nfts);
-  console.log('eeeee', gallery)
   const [activeGallery, setActiveGallery] = useState([
     {
       id: 1,
@@ -53,7 +52,6 @@ function Gallery() {
   };
 
   const [loading, setLoading] = useState<boolean>(false);
-  console.log('debug loading', loading)
   const handleKey = (e: any) => {
     if (e.keyCode == 13) {
       if (ethers.utils.isAddress(name[0].toLowerCase())) searchAddress(name[0]);
@@ -151,10 +149,9 @@ function Gallery() {
   const chosenGalleryLength = useRef(0);
   const [observerIsSet, setObserverIsSet] = useState(false);
   const chosenGalleryMemoized = activeGallery.slice(0, numberOfGalleryVisible);
-  console.log('debug chosenGalleryMemoized', chosenGalleryMemoized)
-  
+
   chosenGalleryLength.current = chosenGalleryMemoized.length;
-  console.log("debug chosenGalleryLength.current", chosenGalleryLength.current)
+
   useEffect(() => {
     const showMoreGallery = (entries: [any]) => {
       const [entry] = entries;
@@ -188,7 +185,7 @@ function Gallery() {
               value={filterQuery}
               onChange={handleQueryChange}
               placeholder="Filter Options"
-              style={{ color: `${theme.colors.text[100]}`, marginLeft: "8px", marginRight: "8px", width: "160px" }}
+              style={{ color: `${theme.colors.primary[300]}`, marginLeft: "8px", marginRight: "8px", width: "160px" }}
             >
               <MenuItem disabled value={0}>
                 <em>Filter Options</em>
