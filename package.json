@@ -55,6 +55,7 @@
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "ethers": "^5.7.2",
+    "get-eth-price": "^1.0.0",
     "get-value": "^3.0.1",
     "graphql": "^15.8.0",
     "graphql-request": "^5.2.0",
@@ -75,6 +76,7 @@
     "ts-form-validation": "^2.2.0",
     "typescript": "^5.0.4",
     "universal-cookie": "^4.0.4",
+    "use-eth-price": "^1.1.0",
     "use-query-params": "^2.2.1",
     "wagmi": "^0.12.16"
   },

@@ -1,7 +1,8 @@
 import { Box, Dialog, DialogTitle, FormControl, Link, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon, PrimaryButton } from "@olympusdao/component-library";
-import { ChangeEvent, FC, FormEvent, SetStateAction, useState } from "react";
+import axios from "axios";
+import { ChangeEvent, FC, FormEvent, SetStateAction, useEffect, useState } from "react";
 import React from "react";
 import { toast } from "react-hot-toast";
 import { messages } from "src/constants/messages";
@@ -28,37 +29,55 @@ export interface RentModal {
   handleClose: () => void;
   modalOpen: boolean;
   currentNode: number;
+  NodePrice: number;
   setCustomNode: { (value: SetStateAction<string>): void; (arg0: string): void };
 }
 
 interface FormData {
-  node_ip: string;
-  node_cpu: string;
-  node_gpu: string;
-  cpu_capacity: string;
-  gpu_capacity: string;
-  network_speed?: string;
-  utilization?: string;
-  node_price: string;
-  node_privateKey: string;
+  buyer_telegram: string;
 }
 
 interface AuthState {
   loggedIn: boolean;
 }
 
-const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode }) => {
-  console.log("debug currentNode", currentNode);
+const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePrice }) => {
   const { address = "", isConnected } = useAccount();
   const [formData, setFormData] = useState<FormData>({
-    node_ip: "",
-    node_cpu: "",
-    node_gpu: "",
-    cpu_capacity: "",
-    gpu_capacity: "",
-    node_price: "",
-    node_privateKey: "",
+    buyer_telegram: "",
   });
+
+  const [ethPrice, setEthPrice] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  console.log("debug currentNode=====", typeof currentNode);
+  useEffect(() => {
+    const fetchEthPrice = async () => {
+      try {
+        const response = await axios.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD");
+        const ethPriceData = response.data?.RAW?.ETH?.USD?.PRICE;
+        setEthPrice(ethPriceData);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEthPrice();
+
+    // Cleanup function
+    return () => {
+      // Cancel ongoing requests or any cleanup needed
+    };
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
@@ -70,21 +89,19 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode }) => {
   };
   auth.state = true;
 
-  const handleRegist = async (e: FormEvent<HTMLFormElement>) => {
+  const nodeUsdPrice = NodePrice * 24 * 30;
+  const nodeEthPrice = nodeUsdPrice / ethPrice;
+  console.log("debug nodePrice", NodePrice);
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       const responseReg = await apiRequest(
-        "regist/node",
+        "regist/submit",
         {
           user_address: address,
-          node_ip: formData.node_ip,
-          node_cpu: formData.node_cpu,
-          node_gpu: formData.node_gpu,
-          cpu_capacity: formData.cpu_capacity,
-          gpu_capacity: formData.gpu_capacity,
-          node_price: formData.node_privateKey,
-          node_privatekey: formData.node_ip,
+          currentNode: currentNode,
+          buyer_telegram: formData.buyer_telegram,
         },
         "POST",
         undefined,
@@ -136,71 +153,36 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode }) => {
             id="node_ip"
             type="text"
             placeholder="IP Address: 127.100.90.100"
-            value={formData.node_ip}
+            value={"Node " + currentNode}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             onChange={handleChange}
             required
           />
+          <TextField
+            id="buyer_telegram"
+            type="text"
+            placeholder="Telegram Username"
+            // value={formData.buyer_telegram}
+            onChange={handleChange}
+            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
+            required
+          />
+          <div>Price: ${nodeUsdPrice}</div>
           <TextField
             id="node_cpu"
             type="text"
-            placeholder="CPU: AMD's EPYC 7642 with 48 cores"
-            value={formData.node_cpu}
+            placeholder="Telegram Username"
+            value={parseFloat(nodeEthPrice.toFixed(5)) + " ETH"}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required
           />
-          {/* <TextField
-            id="node_gpu"
-            type="text"
-            placeholder="Graphics: NVIDIA A100-SXM4 GPU with 40GB memory"
-            value={formData.node_gpu}
-            onChange={handleChange}
-            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
-            required
-          />
-          <TextField
-            id="cpu_capacity"
-            type="text"
-            placeholder="Amount of CPU Usage: 0 GB / 24 GB"
-            value={formData.cpu_capacity}
-            onChange={handleChange}
-            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
-            required
-          />
-          <TextField
-            id="gpu_capacity"
-            type="text"
-            placeholder="Amount of GPU Usage: 275 GB / 366 GB"
-            value={formData.gpu_capacity}
-            onChange={handleChange}
-            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
-            required
-          />
-          <TextField
-            id="node_price"
-            type="number"
-            placeholder="Cost: $1.98 per hour"
-            value={formData.node_price}
-            onChange={handleChange}
-            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
-            required
-          />
-          <TextField
-            id="node_privateKey"
-            type="text"
-            placeholder="SSH: private key"
-            value={formData.node_privateKey}
-            onChange={handleChange}
-            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
-            required
-          /> */}
           <Box display="flex" justifyContent={"space-between"}>
             <PrimaryButton onClick={handleClose}>
               <Typography fontWeight="500" style={{ color: "#fff" }}>{`Cancel`}</Typography>
             </PrimaryButton>
-            <PrimaryButton onClick={handleRegist}>
-              <Typography fontWeight="500" style={{ color: "#fff" }}>{`Registration`}</Typography>
+            <PrimaryButton onClick={handleSubmit}>
+              <Typography fontWeight="500" style={{ color: "#fff" }}>{`Submit`}</Typography>
             </PrimaryButton>
           </Box>
         </FormControl>

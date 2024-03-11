@@ -7,11 +7,12 @@ export const messages = {
   existing_mint:
     "You have an existing mint. Minting will reset your vesting period and forfeit any pending claimable rewards. We recommend claiming rewards first or using a fresh wallet. Do you still wish to proceed?",
   before_stake: "Before staking, enter a value.",
-  error_401: "Unauthorized access. Please log in.",
-  error_422: "Unauthorized access. Please log in.",
+  error_422: "Something error. Please double check input information.",
+  error_401: "Unauthorized access. Please double check information.",
   error_else: "Something went wrong.",
   before_unstake: "Before un staking, enter a value.",
-  tx_successfully_send: "Your request was successfully sent",
+  tx_successfully_send:
+    "Your request has been sent successfully. Please wait for the administrator to approve this node.",
   your_data_updated: "Your data was successfully updated",
   nothing_to_claim: "You have nothing to claim",
   something_wrong: "Something went wrong",

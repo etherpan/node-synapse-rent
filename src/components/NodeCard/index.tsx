@@ -11,7 +11,7 @@ import RentModal from "src/views/Zap/RentModal";
 import { useAccount, useNetwork } from "wagmi";
 
 interface IUCowCardProps {
-  node_no: number;
+  node_no: string;
   node_cpu: string;
   user_address: string;
   node_ip: string;
@@ -61,6 +61,7 @@ function NodeCard({
           modalOpen={rentModalOpen}
           setCustomNode={setCustomNode}
           currentNode={node_no}
+          NodePrice={node_price}
         />
         <div className="card-image">
           {/* {nftImg ? ( */}
@@ -87,7 +88,7 @@ function NodeCard({
                   <div style={{ fontSize: "10px" }}>used</div>
                 </div> */}
               <div className="div">${node_price} per Hour</div>
-              {address == "" ? (
+              {!isConnected ? (
                 <Button
                   className="div"
                   onClick={() => validConnectWallet()}

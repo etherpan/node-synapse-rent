@@ -27,7 +27,7 @@ export const CreateButton = () => {
         setCustomNode={setCustomNode}
         currentNode={customNode}
       />
-      {address == "" ? (
+      {!isConnected ? (
         <>
           <Link onClick={validConnectWallet}>
             <Box

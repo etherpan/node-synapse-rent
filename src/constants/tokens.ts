@@ -22,16 +22,15 @@ export const WETH_TOKEN = new Token({
   factory: IERC20__factory,
   purchaseUrl: "",
 });
+
 export const MILK_ETH_LP_TOKEN = new Token({
   decimals: 18,
   name: "MILK-ETH LP",
   icons: ["OHM", "wETH"],
   factory: IERC20__factory,
   addresses: MILK_ETH_LP_ADDRESSES,
-  purchaseUrl:
-    "",
+  purchaseUrl: "",
 });
-
 /**
  * We have to add the custom pricing func after
  * the token has been initialised to prevent

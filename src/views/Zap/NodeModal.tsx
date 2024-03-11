@@ -6,6 +6,7 @@ import React from "react";
 import { toast } from "react-hot-toast";
 import { messages } from "src/constants/messages";
 import apiRequest from "src/helpers/connections";
+import { sleep } from "src/helpers/sleep";
 import { useAccount } from "wagmi";
 
 const PREFIX = "NodeModal";
@@ -41,6 +42,7 @@ interface FormData {
   utilization?: string;
   node_price: string;
   node_privateKey: string;
+  seller_info: string;
 }
 
 interface AuthState {
@@ -57,6 +59,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
     gpu_capacity: "",
     node_price: "",
     node_privateKey: "",
+    seller_info: "",
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -82,8 +85,9 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
           node_gpu: formData.node_gpu,
           cpu_capacity: formData.cpu_capacity,
           gpu_capacity: formData.gpu_capacity,
-          node_price: formData.node_privateKey,
+          node_price: formData.node_price,
           node_privatekey: formData.node_ip,
+          seller_info: formData.seller_info,
         },
         "POST",
         undefined,
@@ -91,6 +95,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
       console.log("debug responseKY", responseReg.status);
       // dispatch(notificationActions.setMessage("KYB request has been successfully submitted."))
       toast.success(messages.tx_successfully_send);
+      await sleep(1);
     } catch (error: any) {
       if (error?.info?.error?.status === 422) {
         toast.error(messages.error_422);
@@ -98,7 +103,6 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
         toast.error(messages.error_else);
       }
     }
-    console.log("debug response api");
     handleClose();
   };
 
@@ -160,8 +164,8 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
           />
           <TextField
             id="cpu_capacity"
-            type="text"
-            placeholder="Amount of CPU Usage: 0 GB / 24 GB"
+            type="number"
+            placeholder="Amount of CPU Usage: 24 GB"
             value={formData.cpu_capacity}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
@@ -169,8 +173,8 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
           />
           <TextField
             id="gpu_capacity"
-            type="text"
-            placeholder="Amount of GPU Usage: 275 GB / 366 GB"
+            type="number"
+            placeholder="Amount of GPU Usage: 366 GB"
             value={formData.gpu_capacity}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
@@ -190,6 +194,15 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
             type="text"
             placeholder="SSH: private key"
             value={formData.node_privateKey}
+            onChange={handleChange}
+            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
+            required
+          />
+          <TextField
+            id="seller_info"
+            type="text"
+            placeholder="Telegram Username"
+            value={formData.seller_info}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required
