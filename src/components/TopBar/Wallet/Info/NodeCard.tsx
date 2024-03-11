@@ -11,7 +11,6 @@ import { generateImage } from "src/helpers/NodeInfo/generateImage";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { useAppSelector } from "src/hooks";
 import { NetworkId } from "src/networkDetails";
-import { cashoutReward, upgradeNft } from "src/slices/NftThunk";
 import { getPendingReward, loadUserInfoDetails } from "src/slices/search-slice";
 import { getExtraDailyAPRByLevel } from "src/views/NftItem";
 import { useAccount, useNetwork, useSigner } from "wagmi";
@@ -36,7 +35,7 @@ function NodeCard({
   // nftLastProcessingTimestamp,
   isOwned,
 }: // handleOpen,
-  INodeCardProps) {
+INodeCardProps) {
   const theme = useTheme();
   const gallery = useAppSelector(state => {
     return state.gallery.nfts;
@@ -80,7 +79,12 @@ function NodeCard({
   }
   useEffect(() => {
     const UserInfoDetails = async () => {
-      const data = await loadUserInfoDetails({ networkID: getValidChainId(chain.id) as NetworkId, id: nftId ?? "1", address, provider });
+      const data = await loadUserInfoDetails({
+        networkID: getValidChainId(chain.id) as NetworkId,
+        id: nftId ?? "1",
+        address,
+        provider,
+      });
       setStakedAmount(data.stakedAmount);
       setLastProcessingTimestamp(data.lastProcessingTimestamp);
       setPendingReward(data.pendingReward);
@@ -127,8 +131,8 @@ function NodeCard({
           <NavLink
             // onClick={() => handleOpen(nftId)}
             to={`/nftitem?id=${nftId}`}
-          // mt={2}
-          // style={{ color: `${theme.colors.text}`, textDecoration: "underline" }}
+            // mt={2}
+            // style={{ color: `${theme.colors.text}`, textDecoration: "underline" }}
           >
             <img
               src={`data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(nftImg)))}`}
@@ -194,14 +198,14 @@ function NodeCard({
               </Button>
             )}
           </Box>
-          <NavLink
+          {/* <NavLink
             // onClick={() => handleOpen(nftId)}
             to={`/nftitem?id=${nftId}`}
             // mt={2}
             style={{ color: `${theme.colors.text}`, textDecoration: "underline" }}
           >
             View More
-          </NavLink>
+          </NavLink> */}
         </Box>
       </Box>
     </>

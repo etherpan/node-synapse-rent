@@ -33,6 +33,8 @@ function NodeCard({ nftId, totalStaked, totalStakers, owner, level, handleOpen }
     ownerAddress: owner,
   });
 
+  console.log("debug nftImag");
+
   return (
     <>
       <div className="ucow-card">

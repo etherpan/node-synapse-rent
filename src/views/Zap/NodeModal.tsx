@@ -73,7 +73,6 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
   const handleRegist = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log("debug preventDefault");
     try {
       const responseReg = await apiRequest(
         "regist/node",
@@ -90,7 +89,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
         "POST",
         undefined,
       );
-      console.log("debug responseKY", responseReg);
+      console.log("debug responseKY", responseReg.status);
       // dispatch(notificationActions.setMessage("KYB request has been successfully submitted."))
       toast.success(messages.tx_successfully_send);
     } catch (error: any) {
@@ -100,6 +99,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
         toast.error(messages.error_else);
       }
     }
+    console.log("debug response api");
     handleClose();
   };
 
@@ -144,7 +144,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
           <TextField
             id="node_cpu"
             type="text"
-            placeholder="Processor: AMD's EPYC 7642 with 48 cores"
+            placeholder="CPU: AMD's EPYC 7642 with 48 cores"
             value={formData.node_cpu}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
@@ -179,7 +179,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
           />
           <TextField
             id="node_price"
-            type="text"
+            type="number"
             placeholder="Cost: $1.98 per hour"
             value={formData.node_price}
             onChange={handleChange}

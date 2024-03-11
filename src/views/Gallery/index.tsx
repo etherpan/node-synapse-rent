@@ -24,7 +24,8 @@ function Gallery() {
   const theme = useTheme();
 
   const isAppLoading = useAppSelector(state => state.app.loading);
-  const gallery = useAppSelector(state => state.gallery.nfts);
+  const gallery = useAppSelector(state => state.gallery.items);
+  console.log("debug gallery", gallery);
   const [activeGallery, setActiveGallery] = useState([
     {
       id: 1,
