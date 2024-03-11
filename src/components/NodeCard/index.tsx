@@ -4,89 +4,110 @@
 import "src/components/NodeCard/nodecard.scss";
 
 import { Button, Typography, useTheme } from "@mui/material";
-import LoadingIcon from "src/assets/icons/loading.gif";
-import OwnerBadge from "src/assets/icons/owner-badge.png";
-import { NODE_MANAGER } from "src/constants/addresses";
-import { getValidChainId, OPENSEA_ITEM_URL } from "src/constants/data";
-import { generateImage } from "src/helpers/NodeInfo/generateImage";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { messages } from "src/constants/messages";
+import RentModal from "src/views/Zap/RentModal";
 import { useAccount, useNetwork } from "wagmi";
 
 interface IUCowCardProps {
-  nftId: string;
-  totalStaked: string;
-  totalStakers: string;
-  owner: string;
-  level: string;
-  handleOpen: (a: string) => void;
+  node_no: number;
+  node_cpu: string;
+  user_address: string;
+  node_ip: string;
+  node_gpu: string;
+  gpu_capacity: number;
+  cpu_capacity: number;
+  node_download?: number;
+  node_upload?: number;
+  node_usage?: number;
+  node_price: number;
+  node_privateKey: string;
+  approve: number;
 }
 
-function NodeCard({ nftId, totalStaked, totalStakers, owner, level, handleOpen }: IUCowCardProps) {
+function NodeCard({
+  node_no,
+  node_cpu,
+  user_address,
+  node_ip,
+  node_gpu,
+  gpu_capacity,
+  cpu_capacity,
+  node_download,
+  node_upload,
+  node_usage,
+  node_price,
+  node_privateKey,
+  approve,
+}: IUCowCardProps) {
   const theme = useTheme();
   const { address = "", isConnected, isReconnecting } = useAccount();
   const { chain = { id: 8453 } } = useNetwork();
 
-  const nftImg = generateImage({
-    tokenId: parseInt(nftId),
-    level: parseInt(level),
-    lockers: parseInt(totalStakers),
-    tvl: parseInt(totalStaked),
-    ownerAddress: owner,
-  });
+  const validConnectWallet = () => {
+    toast.error(messages.please_connect_wallet);
+  };
 
-  console.log("debug nftImag");
+  const handleRentModalOpen = () => setRentModalOpen(true);
+  const [rentModalOpen, setRentModalOpen] = useState(false);
+  const [customNode, setCustomNode] = useState<string>("1.0");
 
   return (
     <>
       <div className="ucow-card">
-        {address == owner && (
-          <div className="owner-badge">
-            <a
-              href={`${OPENSEA_ITEM_URL}${
-                NODE_MANAGER[getValidChainId(chain.id) as keyof typeof NODE_MANAGER]
-              }/${nftId}`}
-              target="_blank"
-            >
-              <img width="55" src={OwnerBadge} />
-            </a>
-          </div>
-        )}
-        <div className="card-image" onClick={() => handleOpen(nftId)}>
-          {nftImg ? (
-            <>
-              <div className="div">
-                <Typography className="processor">Core™ i5-10600K Intel</Typography>
-                <Typography className="processor">EPYC 7642 48-Core Processor AMD</Typography>
-                <div>
-                  <Typography className="processor">GPU</Typography>
-                  <Typography className="processor">0 GB / 40 GB</Typography>
-                </div>
-                <div className="">
-                  <Typography className="processor">CPU</Typography>
-                  <Typography className="processor">0 GB / 40 GB</Typography>
-                </div>
-                {/* <Box>
+        <RentModal
+          handleClose={() => setRentModalOpen(false)}
+          modalOpen={rentModalOpen}
+          setCustomNode={setCustomNode}
+          currentNode={node_no}
+        />
+        <div className="card-image">
+          {/* {nftImg ? ( */}
+          <>
+            <div className="div">
+              <Typography className="processor">{node_cpu}</Typography>
+              <Typography className="processor">{node_gpu}</Typography>
+              <div>
+                <Typography className="processor">GPU</Typography>
+                <Typography className="processor">0 GB / {cpu_capacity}</Typography>
+              </div>
+              <div className="">
+                <Typography className="processor">CPU</Typography>
+                <Typography className="processor">0 GB / {gpu_capacity}</Typography>
+              </div>
+              {/* <Box>
                   <CloudDownloadOutlinedIcon fontSize="small" /> 110 Mbps<span> / </span>
                   <CloudUploadOutlinedIcon fontSize="small" /> 110 Mbps
                 </Box> */}
-              </div>
-              <div className="node-card">
-                {/* <div className="node-circular">
+            </div>
+            <div className="node-card">
+              {/* <div className="node-circular">
                   <div className="centered-text">0%</div>
                   <div style={{ fontSize: "10px" }}>used</div>
                 </div> */}
-                <div className="div">$1.50 per Hour</div>
+              <div className="div">${node_price} per Hour</div>
+              {address == "" ? (
                 <Button
                   className="div"
+                  onClick={() => validConnectWallet()}
                   variant="contained"
                   style={{ color: "#fff", borderRadius: "20px", fontSize: "15px" }}
                 >
                   {`Rent Now`}
                 </Button>
-              </div>
-            </>
-          ) : (
-            <img src={LoadingIcon} width={200} height={200} style={{ marginTop: "100px", marginBottom: "80px" }} />
-          )}
+              ) : (
+                <Button
+                  className="div"
+                  onClick={() => handleRentModalOpen()}
+                  variant="contained"
+                  style={{ color: "#fff", borderRadius: "20px", fontSize: "15px" }}
+                >
+                  {`Rent Now`}
+                </Button>
+              )}
+            </div>
+          </>
         </div>
       </div>
     </>

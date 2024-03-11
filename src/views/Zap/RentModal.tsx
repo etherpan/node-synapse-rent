@@ -8,7 +8,7 @@ import { messages } from "src/constants/messages";
 import apiRequest from "src/helpers/connections";
 import { useAccount } from "wagmi";
 
-const PREFIX = "NodeModal";
+const PREFIX = "RentModal";
 const classes = {
   root: `${PREFIX}-root`,
 };
@@ -24,10 +24,10 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export interface NodeModal {
+export interface RentModal {
   handleClose: () => void;
   modalOpen: boolean;
-  currentNode: string;
+  currentNode: number;
   setCustomNode: { (value: SetStateAction<string>): void; (arg0: string): void };
 }
 
@@ -47,7 +47,8 @@ interface AuthState {
   loggedIn: boolean;
 }
 
-const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
+const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode }) => {
+  console.log("debug currentNode", currentNode);
   const { address = "", isConnected } = useAccount();
   const [formData, setFormData] = useState<FormData>({
     node_ip: "",
@@ -115,7 +116,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
           <Box />
           <Box>
             <Typography id="migration-modal-title" variant="h6" component="h2">
-              Node Information
+              Rent GPU
             </Typography>
           </Box>
           <Link onClick={handleClose} alignItems="center">
@@ -149,7 +150,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required
           />
-          <TextField
+          {/* <TextField
             id="node_gpu"
             type="text"
             placeholder="Graphics: NVIDIA A100-SXM4 GPU with 40GB memory"
@@ -193,7 +194,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required
-          />
+          /> */}
           <Box display="flex" justifyContent={"space-between"}>
             <PrimaryButton onClick={handleClose}>
               <Typography fontWeight="500" style={{ color: "#fff" }}>{`Cancel`}</Typography>
@@ -208,4 +209,4 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
   );
 };
 
-export default NodeModal;
+export default RentModal;

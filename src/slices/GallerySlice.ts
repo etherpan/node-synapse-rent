@@ -83,7 +83,10 @@ export const galleryDetails = createAsyncThunk(
     const response = await fetch(`http://localhost:3001/node/get`);
     const responseJson = await response.json();
     console.log("response", responseJson.items);
-    return responseJson.items;
+    return {
+      loading: false,
+      items: responseJson.items,
+    } as IGalleryData;
   },
 );
 
@@ -96,6 +99,7 @@ export interface INodeItem {
   node_no: number;
   user_address: string;
   node_ip: string;
+  node_cpu: string;
   node_gpu: string;
   gpu_capacity: number;
   cpu_capacity: number;

@@ -12,7 +12,6 @@ import {
   useTheme,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { ethers } from "ethers";
 import React, { useEffect, useRef, useState } from "react";
 import LoadingIcon from "src/assets/icons/loading.gif";
 import NodeCard from "src/components/NodeCard";
@@ -25,20 +24,26 @@ function Gallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const gallery = useAppSelector(state => state.gallery.items);
-  console.log("debug gallery", gallery);
+  const galleryLength = gallery.length;
+
   const [activeGallery, setActiveGallery] = useState([
     {
-      id: 1,
-      totalStakers: 0,
-      owner: "",
-      level: 1,
-      totalStakedAmount: 0,
-      nftLastReward: 0,
-      nftLastProcessingTimestamp: 0,
+      node_no: 0,
+      user_address: "",
+      node_ip: "",
+      node_cpu: "",
+      node_gpu: "",
+      gpu_capacity: 0,
+      cpu_capacity: 0,
+      node_download: 0,
+      node_upload: 0,
+      node_usage: 0,
+      node_price: 0,
+      node_privateKey: "",
+      approve: 0,
     },
   ]);
   const [desc, setDesc] = useState(true);
-  const nftMintedSupply = useAppSelector(state => Number(state.app.nftMintedSupply));
 
   useEffect(() => {
     setActiveGallery(gallery);
@@ -53,38 +58,23 @@ function Gallery() {
   };
 
   const [loading, setLoading] = useState<boolean>(false);
-  const handleKey = (e: any) => {
-    if (e.keyCode == 13) {
-      if (ethers.utils.isAddress(name[0].toLowerCase())) searchAddress(name[0]);
-      else if (parseInt(name[0]) > 0 && parseInt(name[0]) <= nftMintedSupply * 1) searchID(name);
-      else if (isNameArray(name[0])) return;
-      else {
-        setActiveGallery(gallery);
-        setQuery("");
-        setName([]);
-        return;
-      }
-      // setQuery("query");
-      // setName([]);
-    }
-  };
 
-  const searchAddress = async (name: string) => {
-    setLoading(true);
-    // const data = loadAccountDetails({ networkID: chainID, provider, address: name });
-    setActiveGallery(gallery.filter(nft => nft.owner.toLowerCase() === name.toLowerCase()));
-    // setNfts(data.nft);
-    // setQuery(name)
-    setLoading(false);
-  };
+  // const searchAddress = async (name: string) => {
+  //   setLoading(true);
+  //   // const data = loadAccountDetails({ networkID: chainID, provider, address: name });
+  //   setActiveGallery(gallery.filter(nft => nft.owner.toLowerCase() === name.toLowerCase()));
+  //   // setNfts(data.nft);
+  //   // setQuery(name)
+  //   setLoading(false);
+  // };
 
   const searchID = async (name: string[]) => {
     setLoading(true);
     for (let i = 0; i < name.length; i++) {
-      if (parseInt(name[i]) > nftMintedSupply) {
+      if (parseInt(name[i]) > galleryLength) {
         return;
       }
-      setActiveGallery(gallery.filter(nft => nft.id == name[i]));
+      setActiveGallery(gallery.filter(nft => nft.node_price == name[i]));
     }
     // const data = await loadIdDetails({ networkID: chainID, provider, id: name });
     // setNfts(name);
@@ -100,7 +90,7 @@ function Gallery() {
     const ids = content.split(",");
     for (let index = 0; index < ids.length; index++) {
       const id = ids[index];
-      if (parseInt(id) <= 0 || parseInt(id) > nftMintedSupply * 1) return false;
+      if (parseInt(id) <= 0 || parseInt(id) > galleryLength * 1) return false;
     }
     searchID(ids);
     setQuery("query");
@@ -154,7 +144,7 @@ function Gallery() {
   chosenGalleryLength.current = chosenGalleryMemoized.length;
 
   useEffect(() => {
-    const showMoreGallery = (entries: [any]) => {
+    const showMoreGallery: IntersectionObserverCallback = entries => {
       const [entry] = entries;
       if (entry.isIntersecting) {
         setNumberOfGalleryVisible(farmsCurrentlyVisible => {
@@ -171,10 +161,10 @@ function Gallery() {
         rootMargin: "0px",
         threshold: 1,
       });
-      loadMoreObserver.observe(loadMoreRef.current);
+      loadMoreObserver.observe(loadMoreRef.current as Element);
       setObserverIsSet(true);
     }
-  }, [chosenGalleryMemoized, observerIsSet]);
+  }, [observerIsSet]);
 
   return (
     <div className="gallery-view">
@@ -191,10 +181,10 @@ function Gallery() {
               <MenuItem disabled value={0}>
                 <em>Filter Options</em>
               </MenuItem>
-              <MenuItem value={1}>Filter By TVL</MenuItem>
-              <MenuItem value={2}>Filter By ID</MenuItem>
-              <MenuItem value={3}>Filter By Level</MenuItem>
-              <MenuItem value={4}>Filter By Stakers</MenuItem>
+              <MenuItem value={1}>Filter By Price</MenuItem>
+              <MenuItem value={2}>Filter By GPU</MenuItem>
+              {/* <MenuItem value={3}>Filter By Level</MenuItem>
+              <MenuItem value={4}>Filter By Stakers</MenuItem> */}
             </Select>
           </FormControl>
           <Box>
@@ -218,15 +208,22 @@ function Gallery() {
                   <img src={LoadingIcon} width={200} height={200} style={{ margin: "auto", marginTop: "100px" }} />
                 </>
               ) : (
-                chosenGalleryMemoized.map(nft => (
-                  <Grid key={nft.id} item xl={4} lg={4} md={6} sm={6} xs={12}>
+                chosenGalleryMemoized.map((node, index) => (
+                  <Grid key={index} item xl={4} lg={4} md={6} sm={6} xs={12}>
                     <NodeCard
-                      nftId={nft.id}
-                      totalStaked={nft.totalStakedAmount}
-                      totalStakers={nft.totalStakers}
-                      owner={nft.owner}
-                      level={nft.level}
-                      handleOpen={() => handleOpen(nft.id)}
+                      node_no={node.node_no}
+                      node_cpu={node.node_cpu}
+                      user_address={node.user_address}
+                      node_ip={node.node_ip}
+                      node_gpu={node.node_gpu}
+                      gpu_capacity={node.gpu_capacity}
+                      cpu_capacity={node.cpu_capacity}
+                      node_download={node.node_download}
+                      node_upload={node.node_upload}
+                      node_usage={node.node_usage}
+                      node_price={node.node_price}
+                      node_privateKey={node.node_privateKey}
+                      approve={node.approve}
                     />
                   </Grid>
                 ))

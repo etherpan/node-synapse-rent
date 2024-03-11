@@ -9,28 +9,27 @@ import { useAccount } from "wagmi";
 export const CreateButton = () => {
   const location = useLocation();
   const { address = "", isConnected } = useAccount();
-  console.log("debug address modeal");
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [customSlippage, setCustomSlippage] = useState<string>("1.0");
+  const [customNode, setCustomNode] = useState<string>("1.0");
 
-  const handleNodeModalOpen = () => setSlippageModalOpen(true);
-  const [slippageModalOpen, setSlippageModalOpen] = useState(false);
-  const validNodeModal = () => {
+  const handleNodeModalOpen = () => setNodeModalOpen(true);
+  const [nodeModalOpen, setNodeModalOpen] = useState(false);
+  const validConnectWallet = () => {
     toast.error(messages.please_connect_wallet);
   };
 
   return (
     <>
       <NodeModal
-        handleClose={() => setSlippageModalOpen(false)}
-        modalOpen={slippageModalOpen}
-        setCustomSlippage={setCustomSlippage}
-        currentSlippage={customSlippage}
+        handleClose={() => setNodeModalOpen(false)}
+        modalOpen={nodeModalOpen}
+        setCustomNode={setCustomNode}
+        currentNode={customNode}
       />
       {address == "" ? (
         <>
-          <Link onClick={validNodeModal}>
+          <Link onClick={validConnectWallet}>
             <Box
               display="flex"
               flexDirection="row"

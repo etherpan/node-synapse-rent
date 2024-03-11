@@ -7,7 +7,7 @@ import { useTheme } from "@mui/material";
 import LoadingIcon from "src/assets/icons/loading.gif";
 import OpenseaIcon from "src/assets/icons/opensea.png";
 import OwnerBadge from "src/assets/icons/owner-badge.png";
-import { NFT_MANAGER } from "src/constants/addresses";
+import { NODE_MANAGER } from "src/constants/addresses";
 import { getValidChainId, OPENSEA_ITEM_URL } from "src/constants/data";
 import { generateImage } from "src/helpers/NFTInfo/generateImage";
 import { useAccount, useNetwork } from "wagmi";
@@ -41,7 +41,9 @@ function UCowCard({ nftId, totalStaked, totalStakers, owner, level, handleOpen }
         {address == owner && (
           <div className="owner-badge">
             <a
-              href={`${OPENSEA_ITEM_URL}${NFT_MANAGER[getValidChainId(chain.id) as keyof typeof NFT_MANAGER]}/${nftId}`}
+              href={`${OPENSEA_ITEM_URL}${
+                NODE_MANAGER[getValidChainId(chain.id) as keyof typeof NODE_MANAGER]
+              }/${nftId}`}
               target="_blank"
             >
               <img width="55" src={OwnerBadge} />
@@ -50,7 +52,7 @@ function UCowCard({ nftId, totalStaked, totalStakers, owner, level, handleOpen }
         )}
         <div className="opensea-badge">
           <a
-            href={`${OPENSEA_ITEM_URL}${NFT_MANAGER[getValidChainId(chain.id) as keyof typeof NFT_MANAGER]}/${nftId}`}
+            href={`${OPENSEA_ITEM_URL}${NODE_MANAGER[getValidChainId(chain.id) as keyof typeof NODE_MANAGER]}/${nftId}`}
             target="_blank"
           >
             <img width="55" src={OpenseaIcon} />
