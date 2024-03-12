@@ -29,7 +29,7 @@ function Gallery() {
   const [activeGallery, setActiveGallery] = useState([
     {
       node_no: 0,
-      user_address: "",
+      seller_address: "",
       node_ip: "",
       node_cpu: "",
       node_gpu: "",
@@ -213,7 +213,7 @@ function Gallery() {
                     <NodeCard
                       node_no={node.node_no}
                       node_cpu={node.node_cpu}
-                      user_address={node.user_address}
+                      seller_address={node.seller_address}
                       node_ip={node.node_ip}
                       node_gpu={node.node_gpu}
                       gpu_capacity={node.gpu_capacity}

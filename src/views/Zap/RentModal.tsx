@@ -99,7 +99,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       const responseReg = await apiRequest(
         "regist/submit",
         {
-          user_address: address,
+          seller_address: address,
           currentNode: currentNode,
           buyer_telegram: formData.buyer_telegram,
         },

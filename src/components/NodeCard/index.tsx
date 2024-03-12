@@ -11,9 +11,9 @@ import RentModal from "src/views/Zap/RentModal";
 import { useAccount, useNetwork } from "wagmi";
 
 interface IUCowCardProps {
-  node_no: string;
+  node_no: number;
   node_cpu: string;
-  user_address: string;
+  seller_address: string;
   node_ip: string;
   node_gpu: string;
   gpu_capacity: number;
@@ -29,7 +29,7 @@ interface IUCowCardProps {
 function NodeCard({
   node_no,
   node_cpu,
-  user_address,
+  seller_address,
   node_ip,
   node_gpu,
   gpu_capacity,

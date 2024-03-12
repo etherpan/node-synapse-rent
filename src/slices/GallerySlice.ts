@@ -97,7 +97,7 @@ export interface IGalleryData {
 
 export interface INodeItem {
   node_no: number;
-  user_address: string;
+  seller_address: string;
   node_ip: string;
   node_cpu: string;
   node_gpu: string;
