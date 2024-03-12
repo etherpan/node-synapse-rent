@@ -63,7 +63,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
   const [ethPrice, setEthPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  console.log("debug currentNode=====", typeof currentNode);
+  
   useEffect(() => {
     const fetchEthPrice = async () => {
       try {
@@ -198,7 +198,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
             id="buyer_telegram"
             type="text"
             placeholder="Telegram Username"
-            // value={formData.buyer_telegram}
+            value={formData.buyer_telegram}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required

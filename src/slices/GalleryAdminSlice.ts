@@ -43,7 +43,7 @@ const initialState: IGalleryData = {
   items: [],
 };
 
-const gallerySlice = createSlice({
+const adminGallerySlice = createSlice({
   name: "gallery",
   initialState,
   reducers: {
@@ -69,8 +69,8 @@ const gallerySlice = createSlice({
 
 const baseInfo = (state: RootState) => state.app;
 
-export default gallerySlice.reducer;
+export default adminGallerySlice.reducer;
 
-export const { fetchGallerySuccess } = gallerySlice.actions;
+export const { fetchGallerySuccess } = adminGallerySlice.actions;
 
 export const getAppState = createSelector(baseInfo, app => app);

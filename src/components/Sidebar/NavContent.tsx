@@ -47,6 +47,7 @@ const NavContent = () => {
             <div className="dapp-nav" id="navbarNav">
               {/* <NavItem to="/dashboard" icon="dashboard" label={`Dashboard`} />
               <NavItem to="/mint" icon="bond" label={`Mint`} /> */}
+              <NavItem to="/admin" icon="stake" label={`Admin`} />
               <NavItem to="/nodes" icon="stake" label={`Nodes`} />
               <NavItem to="/mynodes" icon="stake" label={`My Nodes`} />
               {/* <NavItem to="/leaderboard" icon="stake" label={`Leaderboard`} /> */}

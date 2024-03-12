@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import accountReducer from "src/slices/AccountSlice";
 import appReducer from "src/slices/AppSlice";
 import galleryReducer from "src/slices/GallerySlice";
+import adminGalleryReducer from "src/slices/GalleryAdminSlice";
 import pendingTransactionsReducer from "src/slices/PendingTxnsSlice";
 // reducers are named automatically based on the name field in the slice
 // exported in slice files by default as nameOfSlice.reducer
@@ -11,6 +12,7 @@ const store = configureStore({
     account: accountReducer,
     app: appReducer,
     gallery: galleryReducer,
+    adminGallery: adminGalleryReducer,
     pendingTransactions: pendingTransactionsReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),

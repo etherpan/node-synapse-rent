@@ -33,6 +33,7 @@ import { dark as darkTheme } from "src/themes/dark.js";
 import { girth as gTheme } from "src/themes/girth.js";
 import { light as lightTheme } from "src/themes/light.js";
 import Gallery from "src/views/Gallery";
+import AdminGallery from "src/views/AdminGallery";
 import MyNodes from "src/views/MyNodes";
 import { QueryParamProvider } from "use-query-params";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
@@ -256,9 +257,10 @@ function App() {
                   <Routes>
                     <Route path="/" element={<Gallery />} />
                     {/* <Route path="/mint" element={<Mint />} /> */}
+                    <Route path="/admin" element={<AdminGallery />} />
                     <Route path="/nodes" element={<Gallery />} />
-                    {/* <Route path="/nftItem" element={<NftItem />} /> */}
                     <Route path="/mynodes" element={<MyNodes />} />
+                    {/* <Route path="/nftItem" element={<NftItem />} /> */}
                     {/* <Route path="/referral" element={<Referral />} />
                     <Route path="/calculator" element={<Calculator />} />
                     <Route path="/dashboard/*" element={<TreasuryDashboard />} /> */}

@@ -72,6 +72,7 @@ function TopBar({ colorTheme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           </ReactLink>
           {desktop && (
             <>
+              <NavItem to="/admin" label={`Admin`} />
               <NavItem to="/nodes" label={`Nodes`} />
               <NavItem to="/mynodes" label={`My Nodes`} />
               {/* <NavItem to="/leaderboard" label={`Leaderboard`} /> */}

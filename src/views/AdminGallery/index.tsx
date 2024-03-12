@@ -24,7 +24,7 @@ function AdminGallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const gallery = useAppSelector(state => state.adminGallery.items);
-  console.log('debug gallery', gallery)
+  console.log('debug admingallery', gallery)
   
   const [activeGallery, setActiveGallery] = useState([
     {
