@@ -19,7 +19,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import whitelists from "../../../public/whitelists.json";
-import { createNft } from "src/slices/NftThunk";
+import { createNode } from "src/slices/NftThunk";
 import { useAccount, useNetwork, useProvider, useSigner } from "wagmi";
 import { useAppSelector } from "src/hooks";
 import PageTitle from "src/components/PageTitle";
@@ -101,7 +101,7 @@ function Mint() {
 
   const onMint = async (wl: boolean) => {
     // if (await checkWrongNetwork()) return;
-    dispatch(createNft({ number: value, provider, signer, address, wl, networkID: getValidChainId(chain.id), handleClose: () => {} }));
+    // dispatch(createNode({ number: value, provider, signer, address, wl, networkID: getValidChainId(chain.id), handleClose: () => {} }));
   };
 
   const pendingTransactions = useAppSelector(state => {

@@ -1,0 +1,119 @@
+.gallery-view {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+
+  width: 89%;
+  max-width: 1200px;
+  // max-width: 833px;
+  margin: auto;
+
+  .gallery-infos-row {
+    display: flex;
+  }
+
+  .gallery-infos-wrap {
+    width: 100%;
+
+    .gallery-search-box {
+      width: 100%;
+      margin-bottom: 30px;
+
+      border-radius: 10px;
+      outline: none;
+
+      .MuiOutlinedInput-input {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 14px 20px;
+      }
+
+      // .MuiOutlinedInput-notchedOutline {
+      //     border-color: rgba(255, 255, 255, 0.5) !important;
+      // }
+    }
+
+    .gallery-infos-nfts {
+      margin-top: 10px;
+
+      .MuiGrid-spacing-xs-4 {
+        width: 100% !important;
+      }
+
+      .gallery-infos-loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .gallery-infos-search-txt {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        color: white;
+
+        .gallery-infos-search-span {
+          font-size: 20px;
+          font-style: italic;
+        }
+      }
+
+      .MuiGrid-spacing-xs-4 {
+        margin: 0 !important;
+      }
+
+      .loadmore {
+        position: relative;
+        display: flex;
+        justify-content: center;
+
+        .loadmore-btn {
+          padding: 20px;
+          background: rgba(12, 218, 34, 0.8);
+          ;
+          border-radius: 10px;
+          cursor: pointer;
+
+          p {
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            color: rgb(255, 255, 255);
+          }
+
+          &:hover {
+            background-color: rgba(12, 218, 63);
+          }
+
+          &:active {
+            background-color: rgba(0, 94, 22, 0.8);
+          }
+
+          margin-top: 50px;
+          margin-bottom: 100px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .gallery-infos-row {
+    display: block !important;
+    margin-bottom: 30px !important;
+  }
+
+  .gallery-search-box {
+    margin-bottom: 8px !important;
+  }
+
+  .gallery-sort-box {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+}

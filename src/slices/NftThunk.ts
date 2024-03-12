@@ -16,7 +16,7 @@ import { metamaskErrorWrap } from "src/helpers/metamask-error-wrap";
 import rot13 from "src/lib/encode";
 import { galleryDetails } from "./GallerySlice";
 
-interface ICreateNft {
+interface ICreateNode {
   number: number;
   provider: StaticJsonRpcProvider | JsonRpcProvider;
   signer: Signer;
@@ -26,40 +26,41 @@ interface ICreateNft {
   handleClose: () => void;
 }
 
-export const createNft = createAsyncThunk(
+export const createNode = createAsyncThunk(
   "mint/createNft",
-  async ({ number, provider, signer, address, wl, networkID, handleClose }: ICreateNft, { dispatch }) => {
+  async ({ number, provider, signer, address, wl, networkID, handleClose }: ICreateNode, { dispatch }) => {
     if (!provider || !signer) {
       toast.error(messages.please_connect_wallet);
       return;
     }
-    const nftManager = new ethers.Contract(
+    const nodeManager = new ethers.Contract(
       NODE_MANAGER[networkID as keyof typeof NODE_MANAGER],
       NftManagerContract__factory.abi,
       signer,
     );
-    const cookies = new Cookies();
-    const ref = cookies.get("ref");
+
+    // const cookies = new Cookies();
+    // const ref = cookies.get("ref");
 
     let tx;
     try {
-      if (!wl) {
-        const mintPrice = Number(await nftManager.mintPrice()) / Math.pow(10, 18);    
-        const etherValue = mintPrice * number;
-  
-        tx = await nftManager.createNODE(number, ref ? rot13(ref) : address, {
-          value: ethers.utils.parseEther(etherValue.toFixed(3)),
-        });  
-        dispatch(fetchPendingTxns({ txnHash: tx.hash, text: "Creating NODE", type: "creating" }));
-      } else {
-        const mintPrice = Number(await nftManager.mintPriceWhitelisted()) / Math.pow(10, 18);    
-        const etherValue = mintPrice;
-  
-        tx = await nftManager.createNODEWhitelisted({
-          value: ethers.utils.parseEther(etherValue.toFixed(3)),
-        });  
-        dispatch(fetchPendingTxns({ txnHash: tx.hash, text: "Creating NODE as WL", type: "creating" }));
-      }
+      // if (!wl) {
+      //   const mintPrice = Number(await nodeManager.mintPrice()) / Math.pow(10, 18);
+      //   const etherValue = mintPrice * number;
+
+      //   tx = await nodeManager.createNODE(number, ref ? rot13(ref) : address, {
+      //     value: ethers.utils.parseEther(etherValue.toFixed(3)),
+      //   });
+      //   dispatch(fetchPendingTxns({ txnHash: tx.hash, text: "Creating NODE", type: "creating" }));
+      // } else {
+      const mintPrice = Number(await nodeManager.mintPriceWhitelisted()) / Math.pow(10, 18);
+      const etherValue = mintPrice;
+
+      tx = await nodeManager.createNODEWhitelisted({
+        value: ethers.utils.parseEther(etherValue.toFixed(3)),
+      });
+      dispatch(fetchPendingTxns({ txnHash: tx.hash, text: "Creating NODE as WL", type: "creating" }));
+      // }
       await tx.wait();
       handleClose();
       toast.success(messages.tx_successfully_send);
@@ -70,7 +71,7 @@ export const createNft = createAsyncThunk(
         dispatch(clearPendingTxn(tx.hash));
       }
     }
-    cookies.set("whitelist", "1")
+    // cookies.set("whitelist", "1");
     await sleep(2);
     toast.success(messages.your_data_update_soon);
     await dispatch(loadAccountDetails({ networkID, provider, address }));
@@ -98,8 +99,8 @@ export const upgradeNft = createAsyncThunk(
       return;
     }
     // const signer = provider.getSigner();
-    const amount = quantity.replace(/,/g, "")
-    const nftManager = new ethers.Contract(
+    const amount = quantity.replace(/,/g, "");
+    const nodeManager = new ethers.Contract(
       NODE_MANAGER[networkID as keyof typeof NODE_MANAGER],
       NftManagerContract__factory.abi,
       signer,
@@ -111,7 +112,7 @@ export const upgradeNft = createAsyncThunk(
     try {
       const gasPrice = await getGasPrice(provider);
 
-      tx = await nftManager.stakeTokens(id, ethers.utils.parseUnits(amount, "ether"), ref ? rot13(ref) : address, {
+      tx = await nodeManager.stakeTokens(id, ethers.utils.parseUnits(amount, "ether"), ref ? rot13(ref) : address, {
         gasPrice: gasPrice,
       });
 
@@ -152,7 +153,7 @@ export const transferNft = createAsyncThunk(
       return;
     }
     // const signer = provider.getSigner();
-    const nftManager = new ethers.Contract(
+    const nodeManager = new ethers.Contract(
       NODE_MANAGER[networkID as keyof typeof NODE_MANAGER],
       NftManagerContract__factory.abi,
       signer,
@@ -163,7 +164,7 @@ export const transferNft = createAsyncThunk(
     try {
       const gasPrice = await getGasPrice(provider);
 
-      tx = await nftManager.transferFrom(address, to, tokenId, { gasPrice });
+      tx = await nodeManager.transferFrom(address, to, tokenId, { gasPrice });
 
       dispatch(fetchPendingTxns({ txnHash: tx.hash, text: "Transferring NODE", type: "transferring" }));
       await tx.wait();
@@ -205,7 +206,7 @@ export const compoundAll = createAsyncThunk(
       return;
     }
     // const signer = provider.getSigner();
-    const nftManager = new ethers.Contract(
+    const nodeManager = new ethers.Contract(
       NODE_MANAGER[networkID as keyof typeof NODE_MANAGER],
       NftManagerContract__factory.abi,
       signer,
@@ -216,7 +217,7 @@ export const compoundAll = createAsyncThunk(
     try {
       const gasPrice = await getGasPrice(provider);
 
-      tx = await nftManager.compoundAll({ gasPrice });
+      tx = await nodeManager.compoundAll({ gasPrice });
 
       dispatch(fetchPendingTxns({ txnHash: tx.hash, text: "Compounding All", type: "allcompounding" }));
       await tx.wait();
@@ -254,7 +255,7 @@ export const claimAll = createAsyncThunk(
       return;
     }
     // const signer = provider.getSigner();
-    const nftManager = new ethers.Contract(
+    const nodeManager = new ethers.Contract(
       NODE_MANAGER[networkID as keyof typeof NODE_MANAGER],
       NftManagerContract__factory.abi,
       signer,
@@ -265,7 +266,7 @@ export const claimAll = createAsyncThunk(
     try {
       const gasPrice = await getGasPrice(provider);
 
-      tx = await nftManager.cashoutAll(swapping, { gasPrice });
+      tx = await nodeManager.cashoutAll(swapping, { gasPrice });
 
       dispatch(fetchPendingTxns({ txnHash: tx.hash, text: "Claim All", type: "allclaiming" }));
       await tx.wait();
@@ -303,7 +304,7 @@ export const compoundReward = createAsyncThunk(
       return;
     }
     // const signer = provider.getSigner();
-    const nftManager = new ethers.Contract(
+    const nodeManager = new ethers.Contract(
       NODE_MANAGER[networkID as keyof typeof NODE_MANAGER],
       NftManagerContract__factory.abi,
       signer,
@@ -314,7 +315,7 @@ export const compoundReward = createAsyncThunk(
     try {
       const gasPrice = await getGasPrice(provider);
 
-      tx = await nftManager.compoundReward(nftId, { gasPrice });
+      tx = await nodeManager.compoundReward(nftId, { gasPrice });
 
       dispatch(fetchPendingTxns({ txnHash: tx.hash, text: "Compounding $MILK", type: "compounding" }));
       await tx.wait();
@@ -353,7 +354,7 @@ export const cashoutReward = createAsyncThunk(
       return;
     }
     // const signer = provider.getSigner();
-    const nftManager = new ethers.Contract(
+    const nodeManager = new ethers.Contract(
       NODE_MANAGER[networkID as keyof typeof NODE_MANAGER],
       NftManagerContract__factory.abi,
       signer,
@@ -364,7 +365,7 @@ export const cashoutReward = createAsyncThunk(
     try {
       const gasPrice = await getGasPrice(provider);
 
-      tx = await nftManager.cashoutReward(nftId, swapping, { gasPrice });
+      tx = await nodeManager.cashoutReward(nftId, swapping, { gasPrice });
 
       dispatch(fetchPendingTxns({ txnHash: tx.hash, text: "Claiming $MILK", type: "claiming" }));
       await tx.wait();

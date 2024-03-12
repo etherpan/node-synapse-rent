@@ -1,5 +1,6 @@
 import { Box, Dialog, DialogTitle, FormControl, Link, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { Signer, ethers } from "ethers";
 import { Icon, PrimaryButton } from "@olympusdao/component-library";
 import axios from "axios";
 import { ChangeEvent, FC, FormEvent, SetStateAction, useEffect, useState } from "react";
@@ -7,7 +8,16 @@ import React from "react";
 import { toast } from "react-hot-toast";
 import { messages } from "src/constants/messages";
 import apiRequest from "src/helpers/connections";
-import { useAccount } from "wagmi";
+import { getValidChainId } from "src/constants/data";
+import { useAccount, useNetwork, useSigner } from "wagmi";
+import { Providers } from "src/helpers/providers/Providers/Providers";
+import { createNode } from "src/slices/NftThunk";
+import { NetworkId } from "src/networkDetails";
+import { clearPendingTxn, fetchPendingTxns } from "../../slices/PendingTxnsSlice";
+import { AsyncThunkAction, Dispatch, AnyAction } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { NODE_MANAGER } from "src/constants/addresses";
+import { NftManagerContract__factory, NodeRentContract__factory } from "src/typechain";
 
 const PREFIX = "RentModal";
 const classes = {
@@ -43,6 +53,9 @@ interface AuthState {
 
 const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePrice }) => {
   const { address = "", isConnected } = useAccount();
+  const { chain = { id: 8453 } } = useNetwork();
+  const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
+  const { data: signer } = useSigner();
   const [formData, setFormData] = useState<FormData>({
     buyer_telegram: "",
   });
@@ -54,8 +67,13 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
   useEffect(() => {
     const fetchEthPrice = async () => {
       try {
-        const response = await axios.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD");
-        const ethPriceData = response.data?.RAW?.ETH?.USD?.PRICE;
+        const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD', {
+          headers: {
+            Authorization: 'Apikey bff1258846ff3b41d2d8932a685ee9613020f83688d873ff50dc148f005f264a'
+          }
+        });
+        const ethPriceData = response.data.USD;
+        
         setEthPrice(ethPriceData);
         setIsLoading(false);
       } catch (error) {
@@ -91,7 +109,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
 
   const nodeUsdPrice = NodePrice * 24 * 30;
   const nodeEthPrice = nodeUsdPrice / ethPrice;
-  console.log("debug nodePrice", NodePrice);
+  
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -106,8 +124,26 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
         "POST",
         undefined,
       );
-      console.log("debug responseKY", responseReg.status);
-      // dispatch(notificationActions.setMessage("KYB request has been successfully submitted."))
+      try {
+        const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
+        const contractABI = NodeRentContract__factory.abi;
+        const contractAddress = "0x46CA1d921f9c92501D582E39f63b0E35027e62ed";
+        const contract = new ethers.Contract(contractAddress, contractABI, signer);
+
+        console.log('debug wewewewe')
+        const nodeEthPricedd = nodeEthPrice.toFixed(5)
+        const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
+        console.log('debug asdfdf========', nodeEthPriceInWei.toString())
+        const tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
+        console.log('debug asdfdf', "contractABI")
+
+        await tx.wait();
+        
+      } catch (error) {
+        // toast.error(messages.error_401)
+        console.log(error)
+      }
+      
       toast.success(messages.tx_successfully_send);
     } catch (error: any) {
       if (error?.info?.error?.status === 422) {

@@ -129,6 +129,7 @@ function App() {
   const { error: errorMessage } = useConnect();
   // @ts-ignore
   const { chain = { id: 8453 } } = useAccount();
+  console.log('debug chain', chain.id)
 
   // const provider = useProvider();
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
