@@ -18,13 +18,13 @@ import NodeCard from "src/components/NodeCard";
 import PageTitle from "src/components/PageTitle";
 import { NUMBER_OF_GALLER_VISIBLE } from "src/constants/data";
 import { useAppSelector } from "src/hooks";
+// import
 
 function Gallery() {
   const theme = useTheme();
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const gallery = useAppSelector(state => state.gallery.items);
-  const galleryLength = gallery.length;
 
   const [activeGallery, setActiveGallery] = useState([
     {
@@ -71,7 +71,7 @@ function Gallery() {
   const searchID = async (name: string[]) => {
     setLoading(true);
     for (let i = 0; i < name.length; i++) {
-      if (parseInt(name[i]) > galleryLength) {
+      if (parseInt(name[i]) > NUMBER_OF_GALLER_VISIBLE) {
         return;
       }
       setActiveGallery(gallery.filter(nft => nft.node_price == name[i]));
@@ -90,7 +90,7 @@ function Gallery() {
     const ids = content.split(",");
     for (let index = 0; index < ids.length; index++) {
       const id = ids[index];
-      if (parseInt(id) <= 0 || parseInt(id) > galleryLength * 1) return false;
+      if (parseInt(id) <= 0 || parseInt(id) > NUMBER_OF_GALLER_VISIBLE * 1) return false;
     }
     searchID(ids);
     setQuery("query");
@@ -136,19 +136,20 @@ function Gallery() {
   }, [desc, filterQuery, gallery]);
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
-  const [numberOfGalleryVisible, setNumberOfGalleryVisible] = useState(NUMBER_OF_GALLER_VISIBLE);
-  const chosenGalleryLength = useRef(0);
+  const [numberOfGalleryVisible, setNumberOfGalleryVisible] = useState(9);
+  console.log("debug numberOfGalleryVisible", numberOfGalleryVisible);
+  const chosenNUMBER_OF_GALLER_VISIBLE = useRef(0);
   const [observerIsSet, setObserverIsSet] = useState(false);
   const chosenGalleryMemoized = activeGallery.slice(0, numberOfGalleryVisible);
-
-  chosenGalleryLength.current = chosenGalleryMemoized.length;
+  console.log("debug chosenGalleryMemoized", chosenGalleryMemoized);
+  chosenNUMBER_OF_GALLER_VISIBLE.current = chosenGalleryMemoized.length;
 
   useEffect(() => {
     const showMoreGallery: IntersectionObserverCallback = entries => {
       const [entry] = entries;
       if (entry.isIntersecting) {
         setNumberOfGalleryVisible(farmsCurrentlyVisible => {
-          if (farmsCurrentlyVisible <= chosenGalleryLength.current) {
+          if (farmsCurrentlyVisible <= chosenNUMBER_OF_GALLER_VISIBLE.current) {
             return farmsCurrentlyVisible + NUMBER_OF_GALLER_VISIBLE;
           }
           return farmsCurrentlyVisible;

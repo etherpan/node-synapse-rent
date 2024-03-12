@@ -10,7 +10,7 @@ import { messages } from "src/constants/messages";
 import RentModal from "src/views/Zap/RentModal";
 import { useAccount, useNetwork } from "wagmi";
 
-interface IUCowCardProps {
+interface INodeCardProps {
   node_no: number;
   node_cpu: string;
   seller_address: string;
@@ -40,7 +40,7 @@ function NodeCard({
   node_price,
   node_privateKey,
   approve,
-}: IUCowCardProps) {
+}: INodeCardProps) {
   const theme = useTheme();
   const { address = "", isConnected, isReconnecting } = useAccount();
   const { chain = { id: 8453 } } = useNetwork();

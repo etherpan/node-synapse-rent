@@ -12,7 +12,7 @@ import { getValidChainId, OPENSEA_ITEM_URL } from "src/constants/data";
 import { generateImage } from "src/helpers/NFTInfo/generateImage";
 import { useAccount, useNetwork } from "wagmi";
 
-interface IUCowCardProps {
+interface INodeCardProps {
   nftId: string;
   totalStaked: string;
   totalStakers: string;
@@ -21,7 +21,7 @@ interface IUCowCardProps {
   handleOpen: (a: string) => void;
 }
 
-function UCowCard({ nftId, totalStaked, totalStakers, owner, level, handleOpen }: IUCowCardProps) {
+function UCowCard({ nftId, totalStaked, totalStakers, owner, level, handleOpen }: INodeCardProps) {
   const theme = useTheme();
   // const [nftImg, setNftImg] = useState("");
   const { address = "", isConnected, isReconnecting } = useAccount();
