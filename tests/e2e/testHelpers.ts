@@ -103,7 +103,7 @@ export async function launchDApp() {
   const metamask = await setupMetamask(browser, { network: "localhost" });
 
   const page = await browser.newPage();
-  await page.goto("http://localhost:3000/#/stake");
+  await page.goto("http://65.21.151.173:3001/#/stake");
 
   dapp.browser = browser;
   dapp.metamask = metamask;

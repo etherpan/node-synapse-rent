@@ -1,7 +1,8 @@
 import axios, { AxiosRequestConfig } from "axios";
 // const BASEURL = "https://nodesynapse.app/";
 // const BASEURL = "http://192.168.1.29:3001/";
-const BASEURL = "http://localhost:3001/";
+// const BASEURL = "http://localhost:3001/";
+const BASEURL = "http://65.21.151.173:3001/";
 
 interface Auth {
   state: boolean;

@@ -6,7 +6,8 @@ import { RootState } from "src/store";
 export const galleryDetails = createAsyncThunk(
   "app/galleryDetails",
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
-    const response = await fetch(`http://localhost:3001/node/get`);
+    const response = await fetch(`http://65.21.151.173:3001/node/get`);
+    console.log("node/get", response)
     const responseJson = await response.json();
     console.log("debug response", responseJson.items);
     return {

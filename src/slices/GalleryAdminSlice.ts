@@ -6,7 +6,7 @@ import { RootState } from "src/store";
 export const galleryAdminDetails = createAsyncThunk(
   "app/galleryAdminDetails",
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
-    const response = await fetch(`http://localhost:3001/node/adminget`);
+    const response = await fetch(`http://65.21.151.173:3001/node/adminget`);
     const responseJson = await response.json();
     console.log("debug adminresponse", response);
     return {
