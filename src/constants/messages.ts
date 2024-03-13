@@ -13,7 +13,9 @@ export const messages = {
   before_unstake: "Before un staking, enter a value.",
   tx_successfully_send:
     "Your request has been sent successfully. Please wait for the administrator to approve this node.",
-  your_data_updated: "Your data was successfully updated",
+  your_data_updated: "Your data was successfully updated.",
+  already_approved: "This node already approved.",
+  success_approved: "Node was successfully approve.",
   nothing_to_claim: "You have nothing to claim",
   something_wrong: "Something went wrong",
   switch_to_avalanche: "Switch to the Avalanche network?",

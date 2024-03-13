@@ -3,13 +3,12 @@ import { setAll } from "src/helpers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { RootState } from "src/store";
 
-export const galleryDetails = createAsyncThunk(
-  "app/adminGalleryDetails",
+export const galleryAdminDetails = createAsyncThunk(
+  "app/galleryAdminDetails",
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
-    const response = await fetch(`http://localhost:3001/node/get`);
-    console.log("debug response", response)
+    const response = await fetch(`http://localhost:3001/node/adminget`);
     const responseJson = await response.json();
-    
+    console.log("debug adminresponse", response);
     return {
       loading: false,
       items: responseJson.items,
@@ -43,8 +42,8 @@ const initialState: IGalleryData = {
   items: [],
 };
 
-const adminGallerySlice = createSlice({
-  name: "gallery",
+const gallerySlice = createSlice({
+  name: "galleryAdmin",
   initialState,
   reducers: {
     fetchGallerySuccess(state, action) {
@@ -53,14 +52,14 @@ const adminGallerySlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(galleryDetails.pending, state => {
+      .addCase(galleryAdminDetails.pending, state => {
         state.loading = true;
       })
-      .addCase(galleryDetails.fulfilled, (state, action) => {
+      .addCase(galleryAdminDetails.fulfilled, (state, action) => {
         setAll(state, action.payload);
         // state.loading = false;
       })
-      .addCase(galleryDetails.rejected, (state, { error }) => {
+      .addCase(galleryAdminDetails.rejected, (state, { error }) => {
         state.loading = false;
         console.error(error.name, error.message, error.stack);
       });
@@ -69,8 +68,8 @@ const adminGallerySlice = createSlice({
 
 const baseInfo = (state: RootState) => state.app;
 
-export default adminGallerySlice.reducer;
+export default gallerySlice.reducer;
 
-export const { fetchGallerySuccess } = adminGallerySlice.actions;
+export const { fetchGallerySuccess } = gallerySlice.actions;
 
 export const getAppState = createSelector(baseInfo, app => app);

@@ -25,6 +25,7 @@ function Gallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const gallery = useAppSelector(state => state.gallery.items);
+  
 
   const [activeGallery, setActiveGallery] = useState([
     {
@@ -137,11 +138,11 @@ function Gallery() {
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const [numberOfGalleryVisible, setNumberOfGalleryVisible] = useState(9);
-  console.log("debug numberOfGalleryVisible", numberOfGalleryVisible);
+  
   const chosenNUMBER_OF_GALLER_VISIBLE = useRef(0);
   const [observerIsSet, setObserverIsSet] = useState(false);
   const chosenGalleryMemoized = activeGallery.slice(0, numberOfGalleryVisible);
-  console.log("debug chosenGalleryMemoized", chosenGalleryMemoized);
+  
   chosenNUMBER_OF_GALLER_VISIBLE.current = chosenGalleryMemoized.length;
 
   useEffect(() => {

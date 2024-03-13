@@ -38,6 +38,7 @@ import MyNodes from "src/views/MyNodes";
 import { QueryParamProvider } from "use-query-params";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 import { useAccount, useConnect } from "wagmi";
+import { galleryAdminDetails } from "./slices/GalleryAdminSlice";
 
 // Dynamic Imports for code splitting
 const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryDashboard"));
@@ -130,7 +131,6 @@ function App() {
   const { error: errorMessage } = useConnect();
   // @ts-ignore
   const { chain = { id: 8453 } } = useAccount();
-  console.log('debug chain', chain.id)
 
   // const provider = useProvider();
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
@@ -160,6 +160,7 @@ function App() {
     (loadProvider: any) => {
       dispatch(loadAppDetails({ networkID: getValidChainId(chain.id) as NetworkId, provider: loadProvider }));
       dispatch(galleryDetails({ networkID: getValidChainId(chain.id) as NetworkId, provider: loadProvider }));
+      dispatch(galleryAdminDetails({ networkID: getValidChainId(chain.id) as NetworkId, provider: loadProvider }));
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [chain.id, address],

@@ -18,6 +18,7 @@ const store = configureStore({
   middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
 });
 
+console.log('debug store', store)
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export default store;

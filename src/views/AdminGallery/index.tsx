@@ -14,12 +14,13 @@ import { Box } from "@mui/system";
 import React, { useEffect, useRef, useState } from "react";
 import LoadingIcon from "src/assets/icons/loading.gif";
 import NodeCard from "src/components/NodeCard";
+import NodeAdminCard from "src/components/NodeAdminCard";
 import PageTitle from "src/components/PageTitle";
 import { NUMBER_OF_GALLER_VISIBLE } from "src/constants/data";
 import { useAppSelector } from "src/hooks";
 // import
 
-function AdminGallery() {
+function Gallery() {
   const theme = useTheme();
 
   const isAppLoading = useAppSelector(state => state.app.loading);
@@ -211,7 +212,7 @@ function AdminGallery() {
               ) : (
                 chosenGalleryMemoized.map((node, index) => (
                   <Grid key={index} item xl={4} lg={4} md={6} sm={6} xs={12}>
-                    <NodeCard
+                    <NodeAdminCard
                       node_no={node.node_no}
                       node_cpu={node.node_cpu}
                       seller_address={node.seller_address}
@@ -238,4 +239,4 @@ function AdminGallery() {
   );
 }
 
-export default AdminGallery;
+export default Gallery;

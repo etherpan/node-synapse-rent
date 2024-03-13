@@ -12,6 +12,7 @@ import { ConnectButton } from "src/components/ConnectButton/ConnectButton";
 import { CreateButton } from "src/components/CreateButton/ConnectButton";
 import { NetworkId } from "src/networkDetails";
 import { useAccount, useNetwork } from "wagmi";
+import { ADMIN_ACCOUNT } from "src/constants"
 
 const PREFIX = "TopBar";
 const classes = {
@@ -72,7 +73,11 @@ function TopBar({ colorTheme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           </ReactLink>
           {desktop && (
             <>
-              <NavItem to="/admin" label={`Admin`} />
+              {address == ADMIN_ACCOUNT ?
+                <NavItem to="/admin" label={`Admin`} />
+                :
+                <></>
+              }
               <NavItem to="/nodes" label={`Nodes`} />
               <NavItem to="/mynodes" label={`My Nodes`} />
               {/* <NavItem to="/leaderboard" label={`Leaderboard`} /> */}

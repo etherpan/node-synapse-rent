@@ -7,7 +7,8 @@ import { Icon, NavItem } from "@olympusdao/component-library";
 import React from "react";
 import { ReactComponent as SynapseIcon } from "src/assets/icons/node.svg";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
-import { useNetwork } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
+import { ADMIN_ACCOUNT } from "src/constants";
 
 const PREFIX = "NavContent";
 
@@ -25,6 +26,7 @@ const NavContent = () => {
   const theme = useTheme();
   const { chain = { id: 8453 } } = useNetwork();
   const networks = useTestableNetworks();
+  const { address = "", isConnected, isReconnecting } = useAccount();
 
   return (
     <Paper className="dapp-sidebar">
@@ -47,7 +49,11 @@ const NavContent = () => {
             <div className="dapp-nav" id="navbarNav">
               {/* <NavItem to="/dashboard" icon="dashboard" label={`Dashboard`} />
               <NavItem to="/mint" icon="bond" label={`Mint`} /> */}
-              <NavItem to="/admin" icon="stake" label={`Admin`} />
+              {address == ADMIN_ACCOUNT ?
+                <NavItem to="/admin" icon="stake" label={`Admin`} />
+                :
+                <></>
+              }
               <NavItem to="/nodes" icon="stake" label={`Nodes`} />
               <NavItem to="/mynodes" icon="stake" label={`My Nodes`} />
               {/* <NavItem to="/leaderboard" icon="stake" label={`Leaderboard`} /> */}
