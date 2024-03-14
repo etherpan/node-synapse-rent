@@ -6,14 +6,16 @@ import { ReactComponent as NoNODEIcon } from "src/assets/icons/no-nfts.svg";
 import { ReactComponent as RightIcon } from "src/assets/icons/right.svg";
 import { ReactComponent as WhiteLogoIcon } from "src/assets/icons/white-logo.svg";
 import PageTitle from "src/components/PageTitle";
-import NodeCard from "src/components/NodeCard";
+import NodeAddressCard from "src/components/NodeAddressCard";
 import { useAppSelector } from "src/hooks";
 
 function MyNodes() {
   const theme = useTheme();
-  const availableNfts = useAppSelector(state => {
-    return state.account.nft;
-  });
+  // const availableNfts = useAppSelector(state => {
+  //   return state.gallery.nfts;
+  // });
+  const availableNfts = useAppSelector(state => state.accountGallery.items);
+  console.log('debug availableNfts', availableNfts)
   const ownedNfts = useAppSelector(state => {
     return state.account.ownedNfts;
   });
@@ -82,13 +84,20 @@ function MyNodes() {
               <Grid container spacing={4}>
                 {availableNfts.map(nft => (
                   <Grid item xl={4} lg={4} md={6} sm={6} xs={12}>
-                    <NodeCard
-                      nftId={nft.toString()}
-                      level={gallery[nft - 1].level}
-                      totalStakers={gallery[nft - 1].totalStakers}
-                      totalStaked={gallery[nft - 1].totalStakedAmount}
-                      owner={gallery[nft - 1].owner}
-                      handleOpen={handleOpen}
+                    <NodeAddressCard
+                      node_no={node.node_no}
+                      node_cpu={node.node_cpu}
+                      seller_address={node.seller_address}
+                      node_ip={node.node_ip}
+                      node_gpu={node.node_gpu}
+                      gpu_capacity={node.gpu_capacity}
+                      cpu_capacity={node.cpu_capacity}
+                      node_download={node.node_download}
+                      node_upload={node.node_upload}
+                      node_usage={node.node_usage}
+                      node_price={node.node_price}
+                      node_privateKey={node.node_privateKey}
+                      approve={node.approve}
                     />
                   </Grid>
                 ))}

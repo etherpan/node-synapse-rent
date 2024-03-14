@@ -3,6 +3,7 @@ import accountReducer from "src/slices/AccountSlice";
 import appReducer from "src/slices/AppSlice";
 import galleryReducer from "src/slices/GallerySlice";
 import adminGalleryReducer from "src/slices/GalleryAdminSlice";
+import accountGalleryReducer from "src/slices/GalleryAddressSlice";
 import pendingTransactionsReducer from "src/slices/PendingTxnsSlice";
 // reducers are named automatically based on the name field in the slice
 // exported in slice files by default as nameOfSlice.reducer
@@ -13,6 +14,7 @@ const store = configureStore({
     app: appReducer,
     gallery: galleryReducer,
     adminGallery: adminGalleryReducer,
+    accountGallery: accountGalleryReducer,
     pendingTransactions: pendingTransactionsReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),

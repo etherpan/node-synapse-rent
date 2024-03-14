@@ -26,8 +26,8 @@ const NavContent = () => {
   const theme = useTheme();
   const { chain = { id: 8453 } } = useNetwork();
   const networks = useTestableNetworks();
-  const { userAddress = "", isConnected, isReconnecting } = useAccount();
-  const isAdmin = ADMIN_ACCOUNT.includes(userAddress);
+  const { address = "", isConnected, isReconnecting } = useAccount();
+  const isAdmin = ADMIN_ACCOUNT.includes(address);
 
   return (
     <Paper className="dapp-sidebar">

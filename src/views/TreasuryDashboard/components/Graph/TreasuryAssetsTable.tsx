@@ -45,7 +45,6 @@ export const TreasuryAssetsTable = ({
     }
 
     // We need to flatten the tokenRecords from all of the pages arrays
-    console.debug(`${chartName}: rebuilding by date token summary`);
 
     // We do the filtering of isLiquid client-side. Doing it in the GraphQL query results in incorrect data being spliced into the TreasuryAssetsGraph. Very weird.
     const filteredRecords = isLiquidBackingActive
@@ -62,7 +61,6 @@ export const TreasuryAssetsTable = ({
   // Handle parameter changes
   useEffect(() => {
     // useSubgraphTokenRecords will handle the re-fetching
-    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
     setByDateTokenSummary([]);
   }, [earliestDate, subgraphDaysOffset]);
 
@@ -71,7 +69,6 @@ export const TreasuryAssetsTable = ({
    */
   const [headerSubtext, setHeaderSubtext] = useState("");
   useMemo(() => {
-    console.debug(`${chartName}: rebuilding current tokens`);
     const currentTokenSummary = byDateTokenSummary[selectedIndex];
     setCurrentTokens(currentTokenSummary ? Object.values(currentTokenSummary.tokens) : []);
 

@@ -157,7 +157,6 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
   // Handle parameter changes
   useEffect(() => {
     // useSubgraphTokenRecords will handle the re-fetching
-    console.debug(`${chartName}: earliestDate or subgraphDaysOffset was changed. Removing cached data.`);
     setByDateCategoryTokenSupplyMap({});
   }, [earliestDate, subgraphDaysOffset]);
 
@@ -166,7 +165,6 @@ export const OhmSupplyTable = ({ earliestDate, selectedIndex, subgraphDaysOffset
    */
   const [headerSubtext, setHeaderSubtext] = useState("");
   useMemo(() => {
-    console.debug(`${chartName}: rebuilding current tokens`);
     const selectedDate = Object.keys(byDateCategoryTokenSupplyMap)[selectedIndex];
     const tempSelectedDayRecords = byDateCategoryTokenSupplyMap[selectedDate] || {};
 

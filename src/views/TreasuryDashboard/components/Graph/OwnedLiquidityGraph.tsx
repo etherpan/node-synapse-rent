@@ -52,7 +52,6 @@ export const ProtocolOwnedLiquidityGraph = ({ earliestDate, subgraphDaysOffset }
     }
 
     // We need to flatten the tokenRecords from all of the pages arrays
-    console.debug(`${chartName}: rebuilding by date metrics`);
 
     // Filter to POL
     const filteredRecords = tokenRecordResults.filter(value => value.category === CATEGORY_POL);
