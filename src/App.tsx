@@ -39,6 +39,7 @@ import { QueryParamProvider } from "use-query-params";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 import { useAccount, useConnect } from "wagmi";
 import { galleryAdminDetails } from "./slices/GalleryAdminSlice";
+import { ADMIN_ACCOUNT } from "./constants";
 
 // Dynamic Imports for code splitting
 const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryDashboard"));
@@ -258,7 +259,11 @@ function App() {
                   <Routes>
                     <Route path="/" element={<Gallery />} />
                     {/* <Route path="/mint" element={<Mint />} /> */}
-                    <Route path="/admin" element={<AdminGallery />} />
+                    {address == ADMIN_ACCOUNT ?
+                      <Route path="/admin" element={<AdminGallery />} />
+                      :
+                      <></>
+                    }
                     <Route path="/nodes" element={<Gallery />} />
                     <Route path="/mynodes" element={<MyNodes />} />
                     {/* <Route path="/nftItem" element={<NftItem />} /> */}
