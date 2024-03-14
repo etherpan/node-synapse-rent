@@ -34,7 +34,6 @@ import { girth as gTheme } from "src/themes/girth.js";
 import { light as lightTheme } from "src/themes/light.js";
 import Gallery from "src/views/Gallery";
 import AdminGallery from "src/views/AdminGallery";
-import MyNodes from "src/views/MyNodes";
 import { QueryParamProvider } from "use-query-params";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 import { useAccount, useConnect } from "wagmi";
@@ -43,6 +42,7 @@ import { ADMIN_ACCOUNT } from "./constants";
 
 // Dynamic Imports for code splitting
 const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryDashboard"));
+const Lending = lazy(() => import("./views/Lending/Lending"));
 const NotFound = lazy(() => import("./views/404/NotFound"));
 const Mint = lazy(() => import("./views/Mint"));
 const Referral = lazy(() => import("./views/Referral"));
@@ -264,11 +264,11 @@ function App() {
                       <Route path="/admin" element={<AdminGallery />} />
                     }
                     <Route path="/nodes" element={<Gallery />} />
-                    <Route path="/mynodes" element={<MyNodes />} />
+                    <Route path="/dashboard/*" element={<Lending />} />
                     {/* <Route path="/nftItem" element={<NftItem />} /> */}
                     {/* <Route path="/referral" element={<Referral />} />
-                    <Route path="/calculator" element={<Calculator />} />
-                    <Route path="/dashboard/*" element={<TreasuryDashboard />} /> */}
+                    <Route path="/calculator" element={<Calculator />} /> */}
+                    {/* <Route path="/dashboard/*" element={<TreasuryDashboard />} /> */}
                     <Route
                       path={"/stakednft"}
                       element={<Wallet open={true} component="info" theme={theme} toggleTheme={toggleTheme} />}
