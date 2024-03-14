@@ -119,7 +119,7 @@ function Footer() {
           </Grid>
           <Grid item xs={12} md={12} sm={12} m={"24px"}>
             <Box display={"flex"} flexDirection="column" alignItems="center" rowGap="16px">
-              <Typography>UNICOW@2023</Typography>
+              <Typography>NODESYNAPSE@2023</Typography>
             </Box>
           </Grid>
         </Grid>
@@ -140,7 +140,7 @@ function Footer() {
                 style={{ minWidth: "61px", minHeight: "61px", width: "61px" }}
               />
             </ReactLink>
-            UNICOW
+            NODESYNAPSE
           </Box>
           <Grid
             display="flex"

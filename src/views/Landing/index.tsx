@@ -469,7 +469,7 @@ function Landing() {
                     $MILK
                   </Typography>
                   <Typography className="small-text">
-                    MILK is a token that people can stake into the transferable UNICOW pool minted by others or yourself
+                    MILK is a token that people can stake into the transferable NODESYNAPSENAPSE pool minted by others or yourself
                     for passive income in ETH. The reward rate is usually 2% per day and it raises as the staked MILK
                     amount grows.
                   </Typography>

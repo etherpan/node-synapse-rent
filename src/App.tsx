@@ -264,7 +264,7 @@ function App() {
                       <Route path="/admin" element={<AdminGallery />} />
                     }
                     <Route path="/nodes" element={<Gallery />} />
-                    <Route path="/dashboard/*" element={<Lending />} />
+                    <Route path="/lending" element={<Lending />} />
                     {/* <Route path="/nftItem" element={<NftItem />} /> */}
                     {/* <Route path="/referral" element={<Referral />} />
                     <Route path="/calculator" element={<Calculator />} /> */}

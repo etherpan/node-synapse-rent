@@ -63,7 +63,7 @@ const generateSVGCardTitle = (color: string, tokenId: string) => {
         <rect x="16" y="16" width="258" height="468" rx="26" ry="26" fill="rgba(0,0,0,0)" stroke="#${color}"/>
         <text x="41" y="56" font-family="Sans-serif" font-size="16" font-weight="600" fill="#${color}">www.nodesynapse.org</text>
         <text x="80" y="117" font-family="Sans-serif" font-size="40" font-weight="600" fill="#${color}">No.${tokenId}</text>
-        <text x="100" y="355" font-family="Sans-serif" font-weight="600" font-size="20" fill="#${color}">UNICOW</text>
+        <text x="100" y="355" font-family="Sans-serif" font-weight="600" font-size="20" fill="#${color}">NODESYNAPSE</text>
     `;
 };
 
