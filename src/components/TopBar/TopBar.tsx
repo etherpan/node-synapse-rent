@@ -61,6 +61,7 @@ function TopBar({ colorTheme, toggleTheme, handleDrawerToggle }: TopBarProps) {
   console.log('debug address', address)
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const location = useLocation();
+  const isAdmin = ADMIN_ACCOUNT.includes(address);
 
   return (
     <Box>
@@ -76,10 +77,8 @@ function TopBar({ colorTheme, toggleTheme, handleDrawerToggle }: TopBarProps) {
           </ReactLink>
           {desktop && (
             <>
-              {address == ADMIN_ACCOUNT ?
+              {isAdmin &&
                 <NavItem to="/admin" label={`Admin`} />
-                :
-                <></>
               }
               <NavItem to="/nodes" label={`Nodes`} />
               <NavItem to="/mynodes" label={`My Nodes`} />

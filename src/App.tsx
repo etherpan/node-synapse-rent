@@ -132,6 +132,7 @@ function App() {
   const { error: errorMessage } = useConnect();
   // @ts-ignore
   const { chain = { id: 8453 } } = useAccount();
+  const isAdmin = ADMIN_ACCOUNT.includes(address);
 
   // const provider = useProvider();
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
@@ -259,10 +260,8 @@ function App() {
                   <Routes>
                     <Route path="/" element={<Gallery />} />
                     {/* <Route path="/mint" element={<Mint />} /> */}
-                    {address == ADMIN_ACCOUNT ?
+                    {isAdmin &&
                       <Route path="/admin" element={<AdminGallery />} />
-                      :
-                      <></>
                     }
                     <Route path="/nodes" element={<Gallery />} />
                     <Route path="/mynodes" element={<MyNodes />} />

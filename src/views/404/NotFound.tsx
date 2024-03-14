@@ -10,7 +10,7 @@ export default function NotFound() {
           <img className="branding-header-icon" src={OlympusLogo} alt="NodeSynapse" />
         </a>
 
-        <h1>Coming Soon</h1>
+        <h1>Not Found</h1>
       </div>
     </div>
   );

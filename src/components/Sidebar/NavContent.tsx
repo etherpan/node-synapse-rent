@@ -26,7 +26,8 @@ const NavContent = () => {
   const theme = useTheme();
   const { chain = { id: 8453 } } = useNetwork();
   const networks = useTestableNetworks();
-  const { address = "", isConnected, isReconnecting } = useAccount();
+  const { userAddress = "", isConnected, isReconnecting } = useAccount();
+  const isAdmin = ADMIN_ACCOUNT.includes(userAddress);
 
   return (
     <Paper className="dapp-sidebar">
@@ -49,10 +50,8 @@ const NavContent = () => {
             <div className="dapp-nav" id="navbarNav">
               {/* <NavItem to="/dashboard" icon="dashboard" label={`Dashboard`} />
               <NavItem to="/mint" icon="bond" label={`Mint`} /> */}
-              {address == ADMIN_ACCOUNT ?
+              {isAdmin &&
                 <NavItem to="/admin" icon="stake" label={`Admin`} />
-                :
-                <></>
               }
               <NavItem to="/nodes" icon="stake" label={`Nodes`} />
               <NavItem to="/mynodes" icon="stake" label={`My Nodes`} />
