@@ -39,9 +39,7 @@ interface FormData {
   cpu_capacity: string;
   gpu_capacity: string;
   network_speed?: string;
-  utilization?: string;
   node_price: string;
-  node_privateKey: string;
   seller_info: string;
 }
 
@@ -58,7 +56,6 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
     cpu_capacity: "",
     gpu_capacity: "",
     node_price: "",
-    node_privateKey: "",
     seller_info: "",
   });
 
@@ -75,6 +72,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
   const handleRegist = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      console.log('debug handleRegist')
       const responseReg = await apiRequest(
         "regist/node",
         {
@@ -85,7 +83,6 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
           cpu_capacity: formData.cpu_capacity,
           gpu_capacity: formData.gpu_capacity,
           node_price: formData.node_price,
-          node_privatekey: formData.node_ip,
           seller_info: formData.seller_info,
         },
         "POST",
@@ -183,15 +180,6 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
             type="number"
             placeholder="Cost: $1.98 per hour"
             value={formData.node_price}
-            onChange={handleChange}
-            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
-            required
-          />
-          <TextField
-            id="node_privateKey"
-            type="text"
-            placeholder="SSH: private key"
-            value={formData.node_privateKey}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required

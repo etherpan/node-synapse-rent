@@ -1,8 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
-// const BASEURL = "https://nodesynapse.app/";
-// const BASEURL = "http://192.168.1.29:3001/";
-// const BASEURL = "http://localhost:3001/";
-const BASEURL = "http://65.21.151.173:3001/";
+import { BASEURL } from "../constants"
+
 
 interface Auth {
   state: boolean;
@@ -15,6 +13,7 @@ export default async function apiRequest(
   method = "get",
   auth?: Auth,
 ): Promise<any> {
+  console.log('debug debug', path)
   return new Promise(async (resolve, reject) => {
     let header: Record<string, string> = {};
     if (auth && auth.state) {
@@ -26,7 +25,7 @@ export default async function apiRequest(
     try {
       const config: AxiosRequestConfig = {
         method: method,
-        url: BASEURL + path,
+        url: BASEURL + "/" + path,
         headers: header,
         data: body,
         params: method === "GET" ? body : {},

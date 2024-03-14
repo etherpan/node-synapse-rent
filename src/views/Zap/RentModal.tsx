@@ -133,6 +133,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
           seller_address: address,
           currentNode: currentNode,
           buyer_telegram: formData.buyer_telegram,
+          nodeEthPurchase: nodeEthPrice,
         },
         "POST",
         undefined,

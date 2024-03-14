@@ -22,7 +22,6 @@ interface INodeCardProps {
   node_upload?: number;
   node_usage?: number;
   node_price: number;
-  node_privateKey: string;
   approve: number;
 }
 
@@ -38,7 +37,6 @@ function NodeCard({
   node_upload,
   node_usage,
   node_price,
-  node_privateKey,
   approve,
 }: INodeCardProps) {
   const theme = useTheme();

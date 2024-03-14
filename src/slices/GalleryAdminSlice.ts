@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+import { BASEURL } from "src/constants";
 import { setAll } from "src/helpers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { RootState } from "src/store";
@@ -6,7 +7,7 @@ import { RootState } from "src/store";
 export const galleryAdminDetails = createAsyncThunk(
   "app/galleryAdminDetails",
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
-    const response = await fetch(`http://65.21.151.173:3001/node/adminget`);
+    const response = await fetch(`${BASEURL}/node/adminget`);
     const responseJson = await response.json();
     return {
       loading: false,
@@ -32,7 +33,6 @@ export interface INodeItem {
   node_upload: any;
   node_usage: any;
   node_price: number;
-  node_privateKey: string;
   approve: number;
 }
 

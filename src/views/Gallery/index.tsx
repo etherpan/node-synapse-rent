@@ -40,7 +40,6 @@ function Gallery() {
       node_upload: 0,
       node_usage: 0,
       node_price: 0,
-      node_privateKey: "",
       approve: 0,
     },
   ]);
@@ -224,7 +223,6 @@ function Gallery() {
                       node_upload={node.node_upload}
                       node_usage={node.node_usage}
                       node_price={node.node_price}
-                      node_privateKey={node.node_privateKey}
                       approve={node.approve}
                     />
                   </Grid>
