@@ -9,7 +9,6 @@ export const galleryDetails = createAsyncThunk(
     const response = await fetch(`http://65.21.151.173:3001/node/get`);
     console.log("node/get", response)
     const responseJson = await response.json();
-    console.log("debug response", responseJson.items);
     return {
       loading: false,
       items: responseJson.items,

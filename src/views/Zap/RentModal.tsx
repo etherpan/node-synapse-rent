@@ -129,13 +129,9 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
         const contractABI = NodeRentContract__factory.abi;
         const contractAddress = "0x46CA1d921f9c92501D582E39f63b0E35027e62ed";
         const contract = new ethers.Contract(contractAddress, contractABI, signer);
-
-        console.log('debug wewewewe')
         const nodeEthPricedd = nodeEthPrice.toFixed(5)
         const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
-        console.log('debug asdfdf========', nodeEthPriceInWei.toString())
         const tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
-        console.log('debug asdfdf', "contractABI")
 
         await tx.wait();
         
@@ -152,7 +148,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
         toast.error(messages.error_else);
       }
     }
-    console.log("debug response api");
+    
     handleClose();
   };
 

@@ -85,7 +85,6 @@ export const LiquidBackingPerOhmComparisonGraph = ({ earliestDate, activeToken, 
     const byDateProtocolMetricMap = getDateProtocolMetricMap(protocolMetricResults);
 
     // We need to flatten the records from all of the pages arrays
-    console.debug(`${chartName}: rebuilding by date metrics`);
     const tempByDateLiquidBacking: LiquidBackingComparison[] = [];
     byDateTokenRecordMap.forEach((value, key) => {
       const currentTokenRecords = value;

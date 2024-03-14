@@ -74,7 +74,6 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
 
   const handleRegist = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('debug preventDefault')
     try {
       const responseReg = await apiRequest(
         "regist/node",
@@ -92,7 +91,6 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
         "POST",
         undefined,
       );
-      console.log("debug responseKY", responseReg.status);
       // dispatch(notificationActions.setMessage("KYB request has been successfully submitted."))
       toast.success(messages.tx_successfully_send);
       await sleep(1);

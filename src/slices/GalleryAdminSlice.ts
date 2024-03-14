@@ -8,7 +8,6 @@ export const galleryAdminDetails = createAsyncThunk(
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
     const response = await fetch(`http://65.21.151.173:3001/node/adminget`);
     const responseJson = await response.json();
-    console.log("debug adminresponse", response);
     return {
       loading: false,
       items: responseJson.items,

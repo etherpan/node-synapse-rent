@@ -132,7 +132,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
         toast.error(messages.error_else);
       }
     }
-    console.log("debug response api");
+    
     await sleep(1);
     handleClose();
   };

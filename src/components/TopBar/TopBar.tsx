@@ -14,8 +14,6 @@ import { NetworkId } from "src/networkDetails";
 import { useAccount, useNetwork } from "wagmi";
 import { ADMIN_ACCOUNT } from "src/constants"
 
-console.log('debug admin', ADMIN_ACCOUNT)
-
 const PREFIX = "TopBar";
 const classes = {
   appBar: `${PREFIX}-appBar`,
@@ -58,7 +56,6 @@ function TopBar({ colorTheme, toggleTheme, handleDrawerToggle }: TopBarProps) {
   const desktop = useMediaQuery(theme.breakpoints.up(1048));
   const { chain = { id: 8453 } } = useNetwork();
   const { address = "", isConnected, isReconnecting } = useAccount();
-  console.log('debug address', address)
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const location = useLocation();
   const isAdmin = ADMIN_ACCOUNT.includes(address);
