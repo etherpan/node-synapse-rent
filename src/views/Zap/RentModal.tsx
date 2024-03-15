@@ -128,6 +128,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
 
       // await tx.wait();
       // console.log('debug responseReg', address, currentNode, formData.buyer_telegram, nodeEthPrice)
+      console.log('debug responseReg =')
       const responseReg = await apiRequest(
         "regist/submit",
         {
@@ -196,10 +197,11 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
                 onChange={handleChange}
                 required
               />
+              <div>Telegram Info:</div>
               <TextField
                 id="buyer_telegram"
                 type="text"
-                placeholder="Telegram Username"
+                placeholder="@TelegramUsername"
                 value={formData.buyer_telegram}
                 onChange={handleChange}
                 style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}

@@ -10,6 +10,8 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { useAppSelector } from "src/hooks";
+import { useAccount } from "wagmi";
+import { FilterDrama } from "@mui/icons-material";
 // import { IReduxState } from "../../store/slices/state.interface";
 // import { IAppSlice } from "../../store/slices/app-slice";
 // // import { useHistory } from "react-router-dom";
@@ -35,11 +37,26 @@ function Dashboard() {
 
   // const isAppLoading = useSelector<IReduxState, boolean>(state => state.app.loading);
   // const app = useSelector<IReduxState, IAppSlice>(state => state.app);
-  const gallery = useAppSelector(state => state.accountGallery.items);
-  console.log('debug gallerylending', gallery)
+  const { address = "", isConnected } = useAccount();
+  const purchaseNodeData = useAppSelector(state => state.accountGallery.items);
+  const purchaseNode = purchaseNodeData.filter(node => node.seller_address === address)
+  
+  // const pastPayout = purchaseNode.length * purchaseNode.node_price;
+  let totalCost = 0
+  purchaseNode.forEach(purchaseNode => {
+    if (purchaseNode.seller_address === address) {
+      totalCost += purchaseNode.purchase;
+    }
+  })
+  console.log('debug gallerylending', totalCost)
+
+  const approveNodeData = useAppSelector(state => state.gallery.items);
+  const approveNode = approveNodeData.filter(node => node.seller_address === address && node.approve === 1);
+  
+  const totalNodeData = useAppSelector(state => state.adminGallery.items);
+  const totalNode = totalNodeData.filter(node => node.seller_address === address)
 
   const [value, setValue] = React.useState('1');
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -52,13 +69,13 @@ function Dashboard() {
           <Grid item lg={6} md={6} sm={6} xs={12}>
             <div className="dashboard-card">
               <p className="card-title">Approved Nodes</p>
-              <p className="card-value">$234244</p>
+              <p className="card-value">{approveNode.length}</p>
             </div>
           </Grid>
           <Grid item lg={6} md={6} sm={6} xs={12}>
             <div className="dashboard-card">
               <p className="card-title">Total Nodes</p>
-              <p className="card-value">$234244</p>
+              <p className="card-value">{totalNode.length}</p>
             </div>
           </Grid>
           <Grid item lg={6} md={6} sm={6} xs={12}>
@@ -70,16 +87,12 @@ function Dashboard() {
           <Grid item lg={6} md={6} sm={6} xs={12}>
             <div className="dashboard-card">
               <p className="card-title">Past Payout</p>
-              <p className="card-value">$234244</p>
+              <p className="card-value">{totalCost.toFixed(6)} ETH</p>
             </div>
           </Grid>
         </Grid>
-
-        {/* </Zoom> */}
       </div>
       <div className="dashboard-infos-wrap" style={{ paddingTop: "30px" }}>
-        {/* <Zoom in={true}> */}
-        {/* </Zoom> */}
         <Grid item lg={12} md={12} sm={12} xs={12}>
           <div className="dashboard-card">
             <Box sx={{ width: '100%' }}>

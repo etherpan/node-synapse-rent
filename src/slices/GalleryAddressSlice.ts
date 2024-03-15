@@ -7,8 +7,8 @@ import { RootState } from "src/store";
 export const galleryAccountDetails = createAsyncThunk(
   "app/galleryAccountDetails",
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
-    const response = await fetch(`${BASEURL}/node/get`);
-    console.log("node/get", response)
+    const response = await fetch(`${BASEURL}/node/getpurchase`);
+    
     const responseJson = await response.json();
     return {
       loading: false,
@@ -23,6 +23,7 @@ export interface IGalleryData {
 }
 
 export interface INodeItem {
+  purchase: number;
   node_no: number;
   seller_address: string;
   node_ip: string;
