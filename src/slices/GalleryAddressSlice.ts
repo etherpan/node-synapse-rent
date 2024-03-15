@@ -4,10 +4,11 @@ import { setAll } from "src/helpers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { RootState } from "src/store";
 
-export const galleryAddressDetails = createAsyncThunk(
-  "app/galleryAddressDetails",
+export const galleryAccountDetails = createAsyncThunk(
+  "app/galleryAccountDetails",
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
-    const response = await fetch(`${BASEURL}/node/adminget`);
+    const response = await fetch(`${BASEURL}/node/get`);
+    console.log("node/get", response)
     const responseJson = await response.json();
     return {
       loading: false,
@@ -42,7 +43,7 @@ const initialState: IGalleryData = {
 };
 
 const gallerySlice = createSlice({
-  name: "galleryAddress",
+  name: "gallery",
   initialState,
   reducers: {
     fetchGallerySuccess(state, action) {
@@ -51,14 +52,14 @@ const gallerySlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(galleryAddressDetails.pending, state => {
+      .addCase(galleryAccountDetails.pending, state => {
         state.loading = true;
       })
-      .addCase(galleryAddressDetails.fulfilled, (state, action) => {
+      .addCase(galleryAccountDetails.fulfilled, (state, action) => {
         setAll(state, action.payload);
         // state.loading = false;
       })
-      .addCase(galleryAddressDetails.rejected, (state, { error }) => {
+      .addCase(galleryAccountDetails.rejected, (state, { error }) => {
         state.loading = false;
         console.error(error.name, error.message, error.stack);
       });

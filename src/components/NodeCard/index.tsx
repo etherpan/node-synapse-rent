@@ -59,6 +59,7 @@ function NodeCard({
           modalOpen={rentModalOpen}
           setCustomNode={setCustomNode}
           currentNode={node_no}
+          sellerAddress={seller_address}
           NodePrice={node_price}
         />
         <div className="card-image">

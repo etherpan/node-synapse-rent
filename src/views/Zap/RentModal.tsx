@@ -39,9 +39,10 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 export interface RentModal {
   handleClose: () => void;
   modalOpen: boolean;
-  currentNode: number;
-  NodePrice: number;
   setCustomNode: { (value: SetStateAction<string>): void; (arg0: string): void };
+  currentNode: number;
+  sellerAddress: string;
+  NodePrice: number;
 }
 
 interface FormData {
@@ -52,7 +53,7 @@ interface AuthState {
   loggedIn: boolean;
 }
 
-const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePrice }) => {
+const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePrice, sellerAddress }) => {
   const { address = "", isConnected } = useAccount();
   const { chain = { id: 8453 } } = useNetwork();
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
@@ -117,22 +118,23 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
     e.preventDefault();
     setIsLoading(true);
     try {
-      const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
-      const contractABI = NodeRentContract__factory.abi;
-      const contractAddress = "0x46CA1d921f9c92501D582E39f63b0E35027e62ed";
-      const contract = new ethers.Contract(contractAddress, contractABI, signer);
-      const nodeEthPricedd = nodeEthPrice.toFixed(5)
-      const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
-      const tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
+      // const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
+      // const contractABI = NodeRentContract__factory.abi;
+      // const contractAddress = "0x46CA1d921f9c92501D582E39f63b0E35027e62ed";
+      // const contract = new ethers.Contract(contractAddress, contractABI, signer);
+      // const nodeEthPricedd = nodeEthPrice.toFixed(5)
+      // const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
+      // const tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
 
-      await tx.wait();
-
+      // await tx.wait();
+      // console.log('debug responseReg', address, currentNode, formData.buyer_telegram, nodeEthPrice)
       const responseReg = await apiRequest(
         "regist/submit",
         {
-          seller_address: address,
           currentNode: currentNode,
+          sellerAddress: sellerAddress,
           buyer_telegram: formData.buyer_telegram,
+          buyer_address: address,
           nodeEthPurchase: nodeEthPrice,
         },
         "POST",
