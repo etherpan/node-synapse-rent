@@ -42,19 +42,28 @@ function Dashboard() {
   const purchaseNode = purchaseNodeData.filter(node => node.seller_address === address)
   
   // const pastPayout = purchaseNode.length * purchaseNode.node_price;
-  let totalCost = 0
+  let pastPayout = 0
   purchaseNode.forEach(purchaseNode => {
     if (purchaseNode.seller_address === address) {
-      totalCost += purchaseNode.purchase;
+      pastPayout += purchaseNode.purchase;
     }
   })
-  console.log('debug gallerylending', totalCost)
+  console.log('debug gallerylending', pastPayout)
 
   const approveNodeData = useAppSelector(state => state.gallery.items);
   const approveNode = approveNodeData.filter(node => node.seller_address === address && node.approve === 1);
   
   const totalNodeData = useAppSelector(state => state.adminGallery.items);
-  const totalNode = totalNodeData.filter(node => node.seller_address === address)
+  const totalNode = totalNodeData.filter(node => node.seller_address === address);
+  let EstimatedPayout = 0;
+  totalNodeData.forEach(node => {
+    if (node.seller_address === address) {
+      EstimatedPayout += node.node_price;
+    }
+  });
+
+  const activeEstimatedPayout = EstimatedPayout - pastPayout;
+  console.log('debug activeEstimatedPayout', activeEstimatedPayout);
 
   const [value, setValue] = React.useState('1');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -81,13 +90,13 @@ function Dashboard() {
           <Grid item lg={6} md={6} sm={6} xs={12}>
             <div className="dashboard-card">
               <p className="card-title">Active Estimated Payout</p>
-              <p className="card-value">$234244</p>
+              <p className="card-value">{activeEstimatedPayout.toFixed(6)} ETH</p>
             </div>
           </Grid>
           <Grid item lg={6} md={6} sm={6} xs={12}>
             <div className="dashboard-card">
               <p className="card-title">Past Payout</p>
-              <p className="card-value">{totalCost.toFixed(6)} ETH</p>
+              <p className="card-value">{pastPayout.toFixed(6)} ETH</p>
             </div>
           </Grid>
         </Grid>
