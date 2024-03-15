@@ -33,18 +33,22 @@
         padding: 13px 0;
   
         .card-title {
-          font-family: Montserrat Medium;
+          font-family: 'Courier New', Courier, monospace Medium;
           font-weight: 500;
           font-size: 20px;
           color: rgba(255, 255, 255, 0.6);
         }
     
         .card-value {
-          font-family: Montserrat Bold;
+          font-family: 'Courier New', Courier, monospace Bold;
           font-weight: bold;
           font-size: 24px;
           font-weight: bold;
-          color: #FFFFFF;
+          color: #45f4e8;
+        }
+
+        .cell-name {
+          color: #45f4e8;
         }
       }
     }

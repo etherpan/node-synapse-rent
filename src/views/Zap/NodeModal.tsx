@@ -72,7 +72,6 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
   const handleRegist = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      console.log('debug handleRegist')
       const responseReg = await apiRequest(
         "regist/node",
         {

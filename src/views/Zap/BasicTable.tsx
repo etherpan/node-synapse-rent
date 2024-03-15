@@ -39,12 +39,12 @@ export default function BasicTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>NAME</TableCell>
-            <TableCell align="right">GPU AMOUNT</TableCell>
-            <TableCell align="right">PRICE PER HOUR</TableCell>
-            <TableCell align="right">CREATED AT</TableCell>
-            <TableCell align="right">APPROVED</TableCell>
-            <TableCell align="right">STATUS</TableCell>
+            <TableCell className='cell-name'>NAME</TableCell>
+            <TableCell align="right" className='cell-name'>GPU AMOUNT</TableCell>
+            <TableCell align="right" className='cell-name'>PRICE PER HOUR</TableCell>
+            <TableCell align="right" className='cell-name'>CREATED AT</TableCell>
+            <TableCell align="right" className='cell-name'>APPROVED</TableCell>
+            <TableCell align="right" className='cell-name'>STATUS</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

@@ -1,9 +1,8 @@
 // import { useSelector } from "react-redux";
 // import { IReduxState } from "src/store/slices/state.interface";
 // import { IAccountSlice } from "src/store/slices/account-slice";
-import "src/components/NodeCard/nodecard.scss";
-
-import { Button, Typography, useTheme } from "@mui/material";
+import "src/components/NodeAdminCard/nodecard.scss";
+import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import { SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
 import { messages } from "src/constants/messages";
@@ -75,42 +74,61 @@ function NodeCard({
           {/* {nftImg ? ( */}
           <>
             <div className="div" style={{ display: "" }}>
-              <Typography className="processor">CPU: {node_cpu}</Typography>
-              <Typography className="processor">GPU: {node_gpu}</Typography>
-              <Typography className="processor">GPU capacity: 0 GB / {cpu_capacity} GB</Typography>
-              <Typography className="processor">CPU capacity: 0 GB / {gpu_capacity} GB</Typography>
-              <Typography className="processor">Price: ${node_price} per Hour</Typography>
+              <Typography className="cpu-color">CPU: {node_cpu}</Typography>
+              <Typography className="gradientText">GPU: {node_gpu}</Typography>
+              <Box className="cpu-capacity">
+                <Grid item lg={6} md={6} sm={6} xs={12}>
+                  <Typography className="processor">GPU capacity</Typography>
+                  <Typography className="processor">0 GB / {gpu_capacity} GB</Typography>
+                </Grid>
+                <Grid item lg={6} md={6} sm={6} xs={12}>
+                  <Typography className="processor">CPU</Typography>
+                  <Typography className="processor">0 GB / {cpu_capacity} GB</Typography>
+                </Grid>
+              </Box>
+              <Typography className="price-hour">Price: ${node_price} per Hour</Typography>
             </div>
-            <div className="node-card">
+            <div className="node-button">
               {approve == 1 ? (
                 <>
                   <Button
-                    className="div"
+                    className="approve-state"
                     // onClick={() => validConnectWallet()}
                     variant="text"
-                    style={{ color: "#fff", fontSize: "15px",  background: "#00b12b"}}
+                    style={{ color: "#fff", background: "#00b12b" }}
                   >
                     {`Approved`}
                   </Button>
                   <Button
-                    className="div"
+                    className="approve-state"
                     onClick={() => handleUnRentModalOpen()}
                     variant="contained"
-                    style={{ color: "#fff", borderRadius: "20px", fontSize: "15px" }}
+                    style={{ color: "#fff", borderRadius: "16px"}}
                   >
                     {`Unapprove Node`}
                   </Button>
                 </>
 
               ) : (
-                <Button
-                  className="div"
-                  onClick={() => handleRentModalOpen()}
-                  variant="contained"
-                  style={{ color: "#fff", borderRadius: "20px", fontSize: "15px" }}
-                >
-                  {`Approve Node`}
-                </Button>
+                <>
+                  <Button
+                    className="approve-state"
+                    size="small"
+                    // onClick={() => validConnectWallet()}
+                    variant="text"
+                    style={{ color: "#fff", background: "#c43b3b" }}
+                  >
+                    {`Un approved`}
+                  </Button>
+                  <Button
+                    className="approve-button"
+                    onClick={() => handleRentModalOpen()}
+                    variant="contained"
+                    style={{ color: "#fff", borderRadius: "16px" }}
+                  >
+                    {`Approve Node`}
+                  </Button>
+                </>
               )}
             </div>
           </>

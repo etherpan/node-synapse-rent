@@ -13,7 +13,6 @@ export default async function apiRequest(
   method = "get",
   auth?: Auth,
 ): Promise<any> {
-  console.log('debug debug', path)
   return new Promise(async (resolve, reject) => {
     let header: Record<string, string> = {};
     if (auth && auth.state) {

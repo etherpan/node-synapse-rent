@@ -3,12 +3,13 @@
 // import { IAccountSlice } from "src/store/slices/account-slice";
 import "src/components/NodeCard/nodecard.scss";
 
-import { Button, Typography, useTheme } from "@mui/material";
+import { Button, Grid, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { messages } from "src/constants/messages";
 import RentModal from "src/views/Zap/RentModal";
 import { useAccount, useNetwork } from "wagmi";
+import { Box } from "@mui/system";
 
 interface INodeCardProps {
   node_no: number;
@@ -63,30 +64,27 @@ function NodeCard({
           NodePrice={node_price}
         />
         <div className="card-image">
-          {/* {nftImg ? ( */}
           <>
             <div className="div">
-              <Typography className="processor">{node_cpu}</Typography>
-              <Typography className="processor">{node_gpu}</Typography>
-              <div>
-                <Typography className="processor">GPU</Typography>
-                <Typography className="processor">0 GB / {cpu_capacity}</Typography>
-              </div>
-              <div className="">
-                <Typography className="processor">CPU</Typography>
-                <Typography className="processor">0 GB / {gpu_capacity}</Typography>
-              </div>
-              {/* <Box>
-                  <CloudDownloadOutlinedIcon fontSize="small" /> 110 Mbps<span> / </span>
-                  <CloudUploadOutlinedIcon fontSize="small" /> 110 Mbps
-                </Box> */}
+              <Typography className="cpu-color">{node_cpu}</Typography>
+              <Typography className="gradientText">{node_gpu}</Typography>
+              <Box className="cpu-capacity">
+                <Grid item lg={6} md={6} sm={6} xs={12}>
+                  <Typography className="processor">GPU</Typography>
+                  <Typography className="processor">0 GB / {cpu_capacity}</Typography>
+                </Grid>
+                <Grid item lg={6} md={6} sm={6} xs={12}>
+                  <Typography className="processor">CPU</Typography>
+                  <Grid className="processor">0 GB / {gpu_capacity}</Grid>
+                </Grid>
+              </Box>
             </div>
+            <Typography className="price-hour">${node_price} per Hour</Typography>
             <div className="node-card">
               {/* <div className="node-circular">
                   <div className="centered-text">0%</div>
                   <div style={{ fontSize: "10px" }}>used</div>
                 </div> */}
-              <div className="div">${node_price} per Hour</div>
               {!isConnected ? (
                 <Button
                   className="div"

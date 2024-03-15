@@ -16,7 +16,8 @@ import { NetworkId } from "src/networkDetails";
 import { clearPendingTxn, fetchPendingTxns } from "../../slices/PendingTxnsSlice";
 import { AsyncThunkAction, Dispatch, AnyAction } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-import { NODE_MANAGER } from "src/constants/addresses";
+// import { NODE_MANAGER } from "src/constants/addresses";
+import { NODE_RENT_CONTRACT } from "src/constants";
 import { NftManagerContract__factory, NodeRentContract__factory } from "src/typechain";
 import LoadingIcon from "src/assets/icons/loading.gif";
 
@@ -118,17 +119,16 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
     e.preventDefault();
     setIsLoading(true);
     try {
-      // const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
-      // const contractABI = NodeRentContract__factory.abi;
-      // const contractAddress = "0x46CA1d921f9c92501D582E39f63b0E35027e62ed";
-      // const contract = new ethers.Contract(contractAddress, contractABI, signer);
-      // const nodeEthPricedd = nodeEthPrice.toFixed(5)
-      // const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
-      // const tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
+      const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
+      const contractABI = NodeRentContract__factory.abi;
+      const contractAddress = NODE_RENT_CONTRACT;
+      const contract = new ethers.Contract(contractAddress, contractABI, signer);
+      const nodeEthPricedd = nodeEthPrice.toFixed(5)
+      const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
+      const tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
 
-      // await tx.wait();
-      // console.log('debug responseReg', address, currentNode, formData.buyer_telegram, nodeEthPrice)
-      console.log('debug responseReg =')
+      await tx.wait();
+      
       const responseReg = await apiRequest(
         "regist/submit",
         {

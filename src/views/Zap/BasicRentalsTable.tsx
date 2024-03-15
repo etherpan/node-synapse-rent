@@ -30,27 +30,17 @@ export default function BasicTable() {
   const { address = "", isConnected } = useAccount();
   const totalNodeData = useAppSelector(state => state.accountGallery.items);
   const rows = totalNodeData.filter(node => node.seller_address === address);
-  const currentTime = new Date();
 
-  const timeDifference = currentTime - rows.purchase_date;
 
-  // Convert the difference to the desired unit (assuming unit is in milliseconds)
-  const usedTime = timeDifference / (1000 * 60 * 60 * 24); // Convert milliseconds to days
-
-  // Define the fixed duration (30 units)
-  const fixedDuration = 30;
-
-  // Calculate the remaining time
-  const restTime = fixedDuration - usedTime;
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>NODE</TableCell>
-            <TableCell align="right">USER</TableCell>
-            <TableCell align="right">RENTAL END</TableCell>
-            <TableCell align="right">COST</TableCell>
+            <TableCell className='cell-name'>NODE</TableCell>
+            <TableCell align="right" className='cell-name'>USER</TableCell>
+            <TableCell align="right" className='cell-name'>RENTAL END</TableCell>
+            <TableCell align="right" className='cell-name'>COST</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

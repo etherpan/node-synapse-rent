@@ -25,7 +25,6 @@ function Gallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const gallery = useAppSelector(state => state.gallery.items);
-  console.log('debug gallery', gallery)
 
   const [activeGallery, setActiveGallery] = useState([
     {
@@ -74,7 +73,7 @@ function Gallery() {
       if (parseInt(name[i]) > NUMBER_OF_GALLER_VISIBLE) {
         return;
       }
-      setActiveGallery(gallery.filter(nft => nft.node_price == name[i]));
+      setActiveGallery(gallery.filter(node => node.node_price.toString() == name[i]));
     }
     // const data = await loadIdDetails({ networkID: chainID, provider, id: name });
     // setNfts(name);
@@ -114,18 +113,18 @@ function Gallery() {
     switch (value) {
       case 1:
         setActiveGallery(
-          gallery.slice().sort((a, b) => (a.totalStakedAmount > b.totalStakedAmount ? (desc ? -1 : 1) : desc ? 1 : -1)),
+          gallery.slice().sort((a, b) => (a.node_price > b.node_price ? (desc ? -1 : 1) : desc ? 1 : -1)),
         );
         return;
       case 2:
-        setActiveGallery(gallery.slice().sort((a, b) => (a.id > b.id ? (desc ? -1 : 1) : desc ? 1 : -1)));
+        setActiveGallery(gallery.slice().sort((a, b) => (a.node_no > b.node_no ? (desc ? -1 : 1) : desc ? 1 : -1)));
         return;
       case 3:
-        setActiveGallery(gallery.slice().sort((a, b) => (a.level > b.level ? (desc ? -1 : 1) : desc ? 1 : -1)));
+        setActiveGallery(gallery.slice().sort((a, b) => (a.gpu_capacity > b.cpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
         return;
       case 4:
         setActiveGallery(
-          gallery.slice().sort((a, b) => (a.totalStakers > b.totalStakers ? (desc ? -1 : 1) : desc ? 1 : -1)),
+          gallery.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)),
         );
         return;
     }
