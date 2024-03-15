@@ -22,6 +22,7 @@ export interface IGalleryData {
 }
 
 export interface INodeItem {
+  node_createDate: string;
   node_no: number;
   seller_address: string;
   node_ip: string;
@@ -34,6 +35,7 @@ export interface INodeItem {
   node_usage: any;
   node_price: number;
   approve: number;
+  status: number;
 }
 
 const initialState: IGalleryData = {

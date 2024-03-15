@@ -8,7 +8,7 @@ export const galleryDetails = createAsyncThunk(
   "app/galleryDetails",
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
     const response = await fetch(`${BASEURL}/node/get`);
-    console.log("node/get", response)
+    
     const responseJson = await response.json();
     return {
       loading: false,

@@ -4,6 +4,7 @@ import { trim } from "../../helpers";
 import "./lending.scss";
 // import { Skeleton } from "@material-ui/lab";
 import BasicTable from "../Zap/BasicTable";
+import BasicRentalsTable from "../Zap/BasicRentalsTable";
 import React from "react";
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -30,6 +31,8 @@ const PanelTabs = styled(Tab)({
   },
 });
 
+
+
 function Dashboard() {
   // const history = useHistory();
   // const { chainID } = useWeb3Context();
@@ -40,7 +43,7 @@ function Dashboard() {
   const { address = "", isConnected } = useAccount();
   const purchaseNodeData = useAppSelector(state => state.accountGallery.items);
   const purchaseNode = purchaseNodeData.filter(node => node.seller_address === address)
-  
+
   // const pastPayout = purchaseNode.length * purchaseNode.node_price;
   let pastPayout = 0
   purchaseNode.forEach(purchaseNode => {
@@ -48,11 +51,9 @@ function Dashboard() {
       pastPayout += purchaseNode.purchase;
     }
   })
-  console.log('debug gallerylending', pastPayout)
-
   const approveNodeData = useAppSelector(state => state.gallery.items);
   const approveNode = approveNodeData.filter(node => node.seller_address === address && node.approve === 1);
-  
+
   const totalNodeData = useAppSelector(state => state.adminGallery.items);
   const totalNode = totalNodeData.filter(node => node.seller_address === address);
   let EstimatedPayout = 0;
@@ -63,7 +64,6 @@ function Dashboard() {
   });
 
   const activeEstimatedPayout = EstimatedPayout - pastPayout;
-  console.log('debug activeEstimatedPayout', activeEstimatedPayout);
 
   const [value, setValue] = React.useState('1');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -112,8 +112,12 @@ function Dashboard() {
                     <PanelTabs style={{ textDecoration: "none" }} label="Rentals" value="2" />
                   </TabList>
                 </Box>
-                <TabPanel value="1"><BasicTable /></TabPanel>
-                <TabPanel value="2"><BasicTable /></TabPanel>
+                <TabPanel value="1">
+                  <BasicTable />
+                </TabPanel>
+                <TabPanel value="2">
+                  <BasicRentalsTable />
+                </TabPanel>
               </TabContext>
             </Box>
           </div>

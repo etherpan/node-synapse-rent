@@ -23,6 +23,8 @@ export interface IGalleryData {
 }
 
 export interface INodeItem {
+  purchase_date: string;
+  buyer_info: string;
   purchase: number;
   node_no: number;
   seller_address: string;
@@ -36,6 +38,7 @@ export interface INodeItem {
   node_usage: any;
   node_price: number;
   approve: number;
+  status: number;
 }
 
 const initialState: IGalleryData = {
