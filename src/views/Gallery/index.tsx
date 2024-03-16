@@ -118,7 +118,7 @@ function Gallery() {
         );
         return;
       case 2:
-        setActiveGallery(gallery.slice().sort((a, b) => (a.node_no > b.node_no ? (desc ? -1 : 1) : desc ? 1 : -1)));
+        setActiveGallery(gallery.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
         return;
       case 3:
         setActiveGallery(gallery.slice().sort((a, b) => (a.gpu_capacity > b.cpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));

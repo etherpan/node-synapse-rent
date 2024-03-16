@@ -25,7 +25,7 @@ function Gallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const gallery = useAppSelector(state => state.adminGallery.items);
-  
+
   const [activeGallery, setActiveGallery] = useState([
     {
       node_no: 0,
@@ -117,10 +117,10 @@ function Gallery() {
         );
         return;
       case 2:
-        setActiveGallery(gallery.slice().sort((a, b) => (a.node_no > b.node_no ? (desc ? -1 : 1) : desc ? 1 : -1)));
+        setActiveGallery(gallery.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
         return;
       case 3:
-        setActiveGallery(gallery.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
+        setActiveGallery(gallery.slice().sort((a, b) => (a.node_no > b.node_no ? (desc ? -1 : 1) : desc ? 1 : -1)));
         return;
       case 4:
         setActiveGallery(
@@ -136,11 +136,11 @@ function Gallery() {
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const [numberOfGalleryVisible, setNumberOfGalleryVisible] = useState(9);
-  
+
   const chosenNUMBER_OF_GALLER_VISIBLE = useRef(0);
   const [observerIsSet, setObserverIsSet] = useState(false);
   const chosenGalleryMemoized = activeGallery.slice(0, numberOfGalleryVisible);
-  
+
   chosenNUMBER_OF_GALLER_VISIBLE.current = chosenGalleryMemoized.length;
 
   useEffect(() => {
