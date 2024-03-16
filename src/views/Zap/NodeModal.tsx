@@ -33,12 +33,14 @@ export interface NodeModal {
 }
 
 interface FormData {
+  node_sshname: unknown;
   node_ip: string;
   node_cpu: string;
   node_gpu: string;
   cpu_capacity: string;
   gpu_capacity: string;
-  network_speed?: string;
+  node_speed?: string;
+  node_key: string;
   node_price: string;
   seller_info: string;
 }
@@ -55,6 +57,8 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
     node_gpu: "",
     cpu_capacity: "",
     gpu_capacity: "",
+    node_key: "",
+    node_sshname: "",
     node_price: "",
     seller_info: "",
   });
@@ -69,6 +73,23 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
   };
   auth.state = true;
 
+  const handleRegistration = () => {
+    // Check if any required field is empty
+    if (!formData.node_cpu ||
+      !formData.node_gpu ||
+      !formData.cpu_capacity ||
+      !formData.gpu_capacity ||
+      !formData.node_price ||
+      !formData.seller_info ||
+      !formData.node_ip ||
+      !formData.node_sshname ||
+      !formData.node_key) {
+      toast.error("All fields are required. Please fill in all required fields.");
+    } else {
+      handleRegist;
+    }
+  };
+
   const handleRegist = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -81,6 +102,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
           node_gpu: formData.node_gpu,
           cpu_capacity: formData.cpu_capacity,
           gpu_capacity: formData.gpu_capacity,
+          node_key: formData.node_key,
           node_price: formData.node_price,
           seller_info: formData.seller_info,
         },
@@ -129,15 +151,6 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
       </Box>
       <Box paddingBottom="15px" margin={"25px"}>
         <FormControl fullWidth sx={{ paddingBottom: "10px" }}>
-          <TextField
-            id="node_ip"
-            type="text"
-            placeholder="IP Address: 127.100.90.100"
-            value={formData.node_ip}
-            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
-            onChange={handleChange}
-            required
-          />
           <TextField
             id="node_cpu"
             type="text"
@@ -192,11 +205,38 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required
           />
+          <TextField
+            id="node_ip"
+            type="text"
+            placeholder="IP Address: 127.100.90.100"
+            value={formData.node_ip}
+            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            id="node_sshname"
+            type="string"
+            placeholder="SSH User Name"
+            value={formData.node_sshname}
+            onChange={handleChange}
+            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
+            required
+          />
+          <TextField
+            id="node_key"
+            type="string"
+            placeholder="SSH Private Key ED25519"
+            value={formData.node_key}
+            onChange={handleChange}
+            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
+            required
+          />
           <Box display="flex" justifyContent={"space-between"}>
             <PrimaryButton onClick={handleClose}>
               <Typography fontWeight="500" style={{ color: "#fff" }}>{`Cancel`}</Typography>
             </PrimaryButton>
-            <PrimaryButton onClick={handleRegist}>
+            <PrimaryButton onClick={handleRegistration}>
               <Typography fontWeight="500" style={{ color: "#fff" }}>{`Registration`}</Typography>
             </PrimaryButton>
           </Box>

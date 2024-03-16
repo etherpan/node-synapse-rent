@@ -27,7 +27,7 @@ export const CreateButton = () => {
         setCustomNode={setCustomNode}
         currentNode={customNode}
       />
-      {!isConnected ? (
+      {/* {!isConnected ? (
         <>
           <Link onClick={validConnectWallet}>
             <Box
@@ -87,7 +87,7 @@ export const CreateButton = () => {
             <Button style={{ color: "#fff", fontSize: "15px" }}>{`Add Nodes`}</Button>
           </Box>
         </Link>
-      )}
+      )} */}
     </>
   );
 };
