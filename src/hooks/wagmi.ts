@@ -21,42 +21,43 @@ import BaseETHIcon from "src/assets/icons/base.png";
 
 export const { chains, provider, webSocketProvider } = configureChains(
   [
-    {
-      id: 8453,
-      network: "base",
-      name: "Base",
-      iconUrl: BaseETHIcon,
-      nativeCurrency: { name: "Base", symbol: "ETH", decimals: 18 },
-      rpcUrls: {
-        default: {
-          http: ["https://base.blockpi.network/v1/rpc/public"],
-        },
-        public: {
-          http: ["https://base.blockpi.network/v1/rpc/public"],
-        },
-      },
-      blockExplorers: {
-        blockscout: {
-          name: "Basescout",
-          url: "https://base.blockscout.com",
-        },
-        default: {
-          name: "Basescan",
-          url: "https://basescan.org",
-        },
-        etherscan: {
-          name: "Basescan",
-          url: "https://basescan.org",
-        },
-      },
-      contracts: {
-        multicall3: {
-          address: "0xca11bde05977b3631167028862be2a173976ca11",
-          blockCreated: 5022,
-        },
-      },
-    },
-    goerli,
+    // {
+    //   id: 8453,
+    //   network: "base",
+    //   name: "Base",
+    //   iconUrl: BaseETHIcon,
+    //   nativeCurrency: { name: "Base", symbol: "ETH", decimals: 18 },
+    //   rpcUrls: {
+    //     default: {
+    //       http: ["https://base.blockpi.network/v1/rpc/public"],
+    //     },
+    //     public: {
+    //       http: ["https://base.blockpi.network/v1/rpc/public"],
+    //     },
+    //   },
+    //   blockExplorers: {
+    //     blockscout: {
+    //       name: "Basescout",
+    //       url: "https://base.blockscout.com",
+    //     },
+    //     default: {
+    //       name: "Basescan",
+    //       url: "https://basescan.org",
+    //     },
+    //     etherscan: {
+    //       name: "Basescan",
+    //       url: "https://basescan.org",
+    //     },
+    //   },
+    //   contracts: {
+    //     multicall3: {
+    //       address: "0xca11bde05977b3631167028862be2a173976ca11",
+    //       blockCreated: 5022,
+    //     },
+    //   },
+    // },
+    mainnet,
+    // goerli,
   ],
   [
     // jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) }),

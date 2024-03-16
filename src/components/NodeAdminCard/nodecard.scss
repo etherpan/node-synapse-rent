@@ -8,8 +8,13 @@
   margin: auto;
   border: 1px solid #ffffff1a;
   padding: "24px";
+  height: 100%;
   background: linear-gradient(135deg, rgba(26, 222, 209, 0.042) 35%, rgba(0, 0, 0, 0.209) 100%);
 
+  .field {
+    margin-bottom: 10px;
+  }
+  
   &:hover {
     transition-duration: 1s;
     border: 1.5px solid #00f7ff4d;

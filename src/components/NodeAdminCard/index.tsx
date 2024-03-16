@@ -73,20 +73,20 @@ function NodeCard({
         <div className="card-image">
           {/* {nftImg ? ( */}
           <>
-            <div className="div" style={{ display: "" }}>
-              <Typography className="cpu-color">CPU: {node_cpu}</Typography>
-              <Typography className="gradientText">GPU: {node_gpu}</Typography>
-              <Box className="cpu-capacity">
-                <Grid item lg={6} md={6} sm={6} xs={12}>
-                  <Typography className="processor">GPU capacity</Typography>
-                  <Typography className="processor">0 GB / {gpu_capacity} GB</Typography>
+            <div className="div" style={{ display: "flex", flexDirection: "column" }}>
+              <Typography className="cpu-color field" style={{ marginBottom: "10px" }}>CPU: {node_cpu}</Typography>
+              <Typography className="gradientText field" style={{ marginBottom: "10px" }}>GPU: {node_gpu}</Typography>
+              <Box className="cpu-capacity" style={{ display: "flex", marginBottom: "10px" }}>
+                <Grid item lg={6} md={6} sm={6} xs={12} style={{ marginRight: "10px" }}>
+                  <Typography className="field" style={{ marginBottom: "5px" }}>GPU capacity</Typography>
+                  <Typography className="field" style={{ marginBottom: "5px" }}>0 GB / {gpu_capacity} GB</Typography>
                 </Grid>
                 <Grid item lg={6} md={6} sm={6} xs={12}>
-                  <Typography className="processor">CPU</Typography>
-                  <Typography className="processor">0 GB / {cpu_capacity} GB</Typography>
+                  <Typography className="field" style={{ marginBottom: "5px" }}>CPU</Typography>
+                  <Typography className="field" style={{ marginBottom: "5px" }}>0 GB / {cpu_capacity} GB</Typography>
                 </Grid>
               </Box>
-              <Typography className="price-hour">Price: ${node_price} per Hour</Typography>
+              <Typography className="price-hour" style={{ marginBottom: "10px" }}>Price: ${node_price} per Hour</Typography>
             </div>
             <div className="node-button">
               {approve == 1 ? (
@@ -103,7 +103,7 @@ function NodeCard({
                     className="approve-state"
                     onClick={() => handleUnRentModalOpen()}
                     variant="contained"
-                    style={{ color: "#fff", borderRadius: "16px"}}
+                    style={{ color: "#fff", borderRadius: "16px" }}
                   >
                     {`Unapprove Node`}
                   </Button>

@@ -1,4 +1,4 @@
-import { Box, Dialog, DialogTitle, FormControl, Link, TextField, Typography } from "@mui/material";
+import { Box, Dialog, DialogTitle, FormControl, Grid, Link, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon, PrimaryButton } from "@olympusdao/component-library";
 import { ChangeEvent, FC, FormEvent, SetStateAction, useState } from "react";
@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import { messages } from "src/constants/messages";
 import apiRequest from "src/helpers/connections";
 import { sleep } from "src/helpers/sleep";
+import "./nodemodal.scss";
 import { useAccount } from "wagmi";
 
 const PREFIX = "NodeModal";
@@ -33,16 +34,19 @@ export interface NodeModal {
 }
 
 interface FormData {
-  node_sshname: unknown;
-  node_ip: string;
+  node_name: string;
   node_cpu: string;
   node_gpu: string;
-  cpu_capacity: string;
-  gpu_capacity: string;
-  node_speed?: string;
-  node_key: string;
-  node_price: string;
+  cpu_capacity: number;
+  gpu_capacity: number;
+  node_price: number;
+  node_download: string;
+  node_upload: string;
   seller_info: string;
+  ssh_hostname: string;
+  node_ip: string;
+  ssh_username: string;
+  ssh_key: string;
 }
 
 interface AuthState {
@@ -52,15 +56,19 @@ interface AuthState {
 const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
   const { address = "", isConnected } = useAccount();
   const [formData, setFormData] = useState<FormData>({
-    node_ip: "",
+    node_name: "",
     node_cpu: "",
     node_gpu: "",
-    cpu_capacity: "",
-    gpu_capacity: "",
-    node_key: "",
-    node_sshname: "",
-    node_price: "",
+    cpu_capacity: 0,
+    gpu_capacity: 0,
+    node_price: 0,
+    node_download: "",
+    node_upload: "",
     seller_info: "",
+    ssh_hostname: "",
+    node_ip: "",
+    ssh_username: "",
+    ssh_key: "",
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -73,38 +81,55 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
   };
   auth.state = true;
 
-  const handleRegistration = () => {
+  const handleValidation = () => {
+    toast.error(messages.please_connect_wallet);
+  }
+  
+  const handleRegistration = (e: FormEvent<HTMLFormElement>) => {
     // Check if any required field is empty
-    if (!formData.node_cpu ||
+    if (
+      !formData.node_name ||
+      !formData.node_cpu ||
       !formData.node_gpu ||
-      !formData.cpu_capacity ||
-      !formData.gpu_capacity ||
-      !formData.node_price ||
+      formData.cpu_capacity <= 0.1 ||
+      formData.gpu_capacity <= 0.1 ||
+      formData.node_price < 0.0001 ||
+      !formData.node_download ||
+      !formData.node_upload ||
       !formData.seller_info ||
+      !formData.ssh_hostname ||
       !formData.node_ip ||
-      !formData.node_sshname ||
-      !formData.node_key) {
+      !formData.ssh_username ||
+      !formData.ssh_key) {
       toast.error("All fields are required. Please fill in all required fields.");
     } else {
-      handleRegist;
+      console.log('debug formData===')
+      e.preventDefault();
+      handleRegist(e);
     }
   };
 
   const handleRegist = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('debug formData')
     try {
       const responseReg = await apiRequest(
         "regist/node",
         {
-          seller_address: address,
-          node_ip: formData.node_ip,
+          node_name: formData.node_ip,
           node_cpu: formData.node_cpu,
           node_gpu: formData.node_gpu,
           cpu_capacity: formData.cpu_capacity,
           gpu_capacity: formData.gpu_capacity,
-          node_key: formData.node_key,
           node_price: formData.node_price,
+          node_download: formData.node_download,
+          node_upload: formData.node_upload,
+          seller_address: address,
           seller_info: formData.seller_info,
+          ssh_hostname: formData.ssh_hostname,
+          node_ip: formData.node_ip,
+          ssh_username: formData.ssh_username,
+          ssh_key: formData.ssh_key,
         },
         "POST",
         undefined,
@@ -127,7 +152,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
       onClose={handleClose}
       open={modalOpen}
       fullWidth
-      maxWidth="xs"
+      maxWidth="sm"
       PaperProps={{ sx: { borderRadius: "9px" } }}
     >
       <DialogTitle>
@@ -151,83 +176,162 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
       </Box>
       <Box paddingBottom="15px" margin={"25px"}>
         <FormControl fullWidth sx={{ paddingBottom: "10px" }}>
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            Node Name:
+          </Typography>
+          <TextField
+            id="node_name"
+            type="text"
+            placeholder="Type in a Name of your node"
+            value={formData.node_name}
+            onChange={handleChange}
+            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
+            required
+          />
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            CPU
+          </Typography>
           <TextField
             id="node_cpu"
             type="text"
-            placeholder="CPU: AMD's EPYC 7642 with 48 cores"
+            placeholder="AMD's EPYC 7642 with 48 cores"
             value={formData.node_cpu}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required
           />
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            GPU
+          </Typography>
           <TextField
             id="node_gpu"
             type="text"
-            placeholder="Graphics: NVIDIA A100-SXM4 GPU with 40GB memory"
+            placeholder="NVIDIA A100-SXM4 GPU with 40GB memory"
             value={formData.node_gpu}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required
           />
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            CPU Capacity:
+          </Typography>
           <TextField
             id="cpu_capacity"
             type="number"
-            placeholder="Amount of CPU Usage: 24 GB"
+            placeholder="1 GB / 24 GB"
             value={formData.cpu_capacity}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required
           />
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            GPU Capacity:
+          </Typography>
           <TextField
             id="gpu_capacity"
             type="number"
-            placeholder="Amount of GPU Usage: 366 GB"
+            placeholder="246 GB / 366 GB"
             value={formData.gpu_capacity}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required
           />
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            Price per hour ($):
+          </Typography>
           <TextField
             id="node_price"
             type="number"
-            placeholder="Cost: $1.98 per hour"
+            placeholder="Type in a Price Peer Hour: Min == 0.0001"
             value={formData.node_price}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required
           />
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            Node download speed (Mbps):
+          </Typography>
+          <TextField
+            id="node_download"
+            type="number"
+            placeholder="Type in a Node download Speed: 236"
+            value={formData.node_download}
+            onChange={handleChange}
+            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
+            required
+          />
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            Node upload speed (Mbps):
+          </Typography>
+          <TextField
+            id="node_upload"
+            type="number"
+            placeholder="Type in a Node upload Speed: 356"
+            value={formData.node_upload}
+            onChange={handleChange}
+            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
+            required
+          />
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            Telegram user name:
+          </Typography>
           <TextField
             id="seller_info"
             type="text"
-            placeholder="Telegram Username"
+            placeholder="Type in a Telegaram User Name: @username"
             value={formData.seller_info}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required
           />
+          <Typography id="migration-modal-title" variant="h6" component="h2">
+            SSH Details
+          </Typography>
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            In order to authenticate the configuration and maintain operational integrity of your node, we require the submission of SSH details. This information is essential for verification purposes and to facilitate the allocation of tasks to your node. Please be advised that without these credentials, your node cannot be integrated into our listing and task distribution network.
+          </Typography>
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            SSH Hostname :
+          </Typography>
+          <TextField
+            id="ssh_hostname"
+            type="text"
+            placeholder="Type in a SSH Hostname"
+            value={formData.ssh_hostname}
+            onChange={handleChange}
+            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
+          />
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            IP Address:
+          </Typography>
           <TextField
             id="node_ip"
             type="text"
-            placeholder="IP Address: 127.100.90.100"
+            placeholder="Type in a IP Address: 127.100.90.255"
             value={formData.node_ip}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             onChange={handleChange}
             required
           />
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            SSH Username:
+          </Typography>
           <TextField
-            id="node_sshname"
-            type="string"
-            placeholder="SSH User Name"
-            value={formData.node_sshname}
+            id="ssh_username"
+            type="text"
+            placeholder="Type in a SSH Username"
+            value={formData.ssh_username}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
-            required
           />
+          <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
+            SSH Private Key:
+          </Typography>
           <TextField
-            id="node_key"
-            type="string"
-            placeholder="SSH Private Key ED25519"
-            value={formData.node_key}
+            id="ssh_key"
+            type="text"
+            placeholder="Type in a SSH Private Key ED25519"
+            value={formData.ssh_key}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             required
@@ -236,9 +340,19 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
             <PrimaryButton onClick={handleClose}>
               <Typography fontWeight="500" style={{ color: "#fff" }}>{`Cancel`}</Typography>
             </PrimaryButton>
-            <PrimaryButton onClick={handleRegistration}>
-              <Typography fontWeight="500" style={{ color: "#fff" }}>{`Registration`}</Typography>
-            </PrimaryButton>
+            {address == "" ?
+              <>
+                <PrimaryButton onClick={handleValidation}>
+                  <Typography fontWeight="500" style={{ color: "#fff" }}>{`Registration`}</Typography>
+                </PrimaryButton>
+              </>
+              :
+              <>
+                <PrimaryButton onClick={handleRegistration}>
+                  <Typography fontWeight="500" style={{ color: "#fff" }}>{`Registration`}</Typography>
+                </PrimaryButton>
+              </>
+            }
           </Box>
         </FormControl>
       </Box>

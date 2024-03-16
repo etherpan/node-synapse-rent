@@ -1,4 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { NetworkId } from "src/constants";
 import { OHM_TOKEN } from "src/constants/tokens";
 import { DecimalBigNumber } from "src/helpers/DecimalBigNumber/DecimalBigNumber";
@@ -39,4 +41,32 @@ export const useGohmPrice = () => {
     },
     { enabled: !!ohmPrice && !!currentIndex },
   );
+};
+
+export const EthPrice = () => {
+  const [ethPrice, setEthPrice] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  const fetchEthPrice = async () => {
+    try {
+      const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD', {
+        headers: {
+          Authorization: 'Apikey bff1258846ff3b41d2d8932a685ee9613020f83688d873ff50dc148f005f264a'
+        }
+      });
+      const ethPriceData = response.data.USD;
+      
+      setEthPrice(ethPriceData);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchEthPrice();
+  }, []);
+
+  return ethPrice;
 };

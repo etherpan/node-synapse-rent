@@ -8,6 +8,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useAppSelector } from 'src/hooks';
 import { useAccount } from 'wagmi';
+import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
+import { red } from '@mui/material/colors';
 
 function createData(
   name: string,
@@ -54,16 +56,20 @@ export default function BasicTable() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.node_no}
+                {row.node_name}
               </TableCell>
               <TableCell align="right">{row.gpu_capacity}</TableCell>
               <TableCell align="right">{row.node_price}</TableCell>
               <TableCell align="right">{row.node_createDate.slice(0, -5)}</TableCell>
-              <TableCell align="right">{row.approve}</TableCell>
-              {row.status == 1 ?
-                <TableCell align="right">Rented</TableCell>
+              {row.approve == 1 ?
+                <TableCell align="right"><DoneTwoToneIcon color="success"/></TableCell>
                 :
-                <TableCell align="right">Rest</TableCell>
+                <TableCell align="right"><DoneTwoToneIcon sx={{ color: red[500] }}/></TableCell>
+              }
+              {row.status == 1 ?
+                <TableCell align="right">ONLINE</TableCell>
+                :
+                <TableCell align="right" style={{ color: "#00ff08" }}>ONLINE</TableCell>
               }
             </TableRow>
           ))}

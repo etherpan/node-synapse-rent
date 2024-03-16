@@ -25,6 +25,7 @@ function Gallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const gallery = useAppSelector(state => state.gallery.items);
+  console.log('debug gallery', gallery)
 
   const [activeGallery, setActiveGallery] = useState([
     {

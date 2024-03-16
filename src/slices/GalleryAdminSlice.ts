@@ -22,6 +22,7 @@ export interface IGalleryData {
 }
 
 export interface INodeItem {
+  node_name: string;
   node_createDate: string;
   node_no: number;
   seller_address: string;

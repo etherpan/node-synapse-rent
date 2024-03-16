@@ -63,9 +63,9 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
     buyer_telegram: "",
   });
 
-  const [ethPrice, setEthPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [ethPrice, setEthPrice] = useState(0);
 
   useEffect(() => {
     const fetchEthPrice = async () => {
@@ -207,7 +207,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
                 style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
                 required
               />
-              <div>Price: ${nodeUsdPrice}</div>
+              <div>Price: ${nodeUsdPrice.toFixed(3)} per month</div>
               <TextField
                 id="node_cpu"
                 type="text"

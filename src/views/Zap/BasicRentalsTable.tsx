@@ -31,7 +31,6 @@ export default function BasicTable() {
   const totalNodeData = useAppSelector(state => state.accountGallery.items);
   const rows = totalNodeData.filter(node => node.seller_address === address);
 
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

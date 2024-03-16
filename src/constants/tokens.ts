@@ -12,6 +12,15 @@ export const MILK_TOKEN = new Token({
   purchaseUrl: "",
 });
 
+export const OHM_TOKEN = new Token({
+  icons: ["OHM"],
+  name: "OHM_TOKEN",
+  decimals: 18,
+  addresses: MILK_ADDRESSES,
+  factory: IERC20__factory,
+  purchaseUrl: "",
+});
+
 export const DEFAULD_NETWORK = NetworkId.MAINNET;
 
 export const WETH_TOKEN = new Token({
