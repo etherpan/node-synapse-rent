@@ -56,7 +56,7 @@ interface AuthState {
 
 const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePrice, sellerAddress }) => {
   const { address = "", isConnected } = useAccount();
-  const { chain = { id: 8453 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
   const { data: signer } = useSigner();
   const [formData, setFormData] = useState<FormData>({
@@ -115,7 +115,19 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
   const nodeUsdPrice = NodePrice * 24 * 30;
   const nodeEthPrice = nodeUsdPrice / ethPrice;
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    // Check if any required field is empty
+    if (
+      !formData.buyer_telegram) {
+      toast.error("All fields are required. Please fill in all required fields.");
+    } else {
+      console.log('debug formData===')
+      e.preventDefault();
+      handleRentSubmit(e);
+    }
+  };
+
+  const handleRentSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     try {
@@ -154,9 +166,9 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
     <>
       {isLoading ?
         <div className="gallery-infos-loading">
-          <CircularProgress color="secondary" size={80} />
+          <CircularProgress color="secondary" size={40} />
           <>
-            <img src={LoadingIcon} width={200} height={200} style={{ margin: "auto", marginTop: "100px" }} />
+            <img src={LoadingIcon} width={100} height={100} style={{ margin: "auto", marginTop: "40px", alignSelf: "center" }} />
           </>
         </div>
         :
