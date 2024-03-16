@@ -93,8 +93,8 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
   }, []);
 
   if (isLoading) {
-    return <div>
-      <CircularProgress color="secondary" size={80} />
+    return <div style={{ alignSelf: "center" }}>
+      <CircularProgress color="secondary" size={50} />
     </div>;
   }
 
@@ -166,9 +166,9 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
     <>
       {isLoading ?
         <div className="gallery-infos-loading">
-          <CircularProgress color="secondary" size={40} />
+          {/* <CircularProgress color="secondary" size={40} /> */}
           <>
-            <img src={LoadingIcon} width={100} height={100} style={{ margin: "auto", marginTop: "40px", alignSelf: "center" }} />
+            <img src={LoadingIcon} width={100} height={100} style={{ margin: "auto", marginTop: "40px" }} />
           </>
         </div>
         :

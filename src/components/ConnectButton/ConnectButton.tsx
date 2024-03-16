@@ -92,6 +92,7 @@ export const ConnectButton = () => {
                       borderRadius: "6px",
                       padding: "9px",
                       cursor: "pointer",
+                      border: `1px solid "#fff"`,
                       background: theme.colors.primary[100],
                       "& path": { stroke: `${theme.colors.text}` },
                       "&:hover": {
@@ -150,7 +151,7 @@ export const ConnectButton = () => {
                             padding: `${mobile ? "9px" : "9px 18px"}`,
                             cursor: "pointer",
                             fontWeight: 500,
-                            border: `1px solid ${theme.colors.text}`,
+                            border: `1px solid #f1fafa6b`,
                             "& path": { stroke: `${theme.colors.text}` },
                             "&:hover": {
                               border: `1px solid ${theme.colors.primary[300]}`,
