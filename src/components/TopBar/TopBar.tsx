@@ -79,6 +79,7 @@ function TopBar({ colorTheme, toggleTheme, handleDrawerToggle }: TopBarProps) {
               }
               <NavItem to="/nodes" label={`Nodes`} />
               <NavItem to="/lending" label={`Lending`} />
+              <NavItem href="https://staking.nodesynapse.app/" label={`Staking`} />
               {/* <NavItem to="/leaderboard" label={`Leaderboard`} /> */}
             </>
           )}
