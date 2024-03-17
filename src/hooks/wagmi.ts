@@ -13,7 +13,7 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { Environment } from "src/helpers/environment/Environment/Environment";
 import { configureChains, createClient } from "wagmi";
-import { arbitrum, arbitrumGoerli, avalanche, boba, fantom, goerli, mainnet } from "wagmi/chains";
+import { arbitrum, arbitrumGoerli, avalanche, boba, fantom, goerli, mainnet, bscTestnet } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
@@ -56,7 +56,8 @@ export const { chains, provider, webSocketProvider } = configureChains(
     //     },
     //   },
     // },
-    mainnet,
+    // mainnet,
+    bscTestnet
     // goerli,
   ],
   [
