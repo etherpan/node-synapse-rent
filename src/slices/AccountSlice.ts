@@ -7,7 +7,6 @@ import { IBaseAddressAsyncThunk } from "src/slices/interfaces";
 import { getLevelAndRate, getUserRewardRate } from "src/slices/search-slice";
 import { RootState } from "src/store";
 import { MilkContract__factory, NftManagerContract__factory } from "src/typechain";
-import { getExtraDailyAPRByLevel } from "src/views/NftItem";
 
 interface IUserBalances {
   balances: {
@@ -143,11 +142,7 @@ export const loadAccountDetails = createAsyncThunk(
       const nftStakedAmount = nftData[i % nftCount].amount / Math.pow(10, 18);
       let ownerReward = 0;
       if (users[2 * nftCount + i][0]) {
-        ownerReward =
-          (nftStakedAmount *
-            getExtraDailyAPRByLevel(getLevelAndRate(nftStakedAmount)[0], true) *
-            (Date.now() / 1000 - nftData[i % nftCount].lastProcessingTimestamp)) /
-          8640000;
+        ownerReward = 8640000;
       }
       totalOwnerReward += ownerReward + nftData[i % nftCount].lastReward / Math.pow(10, 18);
       totalPendingReward +=

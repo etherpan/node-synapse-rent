@@ -11,7 +11,6 @@ import apiRequest from "src/helpers/connections";
 import { getValidChainId } from "src/constants/data";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 import { Providers } from "src/helpers/providers/Providers/Providers";
-import { createNode } from "src/slices/NftThunk";
 import { NetworkId } from "src/networkDetails";
 import { clearPendingTxn, fetchPendingTxns } from "../../slices/PendingTxnsSlice";
 import { AsyncThunkAction, Dispatch, AnyAction } from "@reduxjs/toolkit";
@@ -64,7 +63,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
   const [ethPrice, setEthPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   useEffect(() => {
     const fetchEthPrice = async () => {
       try {
@@ -74,7 +73,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
           }
         });
         const ethPriceData = response.data.USD;
-        
+
         setEthPrice(ethPriceData);
         setIsLoading(false);
       } catch (error) {
@@ -110,7 +109,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
 
   const nodeUsdPrice = NodePrice * 24 * 30;
   const nodeEthPrice = nodeUsdPrice / ethPrice;
-  
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -123,7 +122,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
         "POST",
         undefined,
       );
-      
+
       toast.success(messages.tx_successfully_send);
     } catch (error: any) {
       if (error?.info?.error?.status === 422) {
@@ -132,7 +131,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
         toast.error(messages.error_else);
       }
     }
-    
+
     await sleep(1);
     handleClose();
   };
@@ -149,8 +148,8 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
           <Box />
           <Box>
-            <Typography id="migration-modal-title" variant="h6" component="h2" style={{ textAlign: "center"}}>
-            Would you like to approve node-{currentNode}?
+            <Typography id="migration-modal-title" variant="h6" component="h2" style={{ textAlign: "center" }}>
+              Would you like to approve node-{currentNode}?
             </Typography>
           </Box>
           <Link onClick={handleClose} alignItems="center">

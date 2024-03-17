@@ -1,7 +1,7 @@
 // import { useSelector } from "react-redux";
 // import { IReduxState } from "src/store/slices/state.interface";
 // import { IAccountSlice } from "src/store/slices/account-slice";
-import "src/components/NodeCard/nodecard.scss";
+import "./nodecard.scss";
 import { Button, Grid, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -57,7 +57,7 @@ function NodeCard({
 
   return (
     <>
-      <div className="ucow-card">
+      <div className="gallery-card">
         <RentModal
           handleClose={() => setRentModalOpen(false)}
           modalOpen={rentModalOpen}

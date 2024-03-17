@@ -5,10 +5,70 @@
   flex-direction: column;
   overflow: hidden;
 
-  width: 89%;
-  max-width: 1200px;
+  // width: 100%;
+  max-width: 1400px;
   // max-width: 833px;
   margin: auto;
+
+  .dashboard-view {
+    display: flex;
+    align-items: normal;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+
+    width: 95%;
+    // max-width: 833px;
+    margin: auto;
+
+    .dashboard-infos-wrap {
+      border-radius: 20px;
+      
+      .dashboard-card {
+        background: linear-gradient(135deg, rgba(26, 222, 209, 0.042) 35%, rgba(0, 0, 0, 0.209) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        border-radius: 20px;
+
+        position: relative;
+        z-index: 2;
+
+        @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+          // background: rgba(0, 0, 0, 0.2);
+          backdrop-filter: blur(100px);
+        }
+
+        /* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
+        @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+          background: #181B1C;
+        }
+
+        // border-radius: 10px;
+        padding: 13px 0;
+        
+        .card-title {
+          font-family: 'Courier New', Courier, monospace Medium;
+          font-weight: 500;
+          font-size: 20px;
+          color: rgba(255, 255, 255, 0.6);
+        }
+
+        .card-value {
+          font-family: 'Courier New', Courier, monospace Bold;
+          font-weight: bold;
+          font-size: 24px;
+          font-weight: bold;
+          color: #45f4e8;
+        }
+
+        .cell-name {
+          color: #45f4e8;
+        }
+      }
+    }
+  }
 
   .gallery-infos-row {
     display: flex;
@@ -105,6 +165,7 @@
   .gallery-infos-row {
     display: block !important;
     margin-bottom: 30px !important;
+    align-self: center;
   }
 
   .gallery-search-box {

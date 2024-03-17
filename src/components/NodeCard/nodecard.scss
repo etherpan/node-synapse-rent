@@ -1,4 +1,4 @@
-.ucow-card {
+.gallery-card {
   display: flex;
   // align-items: center;
   justify-content: center;
@@ -8,16 +8,18 @@
   margin: auto;
   border: 1px solid #ffffff1a;
   padding: "24px";
+  height: 100%;
   background: linear-gradient(135deg, rgba(26, 222, 209, 0.042) 35%, rgba(0, 0, 0, 0.209) 100%);
+  position: relative;
+  z-index: 2;
+  border-radius: 30px;
+  padding: 24px 12px 18px 24px;
 
   &:hover {
     transition-duration: 1s;
     border: 1.5px solid #00f7ff4d;
 
   }
-
-  position: relative;
-  z-index: 2;
 
   @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
     backdrop-filter: blur(100px);
@@ -28,16 +30,11 @@
   //   background: #181B1C;
   // }
 
-  border-radius: 30px;
-  padding: 24px 12px 18px 24px;
-
   .owner-badge {
     position: fixed;
     left: 32px;
     top: 32px;
   }
-
-  
 
   .opensea-badge {
     position: fixed;

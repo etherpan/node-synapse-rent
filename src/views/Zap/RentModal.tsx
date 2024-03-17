@@ -11,7 +11,6 @@ import apiRequest from "src/helpers/connections";
 import { getValidChainId } from "src/constants/data";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 import { Providers } from "src/helpers/providers/Providers/Providers";
-import { createNode } from "src/slices/NftThunk";
 import { NetworkId } from "src/networkDetails";
 import { clearPendingTxn, fetchPendingTxns } from "../../slices/PendingTxnsSlice";
 import { AsyncThunkAction, Dispatch, AnyAction } from "@reduxjs/toolkit";

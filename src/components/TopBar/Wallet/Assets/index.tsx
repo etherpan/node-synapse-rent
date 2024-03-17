@@ -11,7 +11,7 @@ import { useAppSelector } from "src/hooks";
 // import { useStakingRebaseRate } from "src/hooks/useStakingRebaseRate";
 import { useTestableNetworks } from "src/hooks/useTestableNetworks";
 import { NetworkId } from "src/networkDetails";
-import { claimAll, compoundAll } from "src/slices/NftThunk";
+// import { claimAll, compoundAll } from "src/slices/NftThunk";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 
 const PREFIX = "AssetsIndex";
@@ -97,12 +97,12 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
 
   const onClaimAll = async (swapping: boolean) => {
     // if (await checkWrongNetwork()) return;
-    dispatch(claimAll({ swapping, provider, signer, address, networkID: getValidChainId(chain.id) as NetworkId }));
+    // dispatch(claimAll({ swapping, provider, signer, address, networkID: getValidChainId(chain.id) as NetworkId }));
   };
 
   const onCompoundAll = async () => {
     // if (await checkWrongNetwork()) return;
-    dispatch(compoundAll({ provider, signer, address, networkID: getValidChainId(chain.id) as NetworkId }));
+    // dispatch(compoundAll({ provider, signer, address, networkID: getValidChainId(chain.id) as NetworkId }));
   };
 
   const handleIsSwapChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,11 +128,11 @@ const AssetsIndex: FC<OHMAssetsProps> = (props: { path?: string }) => {
     <StyledFade in={true}>
       <Box>
         <Box display="flex" flexDirection="row" justifyContent="space-between">
-          <WalletBalance
+          {/* <WalletBalance
             title="Balance"
             usdBalance={`$ ${new Intl.NumberFormat("en-US").format(parseFloat(milkBalance * milkPrice))}`}
             underlyingBalance={`${new Intl.NumberFormat("en-US").format(parseFloat(milkBalance))} $MILK`}
-          />
+          /> */}
         </Box>
         <Box
           display={`${isSmallScreen ? "block" : "flex"}`}

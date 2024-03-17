@@ -1,239 +1,183 @@
-import "src/views/AdminGallery/gallery.scss";
-import { Sort } from "@mui/icons-material";
-import {
-  CircularProgress,
-  FormControl,
-  Grid,
-  IconButton,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  useTheme,
-} from "@mui/material";
-import { Box } from "@mui/system";
-import React, { useEffect, useRef, useState } from "react";
-import LoadingIcon from "src/assets/icons/loading.gif";
-import NodeCard from "src/components/NodeCard";
-import NodeAdminCard from "src/components/NodeAdminCard";
-import PageTitle from "src/components/PageTitle";
-import { NUMBER_OF_GALLER_VISIBLE } from "src/constants/data";
+import { useSelector } from "react-redux";
+import { Box, CardContent, Grid, styled } from "@material-ui/core";
+import { trim } from "../../helpers";
+import "./gallery.scss";
+// import { Skeleton } from "@material-ui/lab";
+import AdminGallery from "./adminNodes";
+import BasicRentalsTable from "../Zap/BasicRentalsTable";
+import NodeRentHistory from "./nodesRentHistory";
+import React, { useEffect, useState } from "react";
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 import { useAppSelector } from "src/hooks";
-// import
+import { useAccount } from "wagmi";
+import { FilterDrama } from "@mui/icons-material";
+import PageTitle from "src/components/PageTitle";
+import { Button, Typography } from "@mui/material";
+import NodeModal from "../Zap/NodeModal";
+import toast from "react-hot-toast";
+import { messages } from "src/constants/messages";
+import { PrimaryButton } from "@olympusdao/component-library";
+import axios from "axios";
+// import { IReduxState } from "../../store/slices/state.interface";
+// import { IAppSlice } from "../../store/slices/app-slice";
+// // import { useHistory } from "react-router-dom";
+// import { usePathForNetwork, useWeb3Context } from "../../hooks";
 
-function Gallery() {
-  const theme = useTheme();
-
-  const isAppLoading = useAppSelector(state => state.app.loading);
-  const gallery = useAppSelector(state => state.adminGallery.items);
-
-  const [activeGallery, setActiveGallery] = useState([
-    {
-      node_no: 0,
-      seller_address: "",
-      node_ip: "",
-      node_cpu: "",
-      node_gpu: "",
-      gpu_capacity: 0,
-      cpu_capacity: 0,
-      node_download: 0,
-      node_upload: 0,
-      node_usage: 0,
-      node_price: 0,
-      approve: 0,
-    },
-  ]);
-  const [desc, setDesc] = useState(true);
-
-  useEffect(() => {
-    setActiveGallery(gallery);
-  }, [gallery]);
-
-  const [name, setName] = useState<string[]>([]);
-  const [query, setQuery] = useState<string>("");
-  const [filterQuery, setFilterQuery] = useState<string>("1");
-  const handleQueryChange = (event: SelectChangeEvent) => {
-    setFilterQuery(event.target.value as string);
-    sortGallery(parseInt(event.target.value));
-  };
-
-  const [loading, setLoading] = useState<boolean>(false);
-
-  // const searchAddress = async (name: string) => {
-  //   setLoading(true);
-  //   // const data = loadAccountDetails({ networkID: chainID, provider, address: name });
-  //   setActiveGallery(gallery.filter(nft => nft.owner.toLowerCase() === name.toLowerCase()));
-  //   // setNfts(data.nft);
-  //   // setQuery(name)
-  //   setLoading(false);
-  // };
-
-  const searchID = async (name: string[]) => {
-    setLoading(true);
-    for (let i = 0; i < name.length; i++) {
-      if (parseInt(name[i]) > NUMBER_OF_GALLER_VISIBLE) {
-        return;
-      }
-      setActiveGallery(gallery.filter(node => node.node_price.toString() == name[i]));
-    }
-    // const data = await loadIdDetails({ networkID: chainID, provider, id: name });
-    // setNfts(name);
-    setLoading(false);
-  };
-
-  const isNameArray = (name: string) => {
-    if (!name) return false;
-    if (!name.startsWith("[")) return false;
-    if (!name.endsWith("]")) return false;
-    let content = name.substring(1, name.length - 1);
-    content = content.replace(" ", "");
-    const ids = content.split(",");
-    for (let index = 0; index < ids.length; index++) {
-      const id = ids[index];
-      if (parseInt(id) <= 0 || parseInt(id) > NUMBER_OF_GALLER_VISIBLE * 1) return false;
-    }
-    searchID(ids);
-    setQuery("query");
-    setName([]);
-    return true;
-  };
-
-  const [open, setOpen] = useState(false);
-
-  const [nftId, setNftId] = useState("");
-
-  const handleOpen = (id: string) => {
-    setNftId(id);
-    setOpen(true);
-    if (typeof window !== "undefined") {
-      window.location.href = window.location.origin + "/nftitem?id=" + id;
-    }
-  };
-
-  function sortGallery(value: number) {
-    switch (value) {
-      case 1:
-        setActiveGallery(
-          gallery.slice().sort((a, b) => (a.node_price > b.node_price ? (desc ? -1 : 1) : desc ? 1 : -1)),
-        );
-        return;
-      case 2:
-        setActiveGallery(gallery.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
-        return;
-      case 3:
-        setActiveGallery(gallery.slice().sort((a, b) => (a.node_no > b.node_no ? (desc ? -1 : 1) : desc ? 1 : -1)));
-        return;
-      case 4:
-        setActiveGallery(
-          gallery.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)),
-        );
-        return;
-    }
+const PanelTabs = styled(Tab)({
+  textDecoration: 'none',
+  '& .MuiTabs-indicator': {
+    backgroundColor: '#1890ff',
+  },
+  '&.Mui-selected': {
+    color: '#45f4e8',
+  },
+  border: 'none',
+  '&:hover': {
+    textDecoration: 'none', // Remove underline on hover
+    border: 'none',
+    backgroundColor: 'transparent', // Set background color to none on hover
+  },
+  '&:active': {
+    color: '#3fdbd1',
   }
+});
 
+const SubTabsPanel = styled(TabPanel)({
+  // textDecoration: 'none',
+  // '& .MuiTabs-indicator': {
+  //   backgroundColor: '#1890ff',
+  // },
+  // '&.Mui-selected': {
+  //   color: '#45f4e8',
+  // },
+  // border: 'none',
+  // '&:hover': {
+  //   textDecoration: 'none', // Remove underline on hover
+  //   border: 'none',
+  //   backgroundColor: 'transparent', // Set background color to none on hover
+  // },
+  // '&:active': {
+  //   color: '#3fdbd1',
+  // }
+  '@media (max-width: 600px)': { // Adjust breakpoint as needed
+    padding: '24px 0', // Set padding for mobile view
+  },
+});
+
+function Dashboard() {
+  // const history = useHistory();
+  // const { chainID } = useWeb3Context();
+  // usePathForNetwork({ pathName: "dashboard", networkID: chainID, history });
+
+  // const isAppLoading = useSelector<IReduxState, boolean>(state => state.app.loading);
+  // const app = useSelector<IReduxState, IAppSlice>(state => state.app);
+  const [ethPrice, setEthPrice] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
   useEffect(() => {
-    sortGallery(parseInt(filterQuery));
-  }, [desc, filterQuery, gallery]);
-
-  const loadMoreRef = useRef<HTMLDivElement>(null);
-  const [numberOfGalleryVisible, setNumberOfGalleryVisible] = useState(9);
-
-  const chosenNUMBER_OF_GALLER_VISIBLE = useRef(0);
-  const [observerIsSet, setObserverIsSet] = useState(false);
-  const chosenGalleryMemoized = activeGallery.slice(0, numberOfGalleryVisible);
-
-  chosenNUMBER_OF_GALLER_VISIBLE.current = chosenGalleryMemoized.length;
-
-  useEffect(() => {
-    const showMoreGallery: IntersectionObserverCallback = entries => {
-      const [entry] = entries;
-      if (entry.isIntersecting) {
-        setNumberOfGalleryVisible(farmsCurrentlyVisible => {
-          if (farmsCurrentlyVisible <= chosenNUMBER_OF_GALLER_VISIBLE.current) {
-            return farmsCurrentlyVisible + NUMBER_OF_GALLER_VISIBLE;
+    const fetchEthPrice = async () => {
+      try {
+        const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD', {
+          headers: {
+            Authorization: 'Apikey bff1258846ff3b41d2d8932a685ee9613020f83688d873ff50dc148f005f264a'
           }
-          return farmsCurrentlyVisible;
         });
+        const ethPriceData = response.data.USD;
+        
+        setEthPrice(ethPriceData);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
       }
     };
 
-    if (!observerIsSet) {
-      const loadMoreObserver = new IntersectionObserver(showMoreGallery, {
-        rootMargin: "0px",
-        threshold: 1,
-      });
-      loadMoreObserver.observe(loadMoreRef.current as Element);
-      setObserverIsSet(true);
+    fetchEthPrice();
+
+    // Cleanup function
+    return () => {
+      // Cancel ongoing requests or any cleanup needed
+    };
+  }, []);
+  
+  const { address = "", isConnected } = useAccount();
+  const purchaseNodeData = useAppSelector(state => state.accountGallery.items);
+  const purchaseNode = purchaseNodeData.filter(node => node.seller_address === address)
+
+  // const pastPayout = purchaseNode.length * purchaseNode.node_price;
+  let pastPayout = 0
+  purchaseNode.forEach(purchaseNode => {
+    if (purchaseNode.seller_address === address) {
+      pastPayout += purchaseNode.purchase;
     }
-  }, [observerIsSet]);
+  })
+  const approveNodeData = useAppSelector(state => state.gallery.items);
+  const approveNode = approveNodeData.filter(node => node.seller_address === address && node.approve === 1);
+
+  const totalNodeData = useAppSelector(state => state.adminGallery.items);
+  const totalNode = totalNodeData.filter(node => node.seller_address === address);
+  let EstimatedPayout = 0;
+  totalNodeData.forEach(node => {
+    if (node.seller_address === address && node.approve === 1) {
+      EstimatedPayout += node.node_price;
+    }
+  });
+
+  const activeEstimatedPayout = (EstimatedPayout * 30 * 24) / ethPrice;
+
+  const [value, setValue] = React.useState('1');
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+
+  const [customNode, setCustomNode] = useState<string>("1.0");
+
+  const handleNodeModalOpen = () => setNodeModalOpen(true);
+  const [nodeModalOpen, setNodeModalOpen] = useState(false);
+  const validConnectWallet = () => {
+    if (value === '3' && address == "") {
+      toast.error(messages.please_connect_wallet);
+    }
+    // setValue('1');
+  };
+
+  // useEffect(() => {
+  //   validConnectWallet();
+  // }, [address]);
 
   return (
     <div className="gallery-view">
-      <PageTitle name="Nodes" />
-      <div className="gallery-infos-row">
-        <Box display={"flex"} className="gallery-sort-box">
-          <FormControl>
-            <Select
-              value={filterQuery}
-              onChange={handleQueryChange}
-              placeholder="Filter Options"
-              style={{ color: `${theme.colors.primary[300]}`, marginLeft: "8px", marginRight: "8px", width: "160px" }}
-            >
-              <MenuItem disabled value={0}>
-                <em>Filter Options</em>
-              </MenuItem>
-              <MenuItem value={1}>Filter By Price</MenuItem>
-              <MenuItem value={2}>Filter By GPU</MenuItem>
-              {/* <MenuItem value={3}>Filter By Level</MenuItem>
-              <MenuItem value={4}>Filter By Stakers</MenuItem> */}
-            </Select>
-          </FormControl>
-          <Box>
-            <IconButton onClick={() => setDesc(!desc)}>
-              <Sort style={{ rotate: `${desc ? "270deg" : "90deg"}` }} />
-            </IconButton>
-          </Box>
-        </Box>
-      </div>
-      <div className="gallery-infos-wrap">
-        <div className="gallery-infos-nfts">
-          {loading && (
-            <div className="gallery-infos-loading">
-              <CircularProgress color="secondary" size={80} />
+      <PageTitle name="Admin" />
+      <div className="dashboard-view">
+        <div className="dashboard-infos-wrap" style={{ paddingTop: "30px" }}>
+          <Grid item lg={12} md={12} sm={12} xs={12}>
+            <div className="dashboard-card">
+              <Box sx={{ width: '100%' }}>
+                <TabContext value={value}>
+                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <TabList onChange={handleChange} aria-label="" style={{ paddingLeft: '20px' }}>
+                      <PanelTabs style={{ textDecoration: "none" }} label="Nodes" value="1" />
+                      <PanelTabs style={{ textDecoration: "none" }} label="Rental History" value="2" />
+                    </TabList>
+                  </Box>
+                  <SubTabsPanel value="1">
+                    <AdminGallery />
+                  </SubTabsPanel>
+                  <SubTabsPanel value="2">
+                    <NodeRentHistory />
+                  </SubTabsPanel>
+                </TabContext>
+              </Box>
             </div>
-          )}
-          {!loading && (
-            <Grid container rowSpacing={{ xs: 1, sm: 2, md: 4 }} pr={4}>
-              {chosenGalleryMemoized.length == 0 ? (
-                <>
-                  <img src={LoadingIcon} width={200} height={200} style={{ margin: "auto", marginTop: "100px" }} />
-                </>
-              ) : (
-                chosenGalleryMemoized.map((node, index) => (
-                  <Grid key={index} item xl={4} lg={4} md={6} sm={6} xs={12}>
-                    <NodeAdminCard
-                      node_no={node.node_no}
-                      node_cpu={node.node_cpu}
-                      seller_address={node.seller_address}
-                      node_ip={node.node_ip}
-                      node_gpu={node.node_gpu}
-                      gpu_capacity={node.gpu_capacity}
-                      cpu_capacity={node.cpu_capacity}
-                      node_download={node.node_download}
-                      node_upload={node.node_upload}
-                      node_usage={node.node_usage}
-                      node_price={node.node_price}
-                      approve={node.approve}
-                    />
-                  </Grid>
-                ))
-              )}
-            </Grid>
-          )}
-          <div ref={loadMoreRef} />
+          </Grid>
         </div>
       </div>
     </div>
+
   );
 }
 
-export default Gallery;
+export default Dashboard;

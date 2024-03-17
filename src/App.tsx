@@ -26,7 +26,6 @@ import useTheme from "src/hooks/useTheme";
 import { chains } from "src/hooks/wagmi";
 import { NetworkId } from "src/networkDetails";
 import { getBalances, loadAccountDetails } from "src/slices/AccountSlice";
-import { loadAppDetails } from "src/slices/AppSlice";
 import { galleryDetails } from "src/slices/GallerySlice";
 import { AppDispatch } from "src/store";
 import { dark as darkTheme } from "src/themes/dark.js";
@@ -45,7 +44,6 @@ import { ADMIN_ACCOUNT } from "./constants";
 const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryDashboard"));
 const Lending = lazy(() => import("./views/Lending/Lending"));
 const NotFound = lazy(() => import("./views/404/NotFound"));
-const Mint = lazy(() => import("./views/Mint"));
 const Referral = lazy(() => import("./views/Referral"));
 // const Landing = lazy(() => import("./views/Landing"));
 const Calculator = lazy(() => import("./views/Calculator"));
@@ -68,12 +66,13 @@ const StyledDiv = styled("div")(({ theme }) => ({
     [theme.breakpoints.up("md")]: {
       width: drawerWidth,
       flexShrink: 0,
+      paddiing: 0
     },
   },
 
   [`& .${classes.content}`]: {
     flexGrow: 1,
-    padding: "15px",
+    padding: "0px",
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: transitionDuration,
@@ -98,7 +97,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
   },
 
   [`& .${classes.navItemTitle}`]: {
-    paddingLeft: "32px!important",
+    paddingLeft: "32px !important",
   },
 
   [`& .${classes.navItem}`]: {
@@ -132,7 +131,7 @@ function App() {
   const { address = "", isConnected } = useAccount();
   const { error: errorMessage } = useConnect();
   // @ts-ignore
-  const { chain = { id: 8453 } } = useAccount();
+  const { chain = { id: 1 } } = useAccount();
   const isAdmin = ADMIN_ACCOUNT.includes(address);
 
   // const provider = useProvider();
@@ -161,7 +160,6 @@ function App() {
 
   const loadApp = useCallback(
     (loadProvider: any) => {
-      dispatch(loadAppDetails({ networkID: getValidChainId(chain.id) as NetworkId, provider: loadProvider }));
       dispatch(galleryDetails({ networkID: getValidChainId(chain.id) as NetworkId, provider: loadProvider }));
       dispatch(galleryAdminDetails({ networkID: getValidChainId(chain.id) as NetworkId, provider: loadProvider }));
       dispatch(galleryAccountDetails({ networkID: getValidChainId(chain.id) as NetworkId, provider: loadProvider }));
@@ -260,13 +258,13 @@ function App() {
               <Suspense fallback={<div></div>}>
                 <QueryParamProvider adapter={ReactRouter6Adapter}>
                   <Routes>
-                    <Route path="/" element={<Gallery />} />
-                    {/* <Route path="/mint" element={<Mint />} /> */}
                     {isAdmin &&
                       <Route path="/admin" element={<AdminGallery />} />
                     }
+                    <Route path="/" element={<Gallery />} />
                     <Route path="/nodes" element={<Gallery />} />
                     {address != "" && <Route path="/lending" element={<Lending />} />}
+                    {/* <Route path="/mint" element={<Mint />} /> */}
                     
                     {/* <Route path="/nftItem" element={<NftItem />} /> */}
                     {/* <Route path="/referral" element={<Referral />} />

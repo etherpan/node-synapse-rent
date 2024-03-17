@@ -31,7 +31,7 @@ const MetricsDashboard = () => {
   const hidePaperSidePadding = useMediaQuery(theme.breakpoints.down("md"));
   const { chain = { id: 8453 } } = useNetwork();
   const buyLink = BUY_LINK[getValidChainId(chain.id) as keyof typeof BUY_LINK] + MILK_ADDRESSES[getValidChainId(chain.id) as keyof typeof MILK_ADDRESSES];
-  const unicowContractLink = getScanUrls(getValidChainId(chain.id)) + "/address/" + NODE_MANAGER[getValidChainId(chain.id) as keyof typeof NODE_MANAGER];
+  const nodeContractLink = getScanUrls(getValidChainId(chain.id)) + "/address/" + NODE_MANAGER[getValidChainId(chain.id) as keyof typeof NODE_MANAGER];
   const milkContractLink =
     getScanUrls(getValidChainId(chain.id)) + "/address/" + MILK_ADDRESSES[getValidChainId(chain.id) as keyof typeof MILK_ADDRESSES];
 
@@ -136,7 +136,7 @@ const MetricsDashboard = () => {
                   </Box>
                   <Box className="row">
                     <Typography className="key">Contract Address:</Typography>
-                    <Link href={unicowContractLink} target="_blank" fontSize={18}>
+                    <Link href={nodeContractLink} target="_blank" fontSize={18}>
                       {shorten(NODE_MANAGER[chain.id as keyof typeof MILK_ADDRESSES] ?? NODE_MANAGER[8453])}
                     </Link>
                   </Box>

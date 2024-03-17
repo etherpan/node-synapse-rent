@@ -1,4 +1,4 @@
-.ucow-card {
+.admin-gallery-card {
   display: flex;
   // align-items: center;
   justify-content: center;
@@ -10,6 +10,10 @@
   padding: "24px";
   height: 100%;
   background: linear-gradient(135deg, rgba(26, 222, 209, 0.042) 35%, rgba(0, 0, 0, 0.209) 100%);
+  position: relative;
+  z-index: 2;
+  border-radius: 30px;
+  padding: 24px 12px 18px 24px;
 
   .field {
     margin-bottom: 10px;
@@ -21,20 +25,9 @@
 
   }
 
-  position: relative;
-  z-index: 2;
-
   @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
     backdrop-filter: blur(100px);
   }
-
-  // /* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
-  // @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
-  //   background: #181B1C;
-  // }
-
-  border-radius: 30px;
-  padding: 24px 12px 18px 24px;
 
   .owner-badge {
     position: fixed;
@@ -137,8 +130,6 @@
     }
   }
 
-
-
   .dapp-topbar-btns-wrap {
     display: flex;
     align-items: center;
@@ -233,6 +224,11 @@
 }
 
 @media (max-width: 480px) {
+  .admin-gallery-card {
+    min-width: 240px;
+    padding: 24px 12px 18px 12px;
+  }
+
   .nft-image {
     width: 200px;
   }

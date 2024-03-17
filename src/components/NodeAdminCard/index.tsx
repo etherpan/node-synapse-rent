@@ -1,7 +1,6 @@
 // import { useSelector } from "react-redux";
 // import { IReduxState } from "src/store/slices/state.interface";
 // import { IAccountSlice } from "src/store/slices/account-slice";
-import "src/components/NodeAdminCard/nodecard.scss";
 import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import { SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
@@ -10,6 +9,7 @@ import AdminModal from "src/views/Zap/AdminModal";
 import UnApproveModal from "src/views/Zap/UnApproveModal";
 import { useAccount, useNetwork } from "wagmi";
 import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
+import "./admincard.scss";
 
 interface INodeCardProps {
   node_no: number;
@@ -56,7 +56,7 @@ function NodeCard({
 
   return (
     <>
-      <div className="ucow-card">
+      <div className="admin-gallery-card">
         <AdminModal
           handleClose={() => setRentModalOpen(false)}
           modalOpen={rentModalOpen}
@@ -79,7 +79,7 @@ function NodeCard({
               <Typography className="gradientText field" style={{ marginBottom: "10px" }}>GPU: {node_gpu}</Typography>
               <Box className="cpu-capacity" style={{ display: "flex", marginBottom: "10px" }}>
                 <Grid item lg={6} md={6} sm={6} xs={12} style={{ marginRight: "10px" }}>
-                  <Typography className="field" style={{ marginBottom: "5px" }}>GPU capacity</Typography>
+                  <Typography className="field" style={{ marginBottom: "5px" }}>GPU</Typography>
                   <Typography className="field" style={{ marginBottom: "5px" }}>0 GB / {gpu_capacity} GB</Typography>
                 </Grid>
                 <Grid item lg={6} md={6} sm={6} xs={12}>

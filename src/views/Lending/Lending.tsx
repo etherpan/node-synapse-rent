@@ -131,7 +131,7 @@ function Dashboard() {
   // }, [address]);
 
   return (
-    <div className="gallery-view">
+    <div className="lending-view">
       <PageTitle name="Lending" />
       <div className="dashboard-view">
         <div className="dashboard-infos-wrap">
@@ -222,7 +222,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
-function rgba(arg0: number, arg1: number, arg2: number): string | import("@material-ui/styles").PropsFunc<{}, string | undefined> | undefined {
-  throw new Error("Function not implemented.");
-}
