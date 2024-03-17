@@ -2,7 +2,6 @@
 // import { IReduxState } from "src/store/slices/state.interface";
 // import { IAccountSlice } from "src/store/slices/account-slice";
 import "src/components/NodeCard/nodecard.scss";
-
 import { Button, Grid, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -10,6 +9,10 @@ import { messages } from "src/constants/messages";
 import RentModal from "src/views/Zap/RentModal";
 import { useAccount, useNetwork } from "wagmi";
 import { Box } from "@mui/system";
+import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
 
 interface INodeCardProps {
   node_no: number;
@@ -71,12 +74,18 @@ function NodeCard({
               <Box className="cpu-capacity">
                 <Grid item lg={6} md={6} sm={6} xs={12}>
                   <Typography className="processor">GPU</Typography>
-                  <Typography className="processor">0 GB / {cpu_capacity}</Typography>
+                  <Typography className="processor">0 GB / {cpu_capacity} GB</Typography>
                 </Grid>
                 <Grid item lg={6} md={6} sm={6} xs={12}>
                   <Typography className="processor">CPU</Typography>
-                  <Grid className="processor">0 GB / {gpu_capacity}</Grid>
+                  <Grid className="processor">0 GB / {gpu_capacity} GB</Grid>
                 </Grid>
+              </Box>
+              <Box fontStyle={{ display: "flex" }}>
+                <AiOutlineCloudUpload fontSize={'20px'} />
+                <Typography className="node-speed" style={{ fontSize: "16px", padding: "0 5px 0 5px" }}> {node_download} Mbps / </Typography>
+                <AiOutlineCloudDownload fontSize={'20px'} />
+                <Typography className="Typography" style={{ fontSize: "16px", padding: "0 5px 0 5px" }}>{node_upload} Mbps</Typography>
               </Box>
             </div>
             <Typography className="price-hour">${node_price} per Hour</Typography>

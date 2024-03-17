@@ -9,6 +9,7 @@ import { messages } from "src/constants/messages";
 import AdminModal from "src/views/Zap/AdminModal";
 import UnApproveModal from "src/views/Zap/UnApproveModal";
 import { useAccount, useNetwork } from "wagmi";
+import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
 
 interface INodeCardProps {
   node_no: number;
@@ -85,6 +86,12 @@ function NodeCard({
                   <Typography className="field" style={{ marginBottom: "5px" }}>CPU</Typography>
                   <Typography className="field" style={{ marginBottom: "5px" }}>0 GB / {cpu_capacity} GB</Typography>
                 </Grid>
+              </Box>
+              <Box fontStyle={{ display: "flex" }}>
+                <AiOutlineCloudUpload fontSize={'20px'} />
+                <Typography className="node-speed" style={{ fontSize: "16px", padding: "0 5px 0 5px" }}> {node_download} Mbps / </Typography>
+                <AiOutlineCloudDownload fontSize={'20px'} />
+                <Typography className="Typography" style={{ fontSize: "16px", padding: "0 5px 0 5px" }}>{node_upload} Mbps</Typography>
               </Box>
               <Typography className="price-hour" style={{ marginBottom: "10px" }}>Price: ${node_price} per Hour</Typography>
             </div>

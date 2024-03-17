@@ -37,6 +37,8 @@
     top: 32px;
   }
 
+  
+
   .opensea-badge {
     position: fixed;
     right: 24px;
@@ -60,7 +62,7 @@
   }
 
   .price-hour {
-    padding-bottom: 10px;
+    padding: 10px 0 10px;
   }
   
   .gradientText {
@@ -165,6 +167,10 @@
   .node-card {
     // display: flex;
     text-align: center;
+    .node-speed {
+      font-size: "26px";
+      padding: "0 15px 0 15px";
+    }
   }
 
   .node-circular {
