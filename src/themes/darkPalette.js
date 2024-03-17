@@ -16,7 +16,7 @@ export const darkPalette = {
   },
   gray: {
     700: "#1B1B1Baa",
-    600: "#181818",
+    600: "#32323252",
     500: "#4b519f",
     90: "#8d8fa9",
     40: "#BBBDC0",

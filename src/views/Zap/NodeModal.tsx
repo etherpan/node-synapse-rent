@@ -7,7 +7,6 @@ import { toast } from "react-hot-toast";
 import { messages } from "src/constants/messages";
 import apiRequest from "src/helpers/connections";
 import { sleep } from "src/helpers/sleep";
-import "./nodemodal.scss";
 import { useAccount } from "wagmi";
 
 const PREFIX = "NodeModal";
@@ -152,7 +151,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
       onClose={handleClose}
       open={modalOpen}
       fullWidth
-      maxWidth="sm"
+      maxWidth="md"
       PaperProps={{ sx: { borderRadius: "9px" } }}
     >
       <DialogTitle>
