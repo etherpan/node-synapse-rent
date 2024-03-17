@@ -19,6 +19,7 @@ import NodeModal from "../Zap/NodeModal";
 import toast from "react-hot-toast";
 import { messages } from "src/constants/messages";
 import { PrimaryButton } from "@olympusdao/component-library";
+import axios from "axios";
 // import { IReduxState } from "../../store/slices/state.interface";
 // import { IAppSlice } from "../../store/slices/app-slice";
 // // import { useHistory } from "react-router-dom";
@@ -55,6 +56,35 @@ function Dashboard() {
 
   // const isAppLoading = useSelector<IReduxState, boolean>(state => state.app.loading);
   // const app = useSelector<IReduxState, IAppSlice>(state => state.app);
+  const [ethPrice, setEthPrice] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  useEffect(() => {
+    const fetchEthPrice = async () => {
+      try {
+        const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD', {
+          headers: {
+            Authorization: 'Apikey bff1258846ff3b41d2d8932a685ee9613020f83688d873ff50dc148f005f264a'
+          }
+        });
+        const ethPriceData = response.data.USD;
+        
+        setEthPrice(ethPriceData);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEthPrice();
+
+    // Cleanup function
+    return () => {
+      // Cancel ongoing requests or any cleanup needed
+    };
+  }, []);
+  
   const { address = "", isConnected } = useAccount();
   const purchaseNodeData = useAppSelector(state => state.accountGallery.items);
   const purchaseNode = purchaseNodeData.filter(node => node.seller_address === address)
@@ -73,12 +103,12 @@ function Dashboard() {
   const totalNode = totalNodeData.filter(node => node.seller_address === address);
   let EstimatedPayout = 0;
   totalNodeData.forEach(node => {
-    if (node.seller_address === address && node.approve === 0) {
-        EstimatedPayout += node.node_price;
+    if (node.seller_address === address && node.approve === 1) {
+      EstimatedPayout += node.node_price;
     }
-});
+  });
 
-  const activeEstimatedPayout = (EstimatedPayout * 30 * 24) / 4000;
+  const activeEstimatedPayout = (EstimatedPayout * 30 * 24) / ethPrice;
 
   const [value, setValue] = React.useState('1');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -132,7 +162,7 @@ function Dashboard() {
                 <Grid item xs={12} sm={6}>
                   <CardContent>
                     <div >
-                      <p className="card-value">{activeEstimatedPayout.toFixed(6)} ETH</p>
+                      <p className="card-value">{activeEstimatedPayout ? activeEstimatedPayout.toFixed(6) : "loading"} ETH</p>
                       <p className="card-title">Active Estimated Payout</p>
                     </div>
                   </CardContent>
@@ -176,7 +206,7 @@ function Dashboard() {
                         currentNode={customNode}
                       /> :
                       <>
-                       {validConnectWallet()}
+                        {validConnectWallet()}
                       </>
                     }
                   </TabPanel>

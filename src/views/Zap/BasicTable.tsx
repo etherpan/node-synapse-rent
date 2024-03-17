@@ -59,7 +59,7 @@ export default function BasicTable() {
                 {row.node_name}
               </TableCell>
               <TableCell align="right">{row.gpu_capacity}</TableCell>
-              <TableCell align="right">{row.node_price}</TableCell>
+              <TableCell align="right">$ {row.node_price}</TableCell>
               <TableCell align="right">{row.node_createDate.slice(0, -5)}</TableCell>
               {row.approve == 1 ?
                 <TableCell align="right"><DoneTwoToneIcon color="success"/></TableCell>
