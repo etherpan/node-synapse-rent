@@ -50,11 +50,6 @@ export default function ActiveRentals({ totalNode }: ActiveRentalsProps) {
   
   return (
     <>
-      <EditNodeModal
-        handleClose={() => setNodeModalOpen(false)}
-        modalOpen={nodeModalOpen}
-        currentNode={rows}
-      />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -89,7 +84,6 @@ export default function ActiveRentals({ totalNode }: ActiveRentalsProps) {
                   :
                   <TableCell align="right" style={{ color: "#00ff08" }}>ONLINE</TableCell>
                 }
-                <Button onClick={() => handleNodeModalOpen(row)}>Edit</Button>
               </TableRow>
             ))}
           </TableBody>

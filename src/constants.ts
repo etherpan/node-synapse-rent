@@ -10,6 +10,6 @@ export const ADMIN_ACCOUNT = [
     "0xceE6f12BC467AD780F9d484ad347366B61905962"
 ]
 // export const BASEURL = "http://localhost:3001";
+export const BASEURL = "http://65.21.151.173:3001";
 // export const BASEURL = "https://nodesynapse.app";
 // export const BASEURL = "http://192.168.1.29:3001";
-export const BASEURL = "http://65.21.151.173:3001";

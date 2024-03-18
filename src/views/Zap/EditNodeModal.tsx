@@ -29,10 +29,15 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 export interface NodeModal {
   handleClose: () => void;
   modalOpen: boolean;
-  currentNode: INodeItem[];
+  currentNode: INodeItem;
 }
 
 interface INodeItem {
+  ssh_key: string;
+  ssh_hostname: string;
+  ssh_username: string;
+  seller_info: string;
+  node_name: string;
   node_no: number;
   seller_address: string;
   node_cpu: string;
@@ -69,26 +74,30 @@ interface AuthState {
 }
 
 const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
+  console.log('debug currentNode', currentNode)
   const { address = "", isConnected } = useAccount();
-  const [formData, setFormData] = useState<FormData>({
-    node_name: "",
-    node_cpu: "",
-    node_gpu: "",
-    cpu_capacity: 0,
-    gpu_capacity: 0,
-    node_price: 0,
-    node_download: "",
-    node_upload: "",
-    seller_info: "",
-    ssh_hostname: "",
-    node_ip: "",
-    ssh_username: "",
-    ssh_key: "",
+  const [formData, setCurrentNode] = useState<FormData>({
+    node_name: currentNode.node_name,
+    node_cpu: currentNode.node_cpu,
+    node_gpu: currentNode.node_gpu,
+    cpu_capacity: currentNode.cpu_capacity,
+    gpu_capacity: currentNode.gpu_capacity,
+    node_price: currentNode.node_price,
+    node_download: currentNode.node_download,
+    node_upload: currentNode.node_upload,
+    seller_info: currentNode.seller_info,
+    ssh_hostname: currentNode.ssh_hostname,
+    node_ip: currentNode.node_ip,
+    ssh_username: currentNode.ssh_username,
+    ssh_key: currentNode.ssh_key,
   });
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
-    setFormData({ ...formData, [id]: value });
+    setCurrentNode(prevState => ({
+      ...prevState,
+      [id]: value
+    }));
   };
 
   const auth: { state: boolean } = {
@@ -99,7 +108,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
   const handleValidation = () => {
     toast.error(messages.please_connect_wallet);
   }
-  
+
   const handleRegistration = (e: FormEvent<HTMLFormElement>) => {
     // Check if any required field is empty
     if (
@@ -126,10 +135,12 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
   const handleRegist = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      console.log('debug formdataformdata', formData.node_name)
       const responseReg = await apiRequest(
-        "regist/node",
+        "regist/editnode",
         {
-          node_name: formData.node_ip,
+          node_no: currentNode.node_no,
+          node_name: formData.node_name,
           node_cpu: formData.node_cpu,
           node_gpu: formData.node_gpu,
           cpu_capacity: formData.cpu_capacity,
@@ -173,7 +184,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
           <Box />
           <Box>
             <Typography id="migration-modal-title" variant="h6" component="h2">
-              Node Information
+              Edit Node {currentNode.node_no} Information
             </Typography>
           </Box>
           <Link onClick={handleClose} alignItems="center">
@@ -362,7 +373,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
               :
               <>
                 <PrimaryButton onClick={handleRegistration}>
-                  <Typography fontWeight="500" style={{ color: "#fff" }}>{`Registration`}</Typography>
+                  <Typography fontWeight="500" style={{ color: "#fff" }}>{`Save`}</Typography>
                 </PrimaryButton>
               </>
             }

@@ -55,6 +55,7 @@ const NavContent = () => {
               }
               <NavItem to="/nodes" icon="stake" label={`Nodes`} />
               {address != "" && <NavItem to="/lending" icon="stake" label={`Lending`} />}
+              {address != "" && <NavItem to="/rending" icon="stake" label={`Renting`} />}
               <NavItem href="https://staking.nodesynapse.app/" icon="stake" label={`Staking`} />
               
               {/* <NavItem to="/leaderboard" icon="stake" label={`Leaderboard`} /> */}

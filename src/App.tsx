@@ -43,7 +43,7 @@ import { ADMIN_ACCOUNT } from "./constants";
 // Dynamic Imports for code splitting
 const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryDashboard"));
 const Lending = lazy(() => import("./views/Lending/Lending"));
-const Lenting = lazy(() => import("./views/Lenting/Lenting"));
+const Renting = lazy(() => import("./views/Renting/Renting"));
 const NotFound = lazy(() => import("./views/404/NotFound"));
 const Referral = lazy(() => import("./views/Referral"));
 // const Landing = lazy(() => import("./views/Landing"));
@@ -265,7 +265,7 @@ function App() {
                     <Route path="/" element={<Gallery />} />
                     <Route path="/nodes" element={<Gallery />} />
                     {address != "" && <Route path="/lending" element={<Lending />} />}
-                    {address != "" && <Route path="/lenting" element={<Lenting />} />}
+                    {address != "" && <Route path="/renting" element={<Renting />} />}
                     {/* <Route path="/mint" element={<Mint />} /> */}
                     
                     {/* <Route path="/nftItem" element={<NftItem />} /> */}

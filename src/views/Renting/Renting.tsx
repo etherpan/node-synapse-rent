@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Box, CardContent, Grid, styled } from "@material-ui/core";
 import { trim } from "../../helpers";
-import "./lenting.scss";
+import "./renting.scss";
 // import { Skeleton } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
 import Tab from '@mui/material/Tab';
@@ -112,8 +112,8 @@ function Dashboard() {
   const [nodeModalOpen, setNodeModalOpen] = useState(false);
 
   return (
-    <div className="lenting-view">
-      <PageTitle name="Lenting" />
+    <div className="renting-view">
+      <PageTitle name="Renting" />
       <div className="dashboard-view">
         <div className="dashboard-infos-wrap">
           <Grid item lg={12} md={12} sm={12} xs={12} className="dashboard-card">

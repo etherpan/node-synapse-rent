@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 import { messages } from "src/constants/messages";
 import { PrimaryButton } from "@olympusdao/component-library";
 import axios from "axios";
+import EditNodeModal from "../Zap/EditNodeModal";
 // import { IReduxState } from "../../store/slices/state.interface";
 // import { IAppSlice } from "../../store/slices/app-slice";
 // // import { useHistory } from "react-router-dom";
@@ -59,7 +60,7 @@ function Dashboard() {
   const [ethPrice, setEthPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   useEffect(() => {
     const fetchEthPrice = async () => {
       try {
@@ -69,7 +70,7 @@ function Dashboard() {
           }
         });
         const ethPriceData = response.data.USD;
-        
+
         setEthPrice(ethPriceData);
         setIsLoading(false);
       } catch (error) {
@@ -84,7 +85,7 @@ function Dashboard() {
       // Cancel ongoing requests or any cleanup needed
     };
   }, []);
-  
+
   const { address = "", isConnected } = useAccount();
   const purchaseNodeData = useAppSelector(state => state.accountGallery.items);
   const purchaseNode = purchaseNodeData.filter(node => node.seller_address === address)
@@ -117,102 +118,104 @@ function Dashboard() {
 
   const [customNode, setCustomNode] = useState<string>("1.0");
 
-  const handleNodeModalOpen = () => setNodeModalOpen(true);
-  const [nodeModalOpen, setNodeModalOpen] = useState(false);
   const validConnectWallet = () => {
     if (value === '3' && address == "") {
       toast.error(messages.please_connect_wallet);
     }
   };
 
+  const handleNodeModalOpen = () => setNodeModalOpen(true);
+  const [nodeModalOpen, setNodeModalOpen] = useState(false);
+
   return (
-    <div className="lending-view">
-      <PageTitle name="Lending" />
-      <div className="dashboard-view">
-        <div className="dashboard-infos-wrap">
-          <Grid item lg={12} md={12} sm={12} xs={12} className="dashboard-card">
-            <CardContent>
-              <Grid container>
-                <CardContent>
-                  <Typography>
-                    Embark on your journey of decentralization and take charge by setting up your own node. Here, we guide you through the process of launching and managing your nodes efficiently. Whether you're a seasoned pro or just starting out, our platform makes node management seamless. Let's power up the network – together!
-                  </Typography>
-                </CardContent>
-                <Grid item xs={12} sm={6}>
+    <>
+      <div className="lending-view">
+        <PageTitle name="Lending" />
+        <div className="dashboard-view">
+          <div className="dashboard-infos-wrap">
+            <Grid item lg={12} md={12} sm={12} xs={12} className="dashboard-card">
+              <CardContent>
+                <Grid container>
                   <CardContent>
-                    <div >
-                      <p className="card-value">{approveNode.length}</p>
-                      <p className="card-title">Approved Nodes</p>
-                    </div>
+                    <Typography>
+                      Embark on your journey of decentralization and take charge by setting up your own node. Here, we guide you through the process of launching and managing your nodes efficiently. Whether you're a seasoned pro or just starting out, our platform makes node management seamless. Let's power up the network – together!
+                    </Typography>
                   </CardContent>
+                  <Grid item xs={12} sm={6}>
+                    <CardContent>
+                      <div >
+                        <p className="card-value">{approveNode.length}</p>
+                        <p className="card-title">Approved Nodes</p>
+                      </div>
+                    </CardContent>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <CardContent>
+                      <div >
+                        <p className="card-value">{totalNode.length}</p>
+                        <p className="card-title">Total Nodes</p>
+                      </div>
+                    </CardContent>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <CardContent>
+                      <div >
+                        <p className="card-value">{activeEstimatedPayout ? activeEstimatedPayout.toFixed(6) : "loading"} ETH</p>
+                        <p className="card-title">Active Estimated Payout</p>
+                      </div>
+                    </CardContent>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <CardContent>
+                      <div >
+                        <p className="card-value">{pastPayout.toFixed(6)} ETH</p>
+                        <p className="card-title">Past Payout</p>
+                      </div>
+                    </CardContent>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <CardContent>
-                    <div >
-                      <p className="card-value">{totalNode.length}</p>
-                      <p className="card-title">Total Nodes</p>
-                    </div>
-                  </CardContent>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <CardContent>
-                    <div >
-                      <p className="card-value">{activeEstimatedPayout ? activeEstimatedPayout.toFixed(6) : "loading"} ETH</p>
-                      <p className="card-title">Active Estimated Payout</p>
-                    </div>
-                  </CardContent>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <CardContent>
-                    <div >
-                      <p className="card-value">{pastPayout.toFixed(6)} ETH</p>
-                      <p className="card-title">Past Payout</p>
-                    </div>
-                  </CardContent>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Grid>
-        </div>
-        <div className="dashboard-infos-wrap" style={{ paddingTop: "30px" }}>
-          <Grid item lg={12} md={12} sm={12} xs={12}>
-            <div className="dashboard-card">
-              <Box sx={{ width: '100%' }}>
-                <TabContext value={value}>
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={handleChange} aria-label="" style={{ paddingLeft: '20px' }}>
-                      <PanelTabs style={{ textDecoration: "none" }} label="My Nodes" value="1" />
-                      <PanelTabs style={{ textDecoration: "none" }} label="Rentals" value="2" />
-                      <PanelTabs style={{ textDecoration: "none" }} label="Setup GPU" value="3" onClick={handleNodeModalOpen} />
-                    </TabList>
-                  </Box>
-                  <TabPanel value="1">
-                    <BasicTable />
-                  </TabPanel>
-                  <TabPanel value="2">
-                    <BasicRentalsTable />
-                  </TabPanel>
-                  <TabPanel value="3">
-                    {address != "" ?
-                      <NodeModal
-                        handleClose={() => setNodeModalOpen(false)}
-                        modalOpen={nodeModalOpen}
-                        setCustomNode={setCustomNode}
-                        currentNode={customNode}
-                      /> :
-                      <>
-                        {validConnectWallet()}
-                      </>
-                    }
-                  </TabPanel>
-                </TabContext>
-              </Box>
-            </div>
-          </Grid>
+              </CardContent>
+            </Grid>
+          </div>
+          <div className="dashboard-infos-wrap" style={{ paddingTop: "30px" }}>
+            <Grid item lg={12} md={12} sm={12} xs={12}>
+              <div className="dashboard-card">
+                <Box sx={{ width: '100%' }}>
+                  <TabContext value={value}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                      <TabList onChange={handleChange} aria-label="" style={{ paddingLeft: '20px' }}>
+                        <PanelTabs style={{ textDecoration: "none" }} label="My Nodes" value="1" />
+                        <PanelTabs style={{ textDecoration: "none" }} label="Rentals" value="2" />
+                        <PanelTabs style={{ textDecoration: "none" }} label="Setup GPU" value="3" onClick={handleNodeModalOpen} />
+                      </TabList>
+                    </Box>
+                    <TabPanel value="1">
+                      <BasicTable />
+                    </TabPanel>
+                    <TabPanel value="2">
+                      <BasicRentalsTable />
+                    </TabPanel>
+                    <TabPanel value="3">
+                      {address != "" ?
+                        <NodeModal
+                          handleClose={() => setNodeModalOpen(false)}
+                          modalOpen={nodeModalOpen}
+                          setCustomNode={setCustomNode}
+                          currentNode={customNode}
+                        /> :
+                        <>
+                          {validConnectWallet()}
+                        </>
+                      }
+                    </TabPanel>
+                  </TabContext>
+                </Box>
+              </div>
+            </Grid>
+          </div>
         </div>
       </div>
-    </div>
-
+    </>
   );
 }
 
