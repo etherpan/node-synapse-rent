@@ -127,7 +127,7 @@ function Dashboard() {
                   <Grid item xs={12} sm={6}>
                     <CardContent>
                       <div >
-                        <p className="card-value">{activeEstimatedPayout ? activeEstimatedPayout.toFixed(6) : "loading"} ETH</p>
+                        <p className="card-value">{activeEstimatedPayout.toFixed(6)} ETH</p>
                         <p className="card-title">Active Estimated Payout</p>
                       </div>
                     </CardContent>
