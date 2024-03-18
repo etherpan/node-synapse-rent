@@ -75,7 +75,21 @@ interface AuthState {
 
 const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
   const { address = "", isConnected } = useAccount();
-  const [formData, setCurrentNode] = useState<FormData>({
+  const [formData, setCurrentNode] = useState<FormData>(!currentNode ? {
+    node_name: "",
+    node_cpu: "",
+    node_gpu: "",
+    cpu_capacity: 0,
+    gpu_capacity: 0,
+    node_price: 0,
+    node_download: 0,
+    node_upload: 0,
+    seller_info: "",
+    ssh_hostname: "",
+    node_ip: "",
+    ssh_username: "",
+    ssh_key: "",
+  }:{
     node_name: currentNode.node_name,
     node_cpu: currentNode.node_cpu,
     node_gpu: currentNode.node_gpu,
@@ -182,7 +196,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
           <Box />
           <Box>
             <Typography id="migration-modal-title" variant="h6" component="h2">
-              Edit Node {currentNode.node_no} Information
+              Edit Node {currentNode?currentNode.node_no:0} Information
             </Typography>
           </Box>
           <Link onClick={handleClose} alignItems="center">

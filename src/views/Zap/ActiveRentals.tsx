@@ -41,22 +41,10 @@ interface INodeItem {
 
 const ActiveRentals: React.FC = () => {
   const { address = "", isConnected } = useAccount();
-  const [totalPurchaseData, setData] = React.useState<PurchaseData[] | null>(null);
-  const [error, setError] = useState<any>(null);
-  
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BASEURL}/node/adminpurchase`);
-        setData(response.data.items);
-      } catch (error) {
-        setError(error);
-      }
-    };
 
-    fetchData();
-  }, []);
-  
+
+  const totalPurchaseData = useAppSelector(state => state.adminPurchaseHistory.items);
+
   const rows = totalPurchaseData ? totalPurchaseData.filter(node => node.seller_address === address && node.status === 3) : [];
 
   // const purchaseNodeData = useAppSelector(state => state.)
@@ -79,12 +67,13 @@ const ActiveRentals: React.FC = () => {
 
   const ethPrice = EthPrice();
 
-  const shortenEthereumAddress = (address: string): string => {
-    if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
-      throw new Error("Invalid Ethereum address");
+  function shortenString(str: string, maxLength: number = 10): string {
+    if (str.length <= maxLength) {
+      return str;
     }
-    return `${address.slice(0, 4)}...${address.slice(-4)}`;
-  };
+    const halfLength = Math.floor(maxLength / 2);
+    return `${str.slice(0, halfLength)}...${str.slice(-halfLength)}`;
+  }
 
   return (
     <>
@@ -97,6 +86,8 @@ const ActiveRentals: React.FC = () => {
               <TableCell align="right" className='cell-name'>TIME LEFT</TableCell>
               <TableCell align="right" className='cell-name'>COST</TableCell>
               <TableCell align="right" className='cell-name'>TX</TableCell>
+              <TableCell align="right" className='cell-name'>SSH KEY</TableCell>
+              <TableCell align="right" className='cell-name'>NODE IP</TableCell>
               <TableCell align="right" className='cell-name'>STATUS</TableCell>
             </TableRow>
           </TableHead>
@@ -109,10 +100,13 @@ const ActiveRentals: React.FC = () => {
                 <TableCell component="th" scope="row">
                   {row.node_name}
                 </TableCell>
-                <TableCell align="right">{} 30 days</TableCell>
+                <TableCell align="right">{ } 30 days</TableCell>
                 <TableCell align="right">{(30 - ((new Date()).getTime() - new Date(row.purchase_date).getTime()) / (1000 * 60 * 60 * 24)).toFixed(2)}</TableCell>
-                <TableCell align="right">{row.purchase.toFixed(6) } ETH</TableCell>
-                <TableCell align="right">{row.purchase_tx}</TableCell>
+                <TableCell align="right">{row.purchase.toFixed(6)} ETH</TableCell>
+                <TableCell align="right">{shortenString(row.purchase_tx)}</TableCell>
+                <TableCell align="right">{shortenString(row.ssh_key)}</TableCell>
+                <TableCell align="right">{shortenString(row.node_ip)}</TableCell>
+                {/* <TableCell align="right">{shortenString(row.ssh_username)}</TableCell> */}
                 {row.status == 1 ?
                   <TableCell align="right">ONLINE</TableCell>
                   :

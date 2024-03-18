@@ -21,6 +21,7 @@ import { messages } from "src/constants/messages";
 import { PrimaryButton } from "@olympusdao/component-library";
 import axios from "axios";
 import EditNodeModal from "../Zap/EditNodeModal";
+import { EthPrice } from "src/hooks/usePrices";
 // import { IReduxState } from "../../store/slices/state.interface";
 // import { IAppSlice } from "../../store/slices/app-slice";
 // // import { useHistory } from "react-router-dom";
@@ -51,41 +52,7 @@ const handleValidation = () => {
 }
 
 function Dashboard() {
-  // const history = useHistory();
-  // const { chainID } = useWeb3Context();
-  // usePathForNetwork({ pathName: "dashboard", networkID: chainID, history });
-
-  // const isAppLoading = useSelector<IReduxState, boolean>(state => state.app.loading);
-  // const app = useSelector<IReduxState, IAppSlice>(state => state.app);
-  const [ethPrice, setEthPrice] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchEthPrice = async () => {
-      try {
-        const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD', {
-          headers: {
-            Authorization: 'Apikey bff1258846ff3b41d2d8932a685ee9613020f83688d873ff50dc148f005f264a'
-          }
-        });
-        const ethPriceData = response.data.USD;
-
-        setEthPrice(ethPriceData);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
-    };
-
-    fetchEthPrice();
-
-    // Cleanup function
-    return () => {
-      // Cancel ongoing requests or any cleanup needed
-    };
-  }, []);
-
+  const ethPrice = EthPrice();
   const { address = "", isConnected } = useAccount();
   const purchaseNodeData = useAppSelector(state => state.accountGallery.items);
   const purchaseNode = purchaseNodeData.filter(node => node.seller_address === address)

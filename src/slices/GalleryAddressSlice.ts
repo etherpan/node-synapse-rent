@@ -6,7 +6,7 @@ import { RootState } from "src/store";
 
 export const galleryAccountDetails = createAsyncThunk(
   "app/galleryAccountDetails",
-  async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
+  async () => {
     const response = await fetch(`${BASEURL}/node/getpurchase`);
     
     const responseJson = await response.json();

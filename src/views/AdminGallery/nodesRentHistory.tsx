@@ -29,38 +29,21 @@ export default function BasicTable() {
     approve: number,
     status: number,
   }
-  const [totalPurchaseData, setData] = React.useState<PurchaseData[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<any>(null);
-  
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BASEURL}/node/adminpurchase`);
-        setData(response.data.items);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
 
-    fetchData();
-
-    // Clean-up function
-    return () => {
-      // Any clean-up code here
-    };
-  }, []);
-
+  const totalPurchaseData = useAppSelector(state => state.adminPurchaseHistory.items);
   const [copied, setCopied] = useState(false);
   const [selectedRow, setSelectedRow] = useState<number | null>(null);
 
-  const [copiedRows, setCopiedRows] = useState<boolean[]>(new Array(totalPurchaseData?.length ?? 0).fill(false));
-
-  const copyAddressToClipboard = (address: string, rowIndex: number) => {
+  const [copiedSeller, setCopiedSeller] = useState<boolean[]>(new Array(totalPurchaseData?.length ?? 0).fill(false));
+  const copySellerAddressToClipboard = (address: string, rowIndex: number) => {
     navigator.clipboard.writeText(address);
-    setCopiedRows(prevState => prevState.map((copied, index) => index === rowIndex));
+    setCopiedSeller(prevState => prevState.map((copied, index) => index === rowIndex));
+  };
+
+  const [copiedBuyer, setCopiedBuyer] = useState<boolean[]>(new Array(totalPurchaseData?.length ?? 0).fill(false));
+  const copyBuyerAddressToClipboard = (address: string, rowIndex: number) => {
+    navigator.clipboard.writeText(address);
+    setCopiedBuyer(prevState => prevState.map((copied, index) => index === rowIndex));
   };
 
   const shortenEthereumAddress = (address: string): string => {
@@ -96,19 +79,20 @@ export default function BasicTable() {
               <TableCell align="left">{row.node_createDate.slice(0, -5)}</TableCell>
               <TableCell
                 align="left"
-                onClick={() => copyAddressToClipboard(row.seller_address, index)}
+                onClick={() => copySellerAddressToClipboard(row.seller_address, index)}
                 style={{ cursor: 'pointer' }}
               >
-                {copiedRows[index] ? "Copied!" : shortenEthereumAddress(row.seller_address)}
+                {copiedSeller[index] ? "Copied!" : shortenEthereumAddress(row.seller_address)}
               </TableCell>
               <TableCell align="left">{row.seller_info}</TableCell>
-              {/* <TableCell align="left">{row.buyer_address ? row.buyer_address : "- - -"}</TableCell> */}
               <TableCell
                 align="left"
-                onClick={() => copyAddressToClipboard(row.buyer_address, index)}
+                onClick={() => {
+                  copyBuyerAddressToClipboard(row.buyer_address, index);
+                }}
                 style={{ cursor: 'pointer' }}
               >
-                {copiedRows[index] ? "Copied!" : shortenEthereumAddress(row.buyer_address)}
+                {copiedBuyer[index] ? "Copied!" : shortenEthereumAddress(row.buyer_address)}
               </TableCell>
               <TableCell align="left">{row.buyer_info ? row.buyer_info : "- - -"}</TableCell>
               <TableCell align="left">$ {row.node_price}</TableCell>

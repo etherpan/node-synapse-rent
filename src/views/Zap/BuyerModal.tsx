@@ -12,13 +12,11 @@ import { getValidChainId } from "src/constants/data";
 import { useAccount, useNetwork, useSigner } from "wagmi";
 import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
-import { clearPendingTxn, fetchPendingTxns } from "../../slices/PendingTxnsSlice";
-import { AsyncThunkAction, Dispatch, AnyAction } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
-// import { NODE_MANAGER } from "src/constants/addresses";
-import { NODE_RENT_CONTRACT } from "src/constants";
-import { NftManagerContract__factory, NodeRentContract__factory } from "src/typechain";
 import LoadingIcon from "src/assets/icons/loading.gif";
+import { useAppDispatch } from "src/hooks";
+import { galleryAdminDetails } from "src/slices/GalleryAdminSlice";
+import { galleryDetails } from "src/slices/GallerySlice";
+import { useEthPrice } from "src/helpers/getEthPrice";
 
 const PREFIX = "RentModal";
 const classes = {
@@ -53,6 +51,7 @@ interface AuthState {
 }
 
 const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePrice, sellerAddress }) => {
+  const dispatch = useAppDispatch();
   const { address = "", isConnected } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
@@ -63,32 +62,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [ethPrice, setEthPrice] = useState(0);
-
-  useEffect(() => {
-    const fetchEthPrice = async () => {
-      try {
-        const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD', {
-          headers: {
-            Authorization: 'Apikey bff1258846ff3b41d2d8932a685ee9613020f83688d873ff50dc148f005f264a'
-          }
-        });
-        const ethPriceData = response.data.USD;
-
-        setEthPrice(ethPriceData);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
-    };
-
-    fetchEthPrice();
-
-    // Cleanup function
-    return () => {
-      // Cancel ongoing requests or any cleanup needed
-    };
-  }, []);
+  const ethPrice = useEthPrice();
 
   if (isLoading) {
     return <div style={{ alignSelf: "center" }}>
@@ -136,7 +110,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       // const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
       // const purchase_tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
       // await purchase_tx.wait();
-      const purchase_tx = "ddd"
+      const purchase_tx = "0xdddwefreregdddwefreregdddwefreregdddwefrereg"
       
       const responseReg = await apiRequest(
         "regist/submit",
@@ -153,6 +127,8 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       );
       toast.success(messages.tx_successfully_send);
       setIsLoading(false);
+      dispatch(galleryAdminDetails());
+      dispatch(galleryDetails());
       handleClose();
     } catch (error: any) {
       // toast.error(messages.error_401)

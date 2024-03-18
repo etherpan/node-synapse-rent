@@ -18,6 +18,9 @@ import { useDispatch } from "react-redux";
 import { NODE_MANAGER } from "src/constants/addresses";
 import { NftManagerContract__factory, NodeRentContract__factory } from "src/typechain";
 import { sleep } from "src/helpers/sleep";
+import { galleryAdminDetails } from "src/slices/GalleryAdminSlice";
+import { galleryDetails } from "src/slices/GallerySlice";
+import { useAppDispatch } from "src/hooks";
 
 const PREFIX = "RentModal";
 const classes = {
@@ -52,6 +55,7 @@ interface AuthState {
 }
 
 const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePrice }) => {
+  const dispatch = useAppDispatch();
   const { address = "", isConnected } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
@@ -92,6 +96,9 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       } else {
         toast.error(messages.error_else);
       }
+    } finally {
+      dispatch(galleryAdminDetails());
+      dispatch(galleryDetails());
     }
 
     await sleep(1);
@@ -148,3 +155,4 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
 };
 
 export default RentModal;
+

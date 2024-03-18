@@ -7,6 +7,10 @@ import { toast } from "react-hot-toast";
 import { messages } from "src/constants/messages";
 import apiRequest from "src/helpers/connections";
 import { sleep } from "src/helpers/sleep";
+import { useAppDispatch } from "src/hooks";
+import { galleryAccountDetails } from "src/slices/GalleryAddressSlice";
+import { galleryAdminDetails } from "src/slices/GalleryAdminSlice";
+import { galleryDetails } from "src/slices/GallerySlice";
 import { useAccount } from "wagmi";
 
 const PREFIX = "NodeModal";
@@ -53,6 +57,7 @@ interface AuthState {
 }
 
 const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
+  const dispatch = useAppDispatch();
   const { address = "", isConnected } = useAccount();
   const [formData, setFormData] = useState<FormData>({
     node_name: "",
@@ -140,6 +145,10 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
       } else {
         toast.error(messages.error_else);
       }
+    } finally {
+      dispatch(galleryAdminDetails());
+      dispatch(galleryDetails());
+      dispatch(galleryAccountDetails());
     }
     handleClose();
   };

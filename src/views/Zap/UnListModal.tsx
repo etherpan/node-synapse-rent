@@ -18,6 +18,9 @@ import { useDispatch } from "react-redux";
 import { NODE_MANAGER } from "src/constants/addresses";
 import { NftManagerContract__factory, NodeRentContract__factory } from "src/typechain";
 import { sleep } from "src/helpers/sleep";
+import { useAppDispatch } from "src/hooks";
+import { galleryAdminDetails } from "src/slices/GalleryAdminSlice";
+import { galleryDetails } from "src/slices/GallerySlice";
 
 const PREFIX = "UnListModal";
 const classes = {
@@ -53,6 +56,7 @@ interface AuthState {
 
 const UnListModal: FC<UnListModal> = ({ handleClose, modalOpen, currentNode, NodePrice }) => {
   const { address = "", isConnected } = useAccount();
+  const dispatch = useAppDispatch();
   const { chain = { id: 1 } } = useNetwork();
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
   const { data: signer } = useSigner();
@@ -74,7 +78,7 @@ const UnListModal: FC<UnListModal> = ({ handleClose, modalOpen, currentNode, Nod
         "POST",
         undefined,
       );
-      
+
       toast.success(messages.tx_successfully_send);
     } catch (error: any) {
       if (error?.info?.error?.status === 422) {
@@ -82,8 +86,11 @@ const UnListModal: FC<UnListModal> = ({ handleClose, modalOpen, currentNode, Nod
       } else {
         toast.error(messages.error_else);
       }
+    } finally {
+      dispatch(galleryAdminDetails())
+      dispatch(galleryDetails())
     }
-    
+
     await sleep(1);
     handleClose();
   };
@@ -100,8 +107,8 @@ const UnListModal: FC<UnListModal> = ({ handleClose, modalOpen, currentNode, Nod
         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
           <Box />
           <Box>
-            <Typography id="migration-modal-title" variant="h6" component="h2" style={{ textAlign: "center"}}>
-            Would you like to unrent node-{currentNode}?
+            <Typography id="migration-modal-title" variant="h6" component="h2" style={{ textAlign: "center" }}>
+              Would you like to unrent node-{currentNode}?
             </Typography>
           </Box>
           <Link onClick={handleClose} alignItems="center">
@@ -109,8 +116,7 @@ const UnListModal: FC<UnListModal> = ({ handleClose, modalOpen, currentNode, Nod
           </Link>
         </Box>
       </DialogTitle>
-      <Box paddingBottom="15px" className={classes.root}>
-      </Box>
+      <Box paddingBottom="15px" className={classes.root}></Box>
       <Box paddingBottom="15px" margin={"25px"}>
         <FormControl fullWidth sx={{ paddingBottom: "10px" }}>
           <Box display="flex" justifyContent={"space-between"}>

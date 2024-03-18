@@ -57,6 +57,35 @@ function Renting() {
 
   // const isAppLoading = useSelector<IReduxState, boolean>(state => state.app.loading);
   // const app = useSelector<IReduxState, IAppSlice>(state => state.app);
+  const [ethPrice, setEthPrice] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchEthPrice = async () => {
+      try {
+        const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD', {
+          headers: {
+            Authorization: 'Apikey bff1258846ff3b41d2d8932a685ee9613020f83688d873ff50dc148f005f264a'
+          }
+        });
+        const ethPriceData = response.data.USD;
+
+        setEthPrice(ethPriceData);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEthPrice();
+
+    // Cleanup function
+    return () => {
+      // Cancel ongoing requests or any cleanup needed
+    };
+  }, []);
+
   const { address = "", isConnected } = useAccount();
   
   interface PurchaseData {
@@ -75,6 +104,7 @@ function Renting() {
   }
   
   const [totalPurchaseData, setData] = React.useState<PurchaseData[] | null>(null);
+  const purchaseNodeData = useAppSelector(state => state.adminPurchaseHistory.items);
   
   const [loading, setLoading] = useState(true);
   // const [error, setError] = useState<any>(null);
@@ -99,9 +129,11 @@ function Renting() {
     };
   }, []);
 
-  const totalRentNode = totalPurchaseData ? totalPurchaseData.filter(node => node.seller_address === address) : [];
+  const totalNode = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address && node.status === 3) : [];
 
-  const activeRentNode = totalPurchaseData ? totalPurchaseData.filter(node => node.seller_address === address && node.status === 3) : [];
+  // const totalNodeData = useAppSelector(state => state.accountGallery.items);
+  // console.log('debug totalNodeData', totalNodeData)
+  // const totalNode = totalNodeData.filter(node => node.buyer_address === address && node.status === 3);
 
   const [value, setValue] = React.useState('1');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -129,7 +161,7 @@ function Renting() {
                 <Grid item xs={12} sm={6}>
                   <CardContent>
                     <div >
-                      <p className="card-value">{totalRentNode.length}</p>
+                      <p className="card-value">{totalNode.length}</p>
                       <p className="card-title">Rented Nodes</p>
                     </div>
                   </CardContent>
@@ -137,7 +169,7 @@ function Renting() {
                 <Grid item xs={12} sm={6}>
                   <CardContent>
                     <div >
-                      <p className="card-value">{activeRentNode.length}</p>
+                      <p className="card-value">{totalNode.length}</p>
                       <p className="card-title">Active Rentals</p>
                     </div>
                   </CardContent>

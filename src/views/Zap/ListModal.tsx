@@ -14,10 +14,12 @@ import { Providers } from "src/helpers/providers/Providers/Providers";
 import { NetworkId } from "src/networkDetails";
 import { clearPendingTxn, fetchPendingTxns } from "../../slices/PendingTxnsSlice";
 import { AsyncThunkAction, Dispatch, AnyAction } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
 import { NODE_MANAGER } from "src/constants/addresses";
 import { NftManagerContract__factory, NodeRentContract__factory } from "src/typechain";
 import { sleep } from "src/helpers/sleep";
+import { useAppDispatch } from "src/hooks";
+import { galleryAdminDetails } from "src/slices/GalleryAdminSlice";
+import { galleryDetails } from "src/slices/GallerySlice";
 
 const PREFIX = "RentModal";
 const classes = {
@@ -52,6 +54,7 @@ interface AuthState {
 }
 
 const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePrice }) => {
+  const dispatch = useAppDispatch()
   const { address = "", isConnected } = useAccount();
   const { chain = { id: 8453 } } = useNetwork();
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
@@ -130,6 +133,9 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       } else {
         toast.error(messages.error_else);
       }
+    } finally {
+      dispatch(galleryAdminDetails())
+      dispatch(galleryDetails())
     }
 
     await sleep(1);

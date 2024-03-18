@@ -4,11 +4,11 @@ import { setAll } from "src/helpers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 import { RootState } from "src/store";
 
-export const galleryAccountDetails = createAsyncThunk(
-  "app/galleryAccountDetails",
-  async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
+export const galleryPurchaseDetails = createAsyncThunk(
+  "app/galleryPurchaseDetails",
+  async () => {
     const response = await fetch(`${BASEURL}/node/adminpurchase`);
-    
+    console.log('debug node/adminpurchase`', response)
     const responseJson = await response.json();
     return {
       loading: false,
@@ -23,12 +23,17 @@ export interface IGalleryData {
 }
 
 export interface INodeItem {
-  purchase_date: string;
+  ssh_username(ssh_username: any): import("react").ReactNode;
   buyer_info: string;
-  purchase: number;
+  buyer_address:string;
+  seller_info: string;
+  purchase_tx: string;
+  purchase: any;
+  purchase_date: string | number | Date;
+  node_name: string;
+  node_createDate: string;
   node_no: number;
   seller_address: string;
-  node_ip: string;
   node_cpu: string;
   node_gpu: string;
   gpu_capacity: number;
@@ -39,6 +44,9 @@ export interface INodeItem {
   node_price: number;
   approve: number;
   status: number;
+  ssh_hostname: "";
+  node_ip: "";
+  ssh_key: "";
 }
 
 const initialState: IGalleryData = {
@@ -47,7 +55,7 @@ const initialState: IGalleryData = {
 };
 
 const gallerySlice = createSlice({
-  name: "gallery",
+  name: "galleryAdmin",
   initialState,
   reducers: {
     fetchGallerySuccess(state, action) {
@@ -56,14 +64,14 @@ const gallerySlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(galleryAccountDetails.pending, state => {
+      .addCase(galleryPurchaseDetails.pending, state => {
         state.loading = true;
       })
-      .addCase(galleryAccountDetails.fulfilled, (state, action) => {
+      .addCase(galleryPurchaseDetails.fulfilled, (state, action) => {
         setAll(state, action.payload);
         // state.loading = false;
       })
-      .addCase(galleryAccountDetails.rejected, (state, { error }) => {
+      .addCase(galleryPurchaseDetails.rejected, (state, { error }) => {
         state.loading = false;
         console.error(error.name, error.message, error.stack);
       });

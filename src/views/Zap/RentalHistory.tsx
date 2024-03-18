@@ -6,10 +6,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useAppSelector } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { useAccount } from 'wagmi';
 
 export default function BasicTable() {
+  const dispatch = useAppDispatch();
   const { address = "", isConnected } = useAccount();
   const totalNodeData = useAppSelector(state => state.accountGallery.items);
   const rows = totalNodeData.filter(node => node.seller_address === address);

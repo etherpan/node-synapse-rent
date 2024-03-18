@@ -39,6 +39,7 @@ import { useAccount, useConnect } from "wagmi";
 import { galleryAdminDetails } from "./slices/GalleryAdminSlice";
 import { galleryAccountDetails } from "./slices/GalleryAddressSlice";
 import { ADMIN_ACCOUNT } from "./constants";
+import { galleryPurchaseDetails } from "./slices/PurchaseAdminSlice";
 
 // Dynamic Imports for code splitting
 const TreasuryDashboard = lazy(() => import("./views/TreasuryDashboard/TreasuryDashboard"));
@@ -161,9 +162,10 @@ function App() {
 
   const loadApp = useCallback(
     (loadProvider: any) => {
-      dispatch(galleryDetails({ networkID: getValidChainId(chain.id) as NetworkId, provider: loadProvider }));
-      dispatch(galleryAdminDetails({ networkID: getValidChainId(chain.id) as NetworkId, provider: loadProvider }));
-      dispatch(galleryAccountDetails({ networkID: getValidChainId(chain.id) as NetworkId, provider: loadProvider }));
+      dispatch(galleryDetails());
+      dispatch(galleryAdminDetails());
+      dispatch(galleryAccountDetails());
+      dispatch(galleryPurchaseDetails());
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [chain.id, address],

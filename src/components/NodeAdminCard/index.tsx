@@ -12,6 +12,7 @@ import UnRentModal from "src/views/Zap/UnRentModal";
 import { useAccount, useNetwork } from "wagmi";
 import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
 import "./admincard.scss";
+import { useAppDispatch } from "src/hooks";
 
 interface INodeCardProps {
   node_no: number;
@@ -48,6 +49,7 @@ function NodeCard({
   node_ip,
   ssh_key
 }: INodeCardProps) {
+  const dispatch = useAppDispatch();
   const theme = useTheme();
   const { address = "", isConnected, isReconnecting } = useAccount();
   const { chain = { id: 8453 } } = useNetwork();
