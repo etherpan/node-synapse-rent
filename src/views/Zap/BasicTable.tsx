@@ -10,6 +10,7 @@ import { useAppSelector } from 'src/hooks';
 import { useAccount } from 'wagmi';
 import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
 import { red } from '@mui/material/colors';
+import { Button } from '@mui/material';
 
 function createData(
   name: string,
@@ -62,15 +63,16 @@ export default function BasicTable() {
               <TableCell align="right">$ {row.node_price}</TableCell>
               <TableCell align="right">{row.node_createDate.slice(0, -5)}</TableCell>
               {row.approve == 1 ?
-                <TableCell align="right"><DoneTwoToneIcon color="success"/></TableCell>
+                <TableCell align="right"><DoneTwoToneIcon color="success" /></TableCell>
                 :
-                <TableCell align="right"><DoneTwoToneIcon sx={{ color: red[500] }}/></TableCell>
+                <TableCell align="right"><DoneTwoToneIcon sx={{ color: red[500] }} /></TableCell>
               }
               {row.status == 1 ?
                 <TableCell align="right">ONLINE</TableCell>
                 :
                 <TableCell align="right" style={{ color: "#00ff08" }}>ONLINE</TableCell>
               }
+              <Button>Edit</Button>
             </TableRow>
           ))}
         </TableBody>

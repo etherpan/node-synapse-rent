@@ -5,8 +5,10 @@ import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import { SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
 import { messages } from "src/constants/messages";
-import AdminModal from "src/views/Zap/AdminModal";
-import UnApproveModal from "src/views/Zap/UnApproveModal";
+import ListModal from "src/views/Zap/ListModal";
+import UnListModal from "src/views/Zap/UnListModal";
+import RentModal from "src/views/Zap/RentModal";
+import UnRentModal from "src/views/Zap/UnRentModal";
 import { useAccount, useNetwork } from "wagmi";
 import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
 import "./admincard.scss";
@@ -24,13 +26,15 @@ interface INodeCardProps {
   node_usage?: number;
   node_price: number;
   approve: number;
+  status: number;
+  ssh_hostname: string;
+  ssh_key: string;
 }
 
 function NodeCard({
   node_no,
   node_cpu,
   seller_address,
-  node_ip,
   node_gpu,
   gpu_capacity,
   cpu_capacity,
@@ -39,42 +43,63 @@ function NodeCard({
   node_usage,
   node_price,
   approve,
+  status,
+  ssh_hostname,
+  node_ip,
+  ssh_key
 }: INodeCardProps) {
   const theme = useTheme();
   const { address = "", isConnected, isReconnecting } = useAccount();
   const { chain = { id: 8453 } } = useNetwork();
-
-  const handleRentModalOpen = () => setRentModalOpen(true);
+  // approve List modal
+  const ListModalOpen = () => setListModalOpen(true);
+  const [listModalOpen, setListModalOpen] = useState(false);
+  // unapprove List modal
+  const UnListModalOpen = () => setUnListModalOpen(true);
+  const [unlistModalOpen, setUnListModalOpen] = useState(false);
+  // approve rent modal
+  const RentModalOpen = () => setRentModalOpen(true);
   const [rentModalOpen, setRentModalOpen] = useState(false);
-  // Unapprove Modal statues
-  const handleUnRentModalOpen = () => setUnRentModalOpen(true);
-  const [unrentModalOpen, setUnRentModalOpen] = useState(false);
+  
+  // unapprove rent modal
+  const UnrentModalOpen = () => setUnrentModalOpen(true);
+  const [unrentModalOpen, setUnrentModalOpen] = useState(false);
 
-  function setCustomNode(value: SetStateAction<string>): void {
-    throw new Error("Function not implemented.");
-  }
+  // function setCustomNode(value: SetStateAction<string>): void {
+  //   throw new Error("Function not implemented.");
+  // }
 
   return (
     <>
       <div className="admin-gallery-card">
-        <AdminModal
-          handleClose={() => setRentModalOpen(false)}
-          modalOpen={rentModalOpen}
-          setCustomNode={setCustomNode}
+        <ListModal
+          handleClose={() => setListModalOpen(false)}
+          modalOpen={listModalOpen}
           currentNode={node_no}
           NodePrice={node_price}
         />
-        <UnApproveModal
-          handleClose={() => setUnRentModalOpen(false)}
+        <UnListModal
+          handleClose={() => setUnListModalOpen(false)}
+          modalOpen={unlistModalOpen}
+          currentNode={node_no}
+          NodePrice={node_price}
+        />
+        <RentModal
+          handleClose={() => setRentModalOpen(false)}
+          modalOpen={rentModalOpen}
+          currentNode={node_no}
+          NodePrice={node_price}
+        />
+        <UnRentModal
+          handleClose={() => setUnrentModalOpen(false)}
           modalOpen={unrentModalOpen}
-          setCustomNode={setCustomNode}
           currentNode={node_no}
           NodePrice={node_price}
         />
         <div className="card-image">
-          {/* {nftImg ? ( */}
           <>
             <div className="div" style={{ display: "flex", flexDirection: "column" }}>
+              <Typography className="cpu-color field" style={{ marginBottom: "10px" }}>Node No: {node_no}</Typography>
               <Typography className="cpu-color field" style={{ marginBottom: "10px" }}>CPU: {node_cpu}</Typography>
               <Typography className="gradientText field" style={{ marginBottom: "10px" }}>GPU: {node_gpu}</Typography>
               <Box className="cpu-capacity" style={{ display: "flex", marginBottom: "10px" }}>
@@ -91,9 +116,21 @@ function NodeCard({
                 <AiOutlineCloudUpload fontSize={'20px'} />
                 <Typography className="node-speed" style={{ fontSize: "16px", padding: "0 5px 0 5px" }}> {node_download} Mbps / </Typography>
                 <AiOutlineCloudDownload fontSize={'20px'} />
-                <Typography className="Typography" style={{ fontSize: "16px", padding: "0 5px 0 5px" }}>{node_upload} Mbps</Typography>
+                <Typography className="field-justify" style={{ fontSize: "16px", padding: "0 5px 0 5px" }}>{node_upload} Mbps</Typography>
               </Box>
-              <Typography className="price-hour" style={{ marginBottom: "10px" }}>Price: ${node_price} per Hour</Typography>
+              <Typography className="field-justify" style={{ marginBottom: "10px" }}>Price: ${node_price} per Hour</Typography>
+              <Typography className="field-justify">
+                <div className="div">Host Name: </div>
+                <div className="div">{ssh_hostname}</div>
+              </Typography>
+              <Typography className="field-justify">
+                <div className="div">Node IP: </div>
+                <div className="div">{node_ip}</div>
+              </Typography>
+              <Typography className="field-justify">
+                <div className="div">SSH Key: </div>
+                <div className="div">{ssh_key}</div>
+              </Typography>
             </div>
             <div className="node-button">
               {approve == 1 ? (
@@ -104,18 +141,17 @@ function NodeCard({
                     variant="text"
                     style={{ color: "#fff", background: "#00b12b" }}
                   >
-                    {`Approved`}
+                    {`Listed`}
                   </Button>
                   <Button
                     className="approve-state"
-                    onClick={() => handleUnRentModalOpen()}
+                    onClick={() => UnListModalOpen()}
                     variant="contained"
                     style={{ color: "#fff", borderRadius: "16px" }}
                   >
-                    {`Unapprove Node`}
+                    {`Unapprove list`}
                   </Button>
                 </>
-
               ) : (
                 <>
                   <Button
@@ -125,19 +161,48 @@ function NodeCard({
                     variant="text"
                     style={{ color: "#fff", background: "#c43b3b" }}
                   >
-                    {`Un approved`}
+                    {`Un listed`}
                   </Button>
                   <Button
                     className="approve-button"
-                    onClick={() => handleRentModalOpen()}
+                    onClick={() => ListModalOpen()}
                     variant="contained"
                     style={{ color: "#fff", borderRadius: "16px" }}
                   >
-                    {`Approve Node`}
+                    {`Approve List`}
                   </Button>
                 </>
               )}
             </div>
+            {approve == 1 &&
+              <>
+                <Button className="approve-state" style={{ color: "#fff", background: "#00b12b" }} >
+                  {status == 2 ? "Buy requesting" : (status == 3 ? "Renting" : "Listing")}
+                </Button>
+                <>
+                  {status == 2 ?
+                    <Button
+                      className="approve-button"
+                      onClick={() => RentModalOpen()}
+                      variant="contained"
+                      style={{ color: "#fff", borderRadius: "16px", float: "right" }}
+                    >
+                      {`Approve Rent`}
+                    </Button>
+                    : (status == 3 &&
+                      <Button
+                        className="approve-button"
+                        onClick={() => UnrentModalOpen()}
+                        variant="contained"
+                        style={{ color: "#fff", borderRadius: "16px", float: "right" }}
+                      >
+                        {`Unapprove Rent`}
+                      </Button>
+                    )
+                  }
+                </>
+              </>
+            }
           </>
         </div>
       </div>

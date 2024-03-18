@@ -7,7 +7,7 @@ import { RootState } from "src/store";
 export const galleryAdminDetails = createAsyncThunk(
   "app/galleryAdminDetails",
   async ({ networkID, provider }: IBaseAsyncThunk, { dispatch }) => {
-    console.log('debug galleryAdminSlice')
+    console.log("debug galleryAdminSlice");
     const response = await fetch(`${BASEURL}/node/admingetnode`);
     const responseJson = await response.json();
     return {
@@ -27,7 +27,6 @@ export interface INodeItem {
   node_createDate: string;
   node_no: number;
   seller_address: string;
-  node_ip: string;
   node_cpu: string;
   node_gpu: string;
   gpu_capacity: number;
@@ -38,6 +37,9 @@ export interface INodeItem {
   node_price: number;
   approve: number;
   status: number;
+  ssh_hostname: "";
+  node_ip: "";
+  ssh_key: "";
 }
 
 const initialState: IGalleryData = {

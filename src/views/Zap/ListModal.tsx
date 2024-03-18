@@ -40,7 +40,7 @@ export interface RentModal {
   modalOpen: boolean;
   currentNode: number;
   NodePrice: number;
-  setCustomNode: { (value: SetStateAction<string>): void; (arg0: string): void };
+  // setCustomNode: { (value: SetStateAction<string>): void; (arg0: string): void };
 }
 
 interface FormData {
@@ -149,7 +149,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
           <Box />
           <Box>
             <Typography id="migration-modal-title" variant="h6" component="h2" style={{ textAlign: "center" }}>
-              Would you like to approve node-{currentNode}?
+              Would you like to list node-{currentNode}?
             </Typography>
           </Box>
           <Link onClick={handleClose} alignItems="center">

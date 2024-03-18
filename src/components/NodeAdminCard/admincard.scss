@@ -18,6 +18,12 @@
   .field {
     margin-bottom: 10px;
   }
+
+  .field-justify {
+    justify-content: space-between;
+    display: flex;
+    margin-bottom: 8px;
+  }
   
   &:hover {
     transition-duration: 1s;
@@ -57,10 +63,6 @@
     padding-bottom: 12px;
   }
 
-  .price-hour {
-    padding-bottom: 10px;
-  }
-  
   .gradientText {
     font-size: 24px;
     background: linear-gradient(94deg, rgb(128, 251, 180) 0%, rgb(94, 253, 94) 100%) text;
@@ -166,6 +168,7 @@
   .node-button {
     display: flex;
     justify-content: space-between; 
+    padding-bottom: 10px;
   }
 
   .node-circular {

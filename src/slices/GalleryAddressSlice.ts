@@ -29,7 +29,6 @@ export interface INodeItem {
   purchase: number;
   node_no: number;
   seller_address: string;
-  node_ip: string;
   node_cpu: string;
   node_gpu: string;
   gpu_capacity: number;
@@ -40,6 +39,9 @@ export interface INodeItem {
   node_price: number;
   approve: number;
   status: number;
+  node_ip: string;
+  ssh_hostname: string;
+  ssh_key: string;
 }
 
 const initialState: IGalleryData = {

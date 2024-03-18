@@ -25,12 +25,14 @@ function AdminGallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const gallery = useAppSelector(state => state.adminGallery.items);
+  console.log('debug gallery', gallery)
 
   const [activeGallery, setActiveGallery] = useState([
     {
+      node_name: "",
+      node_createDate: "",
       node_no: 0,
       seller_address: "",
-      node_ip: "",
       node_cpu: "",
       node_gpu: "",
       gpu_capacity: 0,
@@ -40,6 +42,10 @@ function AdminGallery() {
       node_usage: 0,
       node_price: 0,
       approve: 0,
+      status: 0,
+      ssh_hostname: "",
+      node_ip: "",
+      ssh_key: "",
     },
   ]);
   const [desc, setDesc] = useState(true);
@@ -163,7 +169,6 @@ function AdminGallery() {
                       node_no={node.node_no}
                       node_cpu={node.node_cpu}
                       seller_address={node.seller_address}
-                      node_ip={node.node_ip}
                       node_gpu={node.node_gpu}
                       gpu_capacity={node.gpu_capacity}
                       cpu_capacity={node.cpu_capacity}
@@ -172,6 +177,10 @@ function AdminGallery() {
                       node_usage={node.node_usage}
                       node_price={node.node_price}
                       approve={node.approve}
+                      status={node.status}
+                      ssh_hostname={node.ssh_hostname}
+                      node_ip={node.node_ip}
+                      ssh_key={node.ssh_key}
                     />
                   </Grid>
                 ))

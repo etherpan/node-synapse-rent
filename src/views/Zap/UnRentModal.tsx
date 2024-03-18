@@ -44,7 +44,7 @@ export interface RentModal {
 }
 
 interface FormData {
-  rent_sshkey: string;
+  buyer_telegram: string;
 }
 
 interface AuthState {
@@ -57,15 +57,6 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
   const { data: signer } = useSigner();
 
-  const [formData, setFormData] = useState<FormData>({
-    rent_sshkey: "",
-  });
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = event.target;
-    setFormData({ ...formData, [id]: value });
-  };
-
   const auth: { state: boolean } = {
     state: false,
   };
@@ -76,15 +67,14 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
 
     try {
       const responseReg = await apiRequest(
-        "regist/approverent",
+        "regist/unapproveRent",
         {
           currentNode: currentNode,
-          rent_sshkey: formData.rent_sshkey,
         },
         "POST",
         undefined,
       );
-
+      
       toast.success(messages.tx_successfully_send);
     } catch (error: any) {
       if (error?.info?.error?.status === 422) {
@@ -93,7 +83,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
         toast.error(messages.error_else);
       }
     }
-
+    
     await sleep(1);
     handleClose();
   };
@@ -110,8 +100,8 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
           <Box />
           <Box>
-            <Typography id="migration-modal-title" variant="h6" component="h2" style={{ textAlign: "center" }}>
-              Would you like to rent node-{currentNode}?
+            <Typography id="migration-modal-title" variant="h6" component="h2" style={{ textAlign: "center"}}>
+            Would you like to unrent node-{currentNode}?
             </Typography>
           </Box>
           <Link onClick={handleClose} alignItems="center">
@@ -123,22 +113,12 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       </Box>
       <Box paddingBottom="15px" margin={"25px"}>
         <FormControl fullWidth sx={{ paddingBottom: "10px" }}>
-          <Typography>New SSK</Typography>
-          <TextField
-            id="rent_sshkey"
-            type="text"
-            placeholder="Type a new ssk for rent"
-            // value={"Node " + currentNode}
-            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
-            onChange={handleChange}
-            required
-          />
           <Box display="flex" justifyContent={"space-between"}>
             <PrimaryButton onClick={handleClose}>
               <Typography fontWeight="500" style={{ color: "#fff" }}>{`Cancel`}</Typography>
             </PrimaryButton>
             <PrimaryButton onClick={handleSubmit}>
-              <Typography fontWeight="500" style={{ color: "#fff" }}>{`Approve`}</Typography>
+              <Typography fontWeight="500" style={{ color: "#fff" }}>{`UnApprove`}</Typography>
             </PrimaryButton>
           </Box>
         </FormControl>

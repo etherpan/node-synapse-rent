@@ -118,16 +118,6 @@ function Dashboard() {
 
   const handleNodeModalOpen = () => setNodeModalOpen(true);
   const [nodeModalOpen, setNodeModalOpen] = useState(false);
-  const validConnectWallet = () => {
-    if (value === '3' && address == "") {
-      toast.error(messages.please_connect_wallet);
-    }
-    // setValue('1');
-  };
-
-  // useEffect(() => {
-  //   validConnectWallet();
-  // }, [address]);
 
   return (
     <div className="lenting-view">

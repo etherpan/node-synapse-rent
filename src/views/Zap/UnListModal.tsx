@@ -40,7 +40,7 @@ export interface RentModal {
   modalOpen: boolean;
   currentNode: number;
   NodePrice: number;
-  setCustomNode: { (value: SetStateAction<string>): void; (arg0: string): void };
+  // setCustomNode: { (value: SetStateAction<string>): void; (arg0: string): void };
 }
 
 interface FormData {
@@ -53,69 +53,21 @@ interface AuthState {
 
 const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePrice }) => {
   const { address = "", isConnected } = useAccount();
-  const { chain = { id: 8453 } } = useNetwork();
+  const { chain = { id: 1 } } = useNetwork();
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
   const { data: signer } = useSigner();
-  const [formData, setFormData] = useState<FormData>({
-    buyer_telegram: "",
-  });
-
-  const [ethPrice, setEthPrice] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  
-  useEffect(() => {
-    const fetchEthPrice = async () => {
-      try {
-        const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD', {
-          headers: {
-            Authorization: 'Apikey bff1258846ff3b41d2d8932a685ee9613020f83688d873ff50dc148f005f264a'
-          }
-        });
-        const ethPriceData = response.data.USD;
-        
-        setEthPrice(ethPriceData);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
-    };
-
-    fetchEthPrice();
-
-    // Cleanup function
-    return () => {
-      // Cancel ongoing requests or any cleanup needed
-    };
-  }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = event.target;
-    setFormData({ ...formData, [id]: value });
-  };
 
   const auth: { state: boolean } = {
     state: false,
   };
   auth.state = true;
 
-  const nodeUsdPrice = NodePrice * 24 * 30;
-  const nodeEthPrice = nodeUsdPrice / ethPrice;
-  
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       const responseReg = await apiRequest(
-        "regist/unapprove",
+        "regist/unapproveRent",
         {
           currentNode: currentNode,
         },
@@ -149,7 +101,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
           <Box />
           <Box>
             <Typography id="migration-modal-title" variant="h6" component="h2" style={{ textAlign: "center"}}>
-            Would you like to approve node-{currentNode}?
+            Would you like to unrent node-{currentNode}?
             </Typography>
           </Box>
           <Link onClick={handleClose} alignItems="center">
@@ -158,41 +110,9 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
         </Box>
       </DialogTitle>
       <Box paddingBottom="15px" className={classes.root}>
-        {/* <Typography color="textSecondary">
-          Submit a request and our team will get back to you shortly. For more information please join{" "}
-          <span style={{ color: "#1aded1" }}>@nodesnapes</span> on telegram
-        </Typography> */}
       </Box>
       <Box paddingBottom="15px" margin={"25px"}>
         <FormControl fullWidth sx={{ paddingBottom: "10px" }}>
-          {/* <TextField
-            id="node_ip"
-            type="text"
-            placeholder="IP Address: 127.100.90.100"
-            value={"Node " + currentNode}
-            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
-            onChange={handleChange}
-            required
-          />
-          <TextField
-            id="buyer_telegram"
-            type="text"
-            placeholder="Telegram Username"
-            value={formData.buyer_telegram}
-            onChange={handleChange}
-            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
-            required
-          />
-          <div>Price: ${nodeUsdPrice}</div>
-          <TextField
-            id="node_cpu"
-            type="text"
-            placeholder="Telegram Username"
-            value={parseFloat(nodeEthPrice.toFixed(5)) + " ETH"}
-            onChange={handleChange}
-            style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
-            required
-          /> */}
           <Box display="flex" justifyContent={"space-between"}>
             <PrimaryButton onClick={handleClose}>
               <Typography fontWeight="500" style={{ color: "#fff" }}>{`Cancel`}</Typography>

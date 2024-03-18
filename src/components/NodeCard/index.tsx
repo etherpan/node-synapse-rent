@@ -6,7 +6,7 @@ import { Button, Grid, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { messages } from "src/constants/messages";
-import RentModal from "src/views/Zap/RentModal";
+import BuyerModal from "src/views/Zap/BuyerModal";
 import { useAccount, useNetwork } from "wagmi";
 import { Box } from "@mui/system";
 import CloudDownloadOutlinedIcon from '@mui/icons-material/CloudDownloadOutlined';
@@ -58,14 +58,12 @@ function NodeCard({
   return (
     <>
       <div className="gallery-card">
-        <RentModal
+        <BuyerModal
           handleClose={() => setRentModalOpen(false)}
           modalOpen={rentModalOpen}
-          setCustomNode={setCustomNode}
           currentNode={node_no}
-          sellerAddress={seller_address}
-          NodePrice={node_price}
-        />
+          NodePrice={node_price} 
+          seller_address={seller_address}/>
         <div className="card-image">
           <>
             <div className="div">

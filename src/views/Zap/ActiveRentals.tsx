@@ -10,31 +10,56 @@ import { useAppSelector } from 'src/hooks';
 import { useAccount } from 'wagmi';
 import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
 import { red } from '@mui/material/colors';
-
-function createData(
-  name: string,
-  gpu: number,
-  pricePerHour: number,
-  createdAt: string,
-  approved: number,
-  status: number,
-) {
-  return { name, gpu, pricePerHour, createdAt, approved, status };
-}
-
-
-// const rows = [
-//   createData('Frozen yoghurt', 159, 6.0, '24', 4.0, 2),
-//   createData('Ice cream sandwich', 237, 9.0, '37', 4.3, 3),
-//   createData('Eclair', 262, 16.0, '24', 6.0, 3),
-//   createData('Cupcake', 305, 3.7, '67', 4.3, 4),
-//   createData('Gingerbread', 356, 16.0, '49', 3.9, 55),
-// ];
+import { Button } from '@mui/material';
+import axios from 'axios';
+import { BASEURL } from 'src/constants';
 
 export default function BasicTable() {
   const { address = "", isConnected } = useAccount();
   const totalNodeData = useAppSelector(state => state.adminGallery.items);
-  const rows = totalNodeData.filter(node => node.seller_address === address);
+  console.log('debug lenting data', totalNodeData)
+  // const rows = totalNodeData.filter(node => node.seller_address === address);
+
+  // const purchaseNodeData = useAppSelector(state => state.)
+  interface PurchaseData {
+    purchase: string;
+    seller_info: string;
+    seller_address: string;
+    buyer_address: string,
+    buyer_info: string,
+    node_name: string;
+    node_no: string,
+    gpu_capacity: number,
+    node_price: number,
+    node_createDate: string,
+    approve: number,
+    status: number,
+  }
+  const [totalPurchaseData, setData] = React.useState<PurchaseData[] | null>(null);
+  const rows = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address) : [];
+  console.log('debug totalPurchaseData', totalPurchaseData)
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BASEURL}/node/adminpurchase`);
+        setData(response.data.items);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
+    // Clean-up function
+    return () => {
+      // Any clean-up code here
+    };
+  }, []);
 
   return (
     <TableContainer component={Paper}>
