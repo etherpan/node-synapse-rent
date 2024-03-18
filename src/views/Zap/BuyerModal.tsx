@@ -128,15 +128,15 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
     e.preventDefault();
     setIsLoading(true);
     try {
-      const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
-      const contractABI = NodeRentContract__factory.abi;
-      const contractAddress = NODE_RENT_CONTRACT;
-      const contract = new ethers.Contract(contractAddress, contractABI, signer);
-      const nodeEthPricedd = nodeEthPrice.toFixed(5)
-      const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
-      const tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
-
-      await tx.wait();
+      // const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
+      // const contractABI = NodeRentContract__factory.abi;
+      // const contractAddress = NODE_RENT_CONTRACT;
+      // const contract = new ethers.Contract(contractAddress, contractABI, signer);
+      // const nodeEthPricedd = nodeEthPrice.toFixed(5)
+      // const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
+      // const purchase_tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
+      // await purchase_tx.wait();
+      const purchase_tx = "ddd"
       
       const responseReg = await apiRequest(
         "regist/submit",
@@ -146,6 +146,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
           buyer_telegram: formData.buyer_telegram,
           buyer_address: address,
           nodeEthPurchase: nodeEthPrice,
+          purchase_tx: purchase_tx, 
         },
         "POST",
         undefined,

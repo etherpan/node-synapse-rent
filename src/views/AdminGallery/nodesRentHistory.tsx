@@ -32,6 +32,7 @@ export default function BasicTable() {
   const [totalPurchaseData, setData] = React.useState<PurchaseData[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
+  
   React.useEffect(() => {
     const fetchData = async () => {
       try {

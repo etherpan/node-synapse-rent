@@ -19,6 +19,7 @@ import { messages } from "src/constants/messages";
 import { PrimaryButton } from "@olympusdao/component-library";
 import axios from "axios";
 import RentalHistory from "../Zap/RentalHistory";
+import { BASEURL } from "src/constants";
 // import { IReduxState } from "../../store/slices/state.interface";
 // import { IAppSlice } from "../../store/slices/app-slice";
 // // import { useHistory } from "react-router-dom";
@@ -48,58 +49,59 @@ const handleValidation = () => {
   toast.error(messages.please_connect_wallet);
 }
 
-function Dashboard() {
+
+function Renting() {
   // const history = useHistory();
   // const { chainID } = useWeb3Context();
   // usePathForNetwork({ pathName: "dashboard", networkID: chainID, history });
 
   // const isAppLoading = useSelector<IReduxState, boolean>(state => state.app.loading);
   // const app = useSelector<IReduxState, IAppSlice>(state => state.app);
-  const [ethPrice, setEthPrice] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchEthPrice = async () => {
+  const { address = "", isConnected } = useAccount();
+  
+  interface PurchaseData {
+    purchase: string;
+    seller_info: string;
+    seller_address: string;
+    buyer_address: string,
+    buyer_info: string,
+    node_name: string;
+    node_no: string,
+    gpu_capacity: number,
+    node_price: number,
+    node_createDate: string,
+    approve: number,
+    status: number,
+  }
+  
+  const [totalPurchaseData, setData] = React.useState<PurchaseData[] | null>(null);
+  
+  const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<any>(null);
+  
+  React.useEffect(() => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD', {
-          headers: {
-            Authorization: 'Apikey bff1258846ff3b41d2d8932a685ee9613020f83688d873ff50dc148f005f264a'
-          }
-        });
-        const ethPriceData = response.data.USD;
-
-        setEthPrice(ethPriceData);
-        setIsLoading(false);
+        const response = await axios.get(`${BASEURL}/node/adminpurchase`);
+        setData(response.data.items);
+        setLoading(false);
       } catch (error) {
-        setIsLoading(false);
+        // setError(error);
+        setLoading(false);
       }
     };
 
-    fetchEthPrice();
+    fetchData();
 
-    // Cleanup function
+    // Clean-up function
     return () => {
-      // Cancel ongoing requests or any cleanup needed
+      // Any clean-up code here
     };
   }, []);
 
-  const { address = "", isConnected } = useAccount();
-  const purchaseNodeData = useAppSelector(state => state.accountGallery.items);
-  const purchaseNode = purchaseNodeData.filter(node => node.seller_address === address)
+  const totalRentNode = totalPurchaseData ? totalPurchaseData.filter(node => node.seller_address === address) : [];
 
-  // const pastPayout = purchaseNode.length * purchaseNode.node_price;
-  let pastPayout = 0
-  purchaseNode.forEach(purchaseNode => {
-    if (purchaseNode.seller_address === address) {
-      pastPayout += purchaseNode.purchase;
-    }
-  })
-  const approveNodeData = useAppSelector(state => state.gallery.items);
-  const approveNode = approveNodeData.filter(node => node.seller_address === address && (node.status === 2 || node.status === 3));
-
-  const totalNodeData = useAppSelector(state => state.adminGallery.items);
-  const totalNode = totalNodeData.filter(node => node.seller_address === address);
+  const activeRentNode = totalPurchaseData ? totalPurchaseData.filter(node => node.seller_address === address && node.status === 3) : [];
 
   const [value, setValue] = React.useState('1');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -127,7 +129,7 @@ function Dashboard() {
                 <Grid item xs={12} sm={6}>
                   <CardContent>
                     <div >
-                      <p className="card-value">{approveNode.length}</p>
+                      <p className="card-value">{totalRentNode.length}</p>
                       <p className="card-title">Rented Nodes</p>
                     </div>
                   </CardContent>
@@ -135,7 +137,7 @@ function Dashboard() {
                 <Grid item xs={12} sm={6}>
                   <CardContent>
                     <div >
-                      <p className="card-value">{totalNode.length}</p>
+                      <p className="card-value">{activeRentNode.length}</p>
                       <p className="card-title">Active Rentals</p>
                     </div>
                   </CardContent>
@@ -156,7 +158,7 @@ function Dashboard() {
                     </TabList>
                   </Box>
                   <TabPanel value="1">
-                    <ActiveRentals totalNode = { totalNode }/>
+                    <ActiveRentals/>
                   </TabPanel>
                   <TabPanel value="2">
                     <RentalHistory />
@@ -172,4 +174,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Renting;

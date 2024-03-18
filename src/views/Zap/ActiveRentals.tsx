@@ -14,20 +14,56 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import EditNodeModal from './EditNodeModal';
 import { BASEURL } from 'src/constants';
-import { INodeItem } from 'src/slices/GallerySlice';
+import { EthPrice } from "src/hooks/usePrices";
 
 interface ActiveRentalsProps {
-  totalNode: INodeItem[];
+  totalNode: INodeItem[]; // Ensure this matches the filtered totalNode type
 }
 
-export default function ActiveRentals({ totalNode }: ActiveRentalsProps) {
+interface INodeItem {
+  node_createDate: any;
+  node_name: string;
+  status: number;
+  node_no: number;
+  seller_address: string;
+  node_ip: string;
+  node_cpu: string;
+  node_gpu: string;
+  gpu_capacity: number;
+  cpu_capacity: number;
+  node_download: any;
+  node_upload: any;
+  node_usage: any;
+  node_price: number;
+  approve: number;
+}
+
+
+const ActiveRentals: React.FC = () => {
   const { address = "", isConnected } = useAccount();
-  // const totalNodeData = useAppSelector(state => state.adminGallery.items);
-  // const rows = totalNodeData.filter(node => node.seller_address === address);
+  const [totalPurchaseData, setData] = React.useState<PurchaseData[] | null>(null);
+  const [error, setError] = useState<any>(null);
+  
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BASEURL}/node/adminpurchase`);
+        setData(response.data.items);
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  
+  const rows = totalPurchaseData ? totalPurchaseData.filter(node => node.seller_address === address && node.status === 3) : [];
 
   // const purchaseNodeData = useAppSelector(state => state.)
   interface PurchaseData {
-    purchase: string;
+    purchase_date: string;
+    purchase: number;
+    purchase_tx: string;
     seller_info: string;
     seller_address: string;
     buyer_address: string,
@@ -41,13 +77,15 @@ export default function ActiveRentals({ totalNode }: ActiveRentalsProps) {
     status: number,
   }
 
-  const rows = totalNode ? totalNode.filter(node => node.seller_address === address) : [];
-  const [customNode, setCustomNode] = useState(rows);
+  const ethPrice = EthPrice();
 
+  const shortenEthereumAddress = (address: string): string => {
+    if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
+      throw new Error("Invalid Ethereum address");
+    }
+    return `${address.slice(0, 4)}...${address.slice(-4)}`;
+  };
 
-  const handleNodeModalOpen = (rows: INodeItem) => setNodeModalOpen(true);
-  const [nodeModalOpen, setNodeModalOpen] = useState(false);
-  
   return (
     <>
       <TableContainer component={Paper}>
@@ -55,30 +93,26 @@ export default function ActiveRentals({ totalNode }: ActiveRentalsProps) {
           <TableHead>
             <TableRow>
               <TableCell className='cell-name'>NAME</TableCell>
-              <TableCell align="right" className='cell-name'>GPU AMOUNT</TableCell>
-              <TableCell align="right" className='cell-name'>PRICE PER HOUR</TableCell>
-              <TableCell align="right" className='cell-name'>CREATED AT</TableCell>
-              <TableCell align="right" className='cell-name'>APPROVED</TableCell>
+              <TableCell align="right" className='cell-name'>RENTAL PERIOD</TableCell>
+              <TableCell align="right" className='cell-name'>TIME LEFT</TableCell>
+              <TableCell align="right" className='cell-name'>COST</TableCell>
+              <TableCell align="right" className='cell-name'>TX</TableCell>
               <TableCell align="right" className='cell-name'>STATUS</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {rows.map((row, index) => (
               <TableRow
-                key={row.node_no}
+                key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {row.node_name}
                 </TableCell>
-                <TableCell align="right">{row.gpu_capacity}</TableCell>
-                <TableCell align="right">$ {row.node_price}</TableCell>
-                <TableCell align="right">{row.node_createDate.slice(0, -5)}</TableCell>
-                {row.approve == 1 ?
-                  <TableCell align="right"><DoneTwoToneIcon color="success" /></TableCell>
-                  :
-                  <TableCell align="right"><DoneTwoToneIcon sx={{ color: red[500] }} /></TableCell>
-                }
+                <TableCell align="right">{} 30 days</TableCell>
+                <TableCell align="right">{(30 - ((new Date()).getTime() - new Date(row.purchase_date).getTime()) / (1000 * 60 * 60 * 24)).toFixed(2)}</TableCell>
+                <TableCell align="right">{row.purchase.toFixed(6) } ETH</TableCell>
+                <TableCell align="right">{row.purchase_tx}</TableCell>
                 {row.status == 1 ?
                   <TableCell align="right">ONLINE</TableCell>
                   :
@@ -92,3 +126,5 @@ export default function ActiveRentals({ totalNode }: ActiveRentalsProps) {
     </>
   );
 }
+
+export default ActiveRentals;

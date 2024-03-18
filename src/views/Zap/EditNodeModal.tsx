@@ -74,7 +74,6 @@ interface AuthState {
 }
 
 const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
-  console.log('debug currentNode', currentNode)
   const { address = "", isConnected } = useAccount();
   const [formData, setCurrentNode] = useState<FormData>({
     node_name: currentNode.node_name,
@@ -135,7 +134,6 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
   const handleRegist = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      console.log('debug formdataformdata', formData.node_name)
       const responseReg = await apiRequest(
         "regist/editnode",
         {

@@ -25,6 +25,7 @@ function Gallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const galleryDate = useAppSelector(state => state.gallery.items);
+  
   const listGalleryDate = galleryDate.filter(node => node.status === 1 && node.approve === 1);
 
   const [activeGallery, setActiveGallery] = useState([

@@ -23,6 +23,7 @@ export interface IGalleryData {
 }
 
 export interface INodeItem {
+  buyer_address: string;
   purchase_date: string;
   buyer_info: string;
   purchase: number;

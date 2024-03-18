@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useAppSelector } from 'src/hooks';
 import { useAccount } from 'wagmi';
+import { EthPrice } from 'src/hooks/usePrices';
 
 export default function BasicTable() {
   const { address = "", isConnected } = useAccount();

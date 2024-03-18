@@ -174,42 +174,40 @@ function NodeCard({
                 </>
               )}
             </div>
-            {approve == 1 &&
+            <>
+              {status == 2 &&
+                <Button className="approve-state" style={{ color: "#fff", background: "#00b12b" }} >
+                  {`Buy requesting`}
+                </Button>
+              }
+              {status == 3 &&
+                <Button className="approve-state" style={{ color: "#fff", background: "#00b12b" }} >
+                  {`Renting`}
+                </Button>
+              }
               <>
-                {status == 2 &&
-                  <Button className="approve-state" style={{ color: "#fff", background: "#00b12b" }} >
-                    {`Buy requesting`}
+                {status == 2 ?
+                  <Button
+                    className="approve-button"
+                    onClick={() => RentModalOpen()}
+                    variant="contained"
+                    style={{ color: "#fff", borderRadius: "16px", float: "right" }}
+                  >
+                    {`Approve Rent`}
                   </Button>
-                }
-                {status == 3 &&
-                  <Button className="approve-state" style={{ color: "#fff", background: "#00b12b" }} >
-                    {`Renting`}
-                  </Button>
-                }
-                <>
-                  {status == 2 ?
+                  : (status == 3 &&
                     <Button
                       className="approve-button"
-                      onClick={() => RentModalOpen()}
+                      onClick={() => UnrentModalOpen()}
                       variant="contained"
                       style={{ color: "#fff", borderRadius: "16px", float: "right" }}
                     >
-                      {`Approve Rent`}
+                      {`Unapprove Rent`}
                     </Button>
-                    : (status == 3 &&
-                      <Button
-                        className="approve-button"
-                        onClick={() => UnrentModalOpen()}
-                        variant="contained"
-                        style={{ color: "#fff", borderRadius: "16px", float: "right" }}
-                      >
-                        {`Unapprove Rent`}
-                      </Button>
-                    )
-                  }
-                </>
+                  )
+                }
               </>
-            }
+            </>
           </>
         </div>
       </div>
