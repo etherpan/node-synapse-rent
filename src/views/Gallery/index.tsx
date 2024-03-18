@@ -24,7 +24,8 @@ function Gallery() {
   const theme = useTheme();
 
   const isAppLoading = useAppSelector(state => state.app.loading);
-  const gallery = useAppSelector(state => state.gallery.items);
+  const galleryDate = useAppSelector(state => state.gallery.items);
+  const listGalleryDate = galleryDate.filter(node => node.status === 1 && node.approve === 1);
 
   const [activeGallery, setActiveGallery] = useState([
     {
@@ -45,8 +46,8 @@ function Gallery() {
   const [desc, setDesc] = useState(true);
 
   useEffect(() => {
-    setActiveGallery(gallery);
-  }, [gallery]);
+    setActiveGallery(listGalleryDate);
+  }, [galleryDate]);
 
   const [name, setName] = useState<string[]>([]);
   const [query, setQuery] = useState<string>("");
@@ -57,45 +58,6 @@ function Gallery() {
   };
 
   const [loading, setLoading] = useState<boolean>(false);
-
-  // const searchAddress = async (name: string) => {
-  //   setLoading(true);
-  //   // const data = loadAccountDetails({ networkID: chainID, provider, address: name });
-  //   setActiveGallery(gallery.filter(nft => nft.owner.toLowerCase() === name.toLowerCase()));
-  //   // setNfts(data.nft);
-  //   // setQuery(name)
-  //   setLoading(false);
-  // };
-
-  const searchID = async (name: string[]) => {
-    setLoading(true);
-    for (let i = 0; i < name.length; i++) {
-      if (parseInt(name[i]) > NUMBER_OF_GALLER_VISIBLE) {
-        return;
-      }
-      setActiveGallery(gallery.filter(node => node.node_price.toString() == name[i]));
-    }
-    // const data = await loadIdDetails({ networkID: chainID, provider, id: name });
-    // setNfts(name);
-    setLoading(false);
-  };
-
-  const isNameArray = (name: string) => {
-    if (!name) return false;
-    if (!name.startsWith("[")) return false;
-    if (!name.endsWith("]")) return false;
-    let content = name.substring(1, name.length - 1);
-    content = content.replace(" ", "");
-    const ids = content.split(",");
-    for (let index = 0; index < ids.length; index++) {
-      const id = ids[index];
-      if (parseInt(id) <= 0 || parseInt(id) > NUMBER_OF_GALLER_VISIBLE * 1) return false;
-    }
-    searchID(ids);
-    setQuery("query");
-    setName([]);
-    return true;
-  };
 
   const [open, setOpen] = useState(false);
 
@@ -113,18 +75,18 @@ function Gallery() {
     switch (value) {
       case 1:
         setActiveGallery(
-          gallery.slice().sort((a, b) => (a.node_price > b.node_price ? (desc ? -1 : 1) : desc ? 1 : -1)),
+          galleryDate.slice().sort((a, b) => (a.node_price > b.node_price ? (desc ? -1 : 1) : desc ? 1 : -1)),
         );
         return;
       case 2:
-        setActiveGallery(gallery.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
+        setActiveGallery(galleryDate.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
         return;
       case 3:
-        setActiveGallery(gallery.slice().sort((a, b) => (a.gpu_capacity > b.cpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
+        setActiveGallery(galleryDate.slice().sort((a, b) => (a.gpu_capacity > b.cpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
         return;
       case 4:
         setActiveGallery(
-          gallery.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)),
+          galleryDate.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)),
         );
         return;
     }
@@ -132,7 +94,7 @@ function Gallery() {
 
   useEffect(() => {
     sortGallery(parseInt(filterQuery));
-  }, [desc, filterQuery, gallery]);
+  }, [desc, filterQuery, galleryDate]);
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const [numberOfGalleryVisible, setNumberOfGalleryVisible] = useState(9);
@@ -141,8 +103,6 @@ function Gallery() {
   const [observerIsSet, setObserverIsSet] = useState(false);
   const chosenGalleryMemoized = activeGallery.slice(0, numberOfGalleryVisible);
   
-  chosenNUMBER_OF_GALLER_VISIBLE.current = chosenGalleryMemoized.length;
-
   useEffect(() => {
     const showMoreGallery: IntersectionObserverCallback = entries => {
       const [entry] = entries;

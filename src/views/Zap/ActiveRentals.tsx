@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from "react";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,12 +12,17 @@ import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
 import { red } from '@mui/material/colors';
 import { Button } from '@mui/material';
 import axios from 'axios';
+import EditNodeModal from './EditNodeModal';
 import { BASEURL } from 'src/constants';
+import { INodeItem } from 'src/slices/GallerySlice';
 
-export default function BasicTable() {
+interface ActiveRentalsProps {
+  totalNode: INodeItem[];
+}
+
+export default function ActiveRentals({ totalNode }: ActiveRentalsProps) {
   const { address = "", isConnected } = useAccount();
-  const totalNodeData = useAppSelector(state => state.adminGallery.items);
-  console.log('debug lenting data', totalNodeData)
+  // const totalNodeData = useAppSelector(state => state.adminGallery.items);
   // const rows = totalNodeData.filter(node => node.seller_address === address);
 
   // const purchaseNodeData = useAppSelector(state => state.)
@@ -35,71 +40,61 @@ export default function BasicTable() {
     approve: number,
     status: number,
   }
-  const [totalPurchaseData, setData] = React.useState<PurchaseData[] | null>(null);
-  const rows = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address) : [];
-  console.log('debug totalPurchaseData', totalPurchaseData)
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<any>(null);
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BASEURL}/node/adminpurchase`);
-        setData(response.data.items);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
+  const rows = totalNode ? totalNode.filter(node => node.seller_address === address) : [];
+  const [customNode, setCustomNode] = useState(rows);
 
-    fetchData();
 
-    // Clean-up function
-    return () => {
-      // Any clean-up code here
-    };
-  }, []);
-
+  const handleNodeModalOpen = (rows: INodeItem) => setNodeModalOpen(true);
+  const [nodeModalOpen, setNodeModalOpen] = useState(false);
+  
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell className='cell-name'>NAME</TableCell>
-            <TableCell align="right" className='cell-name'>GPU AMOUNT</TableCell>
-            <TableCell align="right" className='cell-name'>PRICE PER HOUR</TableCell>
-            <TableCell align="right" className='cell-name'>CREATED AT</TableCell>
-            <TableCell align="right" className='cell-name'>APPROVED</TableCell>
-            <TableCell align="right" className='cell-name'>STATUS</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.node_no}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.node_name}
-              </TableCell>
-              <TableCell align="right">{row.gpu_capacity}</TableCell>
-              <TableCell align="right">$ {row.node_price}</TableCell>
-              <TableCell align="right">{row.node_createDate.slice(0, -5)}</TableCell>
-              {row.approve == 1 ?
-                <TableCell align="right"><DoneTwoToneIcon color="success"/></TableCell>
-                :
-                <TableCell align="right"><DoneTwoToneIcon sx={{ color: red[500] }}/></TableCell>
-              }
-              {row.status == 1 ?
-                <TableCell align="right">ONLINE</TableCell>
-                :
-                <TableCell align="right" style={{ color: "#00ff08" }}>ONLINE</TableCell>
-              }
+    <>
+      <EditNodeModal
+        handleClose={() => setNodeModalOpen(false)}
+        modalOpen={nodeModalOpen}
+        currentNode={rows}
+      />
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell className='cell-name'>NAME</TableCell>
+              <TableCell align="right" className='cell-name'>GPU AMOUNT</TableCell>
+              <TableCell align="right" className='cell-name'>PRICE PER HOUR</TableCell>
+              <TableCell align="right" className='cell-name'>CREATED AT</TableCell>
+              <TableCell align="right" className='cell-name'>APPROVED</TableCell>
+              <TableCell align="right" className='cell-name'>STATUS</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.node_no}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.node_name}
+                </TableCell>
+                <TableCell align="right">{row.gpu_capacity}</TableCell>
+                <TableCell align="right">$ {row.node_price}</TableCell>
+                <TableCell align="right">{row.node_createDate.slice(0, -5)}</TableCell>
+                {row.approve == 1 ?
+                  <TableCell align="right"><DoneTwoToneIcon color="success" /></TableCell>
+                  :
+                  <TableCell align="right"><DoneTwoToneIcon sx={{ color: red[500] }} /></TableCell>
+                }
+                {row.status == 1 ?
+                  <TableCell align="right">ONLINE</TableCell>
+                  :
+                  <TableCell align="right" style={{ color: "#00ff08" }}>ONLINE</TableCell>
+                }
+                <Button onClick={() => handleNodeModalOpen(row)}>Edit</Button>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }

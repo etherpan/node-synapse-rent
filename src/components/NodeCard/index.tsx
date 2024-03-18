@@ -63,7 +63,7 @@ function NodeCard({
           modalOpen={rentModalOpen}
           currentNode={node_no}
           NodePrice={node_price} 
-          seller_address={seller_address}/>
+          sellerAddress={seller_address}/>
         <div className="card-image">
           <>
             <div className="div">

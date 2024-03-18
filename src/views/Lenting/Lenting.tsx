@@ -96,18 +96,10 @@ function Dashboard() {
     }
   })
   const approveNodeData = useAppSelector(state => state.gallery.items);
-  const approveNode = approveNodeData.filter(node => node.seller_address === address && node.approve === 1);
+  const approveNode = approveNodeData.filter(node => node.seller_address === address && (node.status === 2 || node.status === 3));
 
   const totalNodeData = useAppSelector(state => state.adminGallery.items);
   const totalNode = totalNodeData.filter(node => node.seller_address === address);
-  let EstimatedPayout = 0;
-  totalNodeData.forEach(node => {
-    if (node.seller_address === address && node.approve === 1) {
-      EstimatedPayout += node.node_price;
-    }
-  });
-
-  const activeEstimatedPayout = (EstimatedPayout * 30 * 24) / ethPrice;
 
   const [value, setValue] = React.useState('1');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -164,7 +156,7 @@ function Dashboard() {
                     </TabList>
                   </Box>
                   <TabPanel value="1">
-                    <ActiveRentals />
+                    <ActiveRentals totalNode = { totalNode }/>
                   </TabPanel>
                   <TabPanel value="2">
                     <RentalHistory />

@@ -19,7 +19,7 @@ import { NODE_MANAGER } from "src/constants/addresses";
 import { NftManagerContract__factory, NodeRentContract__factory } from "src/typechain";
 import { sleep } from "src/helpers/sleep";
 
-const PREFIX = "RentModal";
+const PREFIX = "UnListModal";
 const classes = {
   root: `${PREFIX}-root`,
 };
@@ -35,7 +35,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export interface RentModal {
+export interface UnListModal {
   handleClose: () => void;
   modalOpen: boolean;
   currentNode: number;
@@ -51,7 +51,7 @@ interface AuthState {
   loggedIn: boolean;
 }
 
-const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePrice }) => {
+const UnListModal: FC<UnListModal> = ({ handleClose, modalOpen, currentNode, NodePrice }) => {
   const { address = "", isConnected } = useAccount();
   const { chain = { id: 1 } } = useNetwork();
   const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
@@ -67,7 +67,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
 
     try {
       const responseReg = await apiRequest(
-        "regist/unapproveRent",
+        "regist/unapprovelist",
         {
           currentNode: currentNode,
         },
@@ -127,4 +127,4 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
   );
 };
 
-export default RentModal;
+export default UnListModal;

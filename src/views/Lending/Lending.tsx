@@ -123,12 +123,7 @@ function Dashboard() {
     if (value === '3' && address == "") {
       toast.error(messages.please_connect_wallet);
     }
-    // setValue('1');
   };
-
-  // useEffect(() => {
-  //   validConnectWallet();
-  // }, [address]);
 
   return (
     <div className="lending-view">

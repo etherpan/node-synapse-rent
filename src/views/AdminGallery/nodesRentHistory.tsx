@@ -30,7 +30,6 @@ export default function BasicTable() {
     status: number,
   }
   const [totalPurchaseData, setData] = React.useState<PurchaseData[] | null>(null);
-  console.log('debug totalPurchaseData', totalPurchaseData)
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
   React.useEffect(() => {

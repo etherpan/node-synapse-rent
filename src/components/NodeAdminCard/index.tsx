@@ -60,7 +60,7 @@ function NodeCard({
   // approve rent modal
   const RentModalOpen = () => setRentModalOpen(true);
   const [rentModalOpen, setRentModalOpen] = useState(false);
-  
+
   // unapprove rent modal
   const UnrentModalOpen = () => setUnrentModalOpen(true);
   const [unrentModalOpen, setUnrentModalOpen] = useState(false);
@@ -176,9 +176,16 @@ function NodeCard({
             </div>
             {approve == 1 &&
               <>
-                <Button className="approve-state" style={{ color: "#fff", background: "#00b12b" }} >
-                  {status == 2 ? "Buy requesting" : (status == 3 ? "Renting" : "Listing")}
-                </Button>
+                {status == 2 &&
+                  <Button className="approve-state" style={{ color: "#fff", background: "#00b12b" }} >
+                    {`Buy requesting`}
+                  </Button>
+                }
+                {status == 3 &&
+                  <Button className="approve-state" style={{ color: "#fff", background: "#00b12b" }} >
+                    {`Renting`}
+                  </Button>
+                }
                 <>
                   {status == 2 ?
                     <Button

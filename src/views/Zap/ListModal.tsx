@@ -115,7 +115,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
 
     try {
       const responseReg = await apiRequest(
-        "regist/approve",
+        "regist/approvelist",
         {
           currentNode: currentNode,
         },

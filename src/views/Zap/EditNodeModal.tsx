@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 import { messages } from "src/constants/messages";
 import apiRequest from "src/helpers/connections";
 import { sleep } from "src/helpers/sleep";
+// import { INodeItem } from "src/slices/GalleryAddressSlice";
 import { useAccount } from "wagmi";
 
 const PREFIX = "NodeModal";
@@ -28,8 +29,23 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 export interface NodeModal {
   handleClose: () => void;
   modalOpen: boolean;
-  currentNode: string;
-  setCustomNode: { (value: SetStateAction<string>): void; (arg0: string): void };
+  currentNode: INodeItem[];
+}
+
+interface INodeItem {
+  node_no: number;
+  seller_address: string;
+  node_cpu: string;
+  node_gpu: string;
+  gpu_capacity: number;
+  cpu_capacity: number;
+  node_download: any;
+  node_upload: any;
+  node_usage: any;
+  node_price: number;
+  approve: number;
+  status: number;
+  node_ip: string;
 }
 
 interface FormData {
@@ -52,7 +68,7 @@ interface AuthState {
   loggedIn: boolean;
 }
 
-const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
+const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
   const { address = "", isConnected } = useAccount();
   const [formData, setFormData] = useState<FormData>({
     node_name: "",

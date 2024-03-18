@@ -39,7 +39,6 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 export interface RentModal {
   handleClose: () => void;
   modalOpen: boolean;
-  setCustomNode: { (value: SetStateAction<string>): void; (arg0: string): void };
   currentNode: number;
   sellerAddress: string;
   NodePrice: number;
@@ -120,7 +119,6 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       !formData.buyer_telegram) {
       toast.error("All fields are required. Please fill in all required fields.");
     } else {
-      console.log('debug formData===')
       e.preventDefault();
       handleRentSubmit(e);
     }
@@ -157,6 +155,8 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       handleClose();
     } catch (error: any) {
       // toast.error(messages.error_401)
+      setIsLoading(false);
+      handleClose();
       toast.error(messages.error_else);
     }
   };
