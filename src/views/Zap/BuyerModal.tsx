@@ -17,6 +17,9 @@ import { useAppDispatch } from "src/hooks";
 import { galleryAdminDetails } from "src/slices/GalleryAdminSlice";
 import { galleryDetails } from "src/slices/GallerySlice";
 import { useEthPrice } from "src/helpers/getEthPrice";
+import PurchaseAdminSlice from "src/slices/PurchaseAdminSlice";
+import { NodeRentContract__factory } from "src/typechain";
+import { NODE_RENT_CONTRACT } from "src/constants";
 
 const PREFIX = "RentModal";
 const classes = {
@@ -102,15 +105,15 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
     e.preventDefault();
     setIsLoading(true);
     try {
-      // const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
-      // const contractABI = NodeRentContract__factory.abi;
-      // const contractAddress = NODE_RENT_CONTRACT;
-      // const contract = new ethers.Contract(contractAddress, contractABI, signer);
-      // const nodeEthPricedd = nodeEthPrice.toFixed(5)
-      // const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
-      // const purchase_tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
-      // await purchase_tx.wait();
-      const purchase_tx = "0xdddwefreregdddwefreregdddwefreregdddwefrereg"
+      const provider = Providers.getStaticProvider(getValidChainId(chain.id) as NetworkId);
+      const contractABI = NodeRentContract__factory.abi;
+      const contractAddress = NODE_RENT_CONTRACT;
+      const contract = new ethers.Contract(contractAddress, contractABI, signer);
+      const nodeEthPricedd = nodeEthPrice.toFixed(5)
+      const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
+      const purchase_tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
+      await purchase_tx.wait();
+      // const purchase_tx = "0xdddwefreregdddwefreregdddwefreregdddwefrereg"
       
       const responseReg = await apiRequest(
         "regist/submit",
@@ -129,6 +132,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       setIsLoading(false);
       dispatch(galleryAdminDetails());
       dispatch(galleryDetails());
+      dispatch(PurchaseAdminSlice());
       handleClose();
     } catch (error: any) {
       // toast.error(messages.error_401)
