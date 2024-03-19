@@ -55,9 +55,9 @@ function Dashboard() {
   const ethPrice = EthPrice();
   const { address = "", isConnected } = useAccount();
   const purchaseNodeData = useAppSelector(state => state.accountGallery.items);
+  
   const purchaseNode = purchaseNodeData.filter(node => node.seller_address === address)
 
-  // const pastPayout = purchaseNode.length * purchaseNode.node_price;
   let pastPayout = 0
   purchaseNode.forEach(purchaseNode => {
     if (purchaseNode.seller_address === address) {
