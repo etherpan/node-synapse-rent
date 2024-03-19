@@ -66,7 +66,7 @@ function Dashboard() {
   })
   
   const totalNodeData = useAppSelector(state => state.adminGallery.items);
-  const approveNode = totalNodeData.filter(node => node.seller_address === address && node.status != 0);
+  const approveNode = totalNodeData.filter(node => node.seller_address === address && (node.status != 0 || node.approve == 1));
   const totalNode = totalNodeData.filter(node => node.seller_address === address);
   let EstimatedPayout = 0;
   totalNodeData.forEach(node => {

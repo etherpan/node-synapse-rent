@@ -16,7 +16,13 @@ export default function BasicTable() {
   const { address = "", isConnected } = useAccount();
   // const totalNodeData = useAppSelector(state => state.accountGallery.items);
   const totalNodeData = useAppSelector(state => state.adminPurchaseHistory.items);
-  const rows = totalNodeData.filter(node => node.seller_address === address && node.status === 3);
+  const rows = totalNodeData.filter(node => node.seller_address.toLowerCase() === address.toLowerCase());
+
+  // const 
+  // useEffect(() => {
+  //   setActiveGallery(rows);
+  // },[rows]);
+  console.log('debug totalNodeData', rows, totalNodeData, address)
 
   return (
     <TableContainer component={Paper}>

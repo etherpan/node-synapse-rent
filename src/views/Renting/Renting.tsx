@@ -74,7 +74,7 @@ function Renting() {
 
   const activeNode = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address && node.status === 3) : [];
   
-  const rentedNode = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address) : [];
+  const rentedNode = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address && node.rent_approve == 1) : [];
 
   const [value, setValue] = React.useState('1');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {

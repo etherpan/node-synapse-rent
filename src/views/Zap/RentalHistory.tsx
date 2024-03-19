@@ -24,6 +24,7 @@ export default function BasicTable() {
             <TableCell align="right" className='cell-name'>USER</TableCell>
             <TableCell align="right" className='cell-name'>RENTAL END</TableCell>
             <TableCell align="right" className='cell-name'>COST</TableCell>
+            <TableCell align="right" className='cell-name'>RENT STATUS</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -38,6 +39,11 @@ export default function BasicTable() {
               <TableCell align="right">{row.buyer_info}</TableCell>
               <TableCell align="right">{(30 - ((new Date()).getTime() - new Date(row.purchase_date).getTime()) / (1000 * 60 * 60 * 24)).toFixed(2)} Days</TableCell>
               <TableCell align="right">{row.purchase}</TableCell>
+              {row.rent_approve == 1 ?
+                <TableCell align="right" style={{ color: "#00ff08" }}>{`Rented`}</TableCell>
+                :
+                <TableCell align="right" style={{ color: "#ffdb0a" }}>{`Pending`}</TableCell>
+              }
             </TableRow>
           ))}
         </TableBody>

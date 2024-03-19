@@ -58,6 +58,7 @@ export default function BasicTable() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
+              <TableCell className='cell-name'>Node No</TableCell>
               <TableCell className='cell-name'>NAME</TableCell>
               <TableCell align="right" className='cell-name'>GPU AMOUNT</TableCell>
               <TableCell align="right" className='cell-name'>PRICE PER HOUR</TableCell>
@@ -73,18 +74,17 @@ export default function BasicTable() {
                 key={row.node_no}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {row.node_name}
-                </TableCell>
+                <TableCell component="th" scope="row">{row.node_no}</TableCell>
+                <TableCell component="th" scope="row">{row.node_name}</TableCell>
                 <TableCell align="right">{row.gpu_capacity}</TableCell>
                 <TableCell align="right">$ {row.node_price}</TableCell>
                 <TableCell align="right">{row.node_createDate.slice(0, -5)}</TableCell>
-                {row.status != 0 ?
+                {row.status != 0 || row.approve == 1 ?
                   <TableCell align="right"><DoneTwoToneIcon color="success" /></TableCell>
                   :
                   <TableCell align="right"><DoneTwoToneIcon sx={{ color: red[500] }} /></TableCell>
                 }
-                {row.status == 1 ?
+                {row.status != 0 || row.approve == 1 ?
                   <TableCell align="right">ONLINE</TableCell>
                   :
                   <TableCell align="right" style={{ color: "#00ff08" }}>ONLINE</TableCell>

@@ -54,7 +54,6 @@ function NodeCard({
   const handleRentModalOpen = () => setRentModalOpen(true);
   const [rentModalOpen, setRentModalOpen] = useState(false);
   
-  console.log('debug status', status)
   return (
     <>
       <div className="gallery-card">

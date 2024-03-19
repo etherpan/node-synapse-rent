@@ -17,7 +17,7 @@ import { useAppDispatch } from "src/hooks";
 import { galleryAdminDetails } from "src/slices/GalleryAdminSlice";
 import { galleryDetails } from "src/slices/GallerySlice";
 import { useEthPrice } from "src/helpers/getEthPrice";
-import PurchaseAdminSlice from "src/slices/PurchaseAdminSlice";
+import { galleryPurchaseDetails } from "src/slices/PurchaseAdminSlice";
 import { NodeRentContract__factory } from "src/typechain";
 import { NODE_RENT_CONTRACT } from "src/constants";
 
@@ -140,6 +140,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
     } finally {
       dispatch(galleryAdminDetails());
       dispatch(galleryDetails());
+      dispatch(galleryPurchaseDetails());
     }
   };
 
