@@ -132,7 +132,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       setIsLoading(false);
       dispatch(galleryAdminDetails());
       dispatch(galleryDetails());
-      dispatch(PurchaseAdminSlice());
+      // dispatch(PurchaseAdminSlice());
       handleClose();
     } catch (error: any) {
       // toast.error(messages.error_401)

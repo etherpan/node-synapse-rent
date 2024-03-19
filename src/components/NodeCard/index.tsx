@@ -22,9 +22,8 @@ interface INodeCardProps {
   node_gpu: string;
   gpu_capacity: number;
   cpu_capacity: number;
-  node_download?: number;
-  node_upload?: number;
-  node_usage?: number;
+  node_download: number;
+  node_upload: number;
   node_price: number;
   approve: number;
 }
