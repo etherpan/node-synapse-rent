@@ -18,6 +18,7 @@ import PageTitle from "src/components/PageTitle";
 import { NUMBER_OF_GALLER_VISIBLE } from "src/constants/data";
 import { useAppSelector } from "src/hooks";
 import "./gallery.scss";
+import NotFound from "../404/NotFound";
 // import
 
 function AdminGallery() {
@@ -122,7 +123,6 @@ function AdminGallery() {
 
   return (
     <div className="gallery-view">
-      {/* <PageTitle name="Node List" /> */}
       <div className="gallery-infos-row">
         <Box display={"flex"} className="gallery-sort-box">
           <FormControl>
@@ -150,17 +150,10 @@ function AdminGallery() {
       </div>
       <div className="gallery-infos-wrap">
         <div className="gallery-infos-nfts">
-          {loading && (
-            <div className="gallery-infos-loading">
-              <CircularProgress color="secondary" size={80} />
-            </div>
-          )}
           {!loading && (
-            <Grid container rowSpacing={{ xs: 1, sm: 2, md: 4 }}>
+            <Grid container rowSpacing={{ xs: 1, sm: 2, md: 4 }} style={{ justifyContent: "center" }}>
               {chosenGalleryMemoized.length == 0 ? (
-                <>
-                  <img src={LoadingIcon} width={200} height={200} style={{ margin: "auto", marginTop: "100px" }} />
-                </>
+                <NotFound />
               ) : (
                 chosenGalleryMemoized.map((node, index) => (
                   <Grid key={index} item xl={4} lg={4} md={6} sm={6} xs={12}>

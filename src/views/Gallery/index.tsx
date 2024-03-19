@@ -18,6 +18,7 @@ import NodeCard from "src/components/NodeCard";
 import PageTitle from "src/components/PageTitle";
 import { NUMBER_OF_GALLER_VISIBLE } from "src/constants/data";
 import { useAppSelector } from "src/hooks";
+import NotFound from "../404/NotFound";
 // import
 
 function Gallery() {
@@ -25,7 +26,7 @@ function Gallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const galleryDate = useAppSelector(state => state.gallery.items);
-  
+
   const listGalleryDate = galleryDate.filter(node => node.status === 1 && node.approve === 1);
 
   const [activeGallery, setActiveGallery] = useState([
@@ -59,6 +60,7 @@ function Gallery() {
   };
 
   const [loading, setLoading] = useState<boolean>(false);
+  console.log('debug loading', loading)
 
   const [open, setOpen] = useState(false);
 
@@ -99,11 +101,11 @@ function Gallery() {
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const [numberOfGalleryVisible, setNumberOfGalleryVisible] = useState(9);
-  
+
   const chosenNUMBER_OF_GALLER_VISIBLE = useRef(0);
   const [observerIsSet, setObserverIsSet] = useState(false);
   const chosenGalleryMemoized = activeGallery.slice(0, numberOfGalleryVisible);
-  
+
   useEffect(() => {
     const showMoreGallery: IntersectionObserverCallback = entries => {
       const [entry] = entries;
@@ -157,38 +159,32 @@ function Gallery() {
       </div>
       <div className="gallery-infos-wrap">
         <div className="gallery-infos-nfts">
-          {loading && (
-            <div className="gallery-infos-loading">
-              <CircularProgress color="secondary" size={80} />
-            </div>
-          )}
           {!loading && (
-            <Grid container rowSpacing={{ xs: 1, sm: 2, md: 4 }} pr={4}>
-              {chosenGalleryMemoized.length == 0 ? (
-                <>
-                  <img src={LoadingIcon} width={200} height={200} style={{ margin: "auto", marginTop: "100px" }} />
-                </>
-              ) : (
-                chosenGalleryMemoized.map((node, index) => (
-                  <Grid key={index} item xl={4} lg={4} md={6} sm={6} xs={12}>
-                    <NodeCard
-                      node_no={node.node_no}
-                      node_cpu={node.node_cpu}
-                      seller_address={node.seller_address}
-                      node_ip={node.node_ip}
-                      node_gpu={node.node_gpu}
-                      gpu_capacity={node.gpu_capacity}
-                      cpu_capacity={node.cpu_capacity}
-                      node_download={node.node_download}
-                      node_upload={node.node_upload}
-                      node_usage={node.node_usage}
-                      node_price={node.node_price}
-                      approve={node.approve}
-                    />
-                  </Grid>
-                ))
-              )}
-            </Grid>
+            <>
+              <Grid container rowSpacing={{ xs: 1, sm: 2, md: 4 }} pr={4} style={{ justifyContent: "center" }}>
+                {chosenGalleryMemoized.length == 0 ? (
+                  <NotFound />
+                ) : (
+                  chosenGalleryMemoized.map((node, index) => (
+                    <Grid key={index} item xl={4} lg={4} md={6} sm={6} xs={12}>
+                      <NodeCard
+                        node_no={node.node_no}
+                        node_cpu={node.node_cpu}
+                        seller_address={node.seller_address}
+                        node_ip={node.node_ip}
+                        node_gpu={node.node_gpu}
+                        gpu_capacity={node.gpu_capacity}
+                        cpu_capacity={node.cpu_capacity}
+                        node_download={node.node_download}
+                        node_upload={node.node_upload}
+                        node_price={node.node_price}
+                        approve={node.approve}
+                      />
+                    </Grid>
+                  ))
+                )}
+              </Grid>
+            </>
           )}
           <div ref={loadMoreRef} />
         </div>
