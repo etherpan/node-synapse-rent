@@ -336,7 +336,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
           <TextField
             id="ssh_key"
             type="text"
-            placeholder="Note for windows user add password"
+            placeholder="Type in a ssh private key ED25519 Note: for windows user add password"
             value={formData.ssh_key}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
