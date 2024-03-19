@@ -26,8 +26,8 @@ function Gallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const galleryDate = useAppSelector(state => state.adminGallery.items);
-  console.log('debug galleryDate', galleryDate)
-  const listGalleryDate = galleryDate.filter(node => node.status != 0);
+  
+  const listGalleryDate = galleryDate.filter(node => node.status != 0 || node.approve === 1);
   console.log('debug listGalleryDate', listGalleryDate)
   const [activeGallery, setActiveGallery] = useState([
     {
@@ -50,7 +50,7 @@ function Gallery() {
 
   useEffect(() => {
     setActiveGallery(listGalleryDate);
-  }, [activeGallery]);
+  }, []);
 
   const [name, setName] = useState<string[]>([]);
   const [query, setQuery] = useState<string>("");
@@ -92,8 +92,7 @@ function Gallery() {
 
   const chosenNUMBER_OF_GALLER_VISIBLE = useRef(0);
   const [observerIsSet, setObserverIsSet] = useState(false);
-  const chosenGalleryMemoized = activeGallery.slice(0, numberOfGalleryVisible);
-  console.log('debug chosenGalleryMemoized' ,chosenGalleryMemoized)
+  const chosenGalleryMemoized = listGalleryDate.slice(0, numberOfGalleryVisible);
 
   useEffect(() => {
     const showMoreGallery: IntersectionObserverCallback = entries => {
