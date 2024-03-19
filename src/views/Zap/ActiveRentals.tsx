@@ -99,7 +99,7 @@ const ActiveRentals: React.FC = () => {
               <TableCell align="right" className='cell-name'>TIME LEFT</TableCell>
               <TableCell align="right" className='cell-name'>COST</TableCell>
               <TableCell align="right" className='cell-name'>TX</TableCell>
-              <TableCell align="right" className='cell-name'>SSH KEY</TableCell>
+              <TableCell align="right" className='cell-name'>SSH KEY / PASSWORD</TableCell>
               <TableCell align="right" className='cell-name'>NODE IP</TableCell>
               <TableCell align="right" className='cell-name'>STATUS</TableCell>
             </TableRow>

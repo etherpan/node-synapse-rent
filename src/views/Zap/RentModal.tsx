@@ -21,6 +21,7 @@ import { sleep } from "src/helpers/sleep";
 import { galleryAdminDetails } from "src/slices/GalleryAdminSlice";
 import { galleryDetails } from "src/slices/GallerySlice";
 import { useAppDispatch } from "src/hooks";
+import { galleryPurchaseDetails } from "src/slices/PurchaseAdminSlice";
 
 const PREFIX = "RentModal";
 const classes = {
@@ -99,6 +100,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
     } finally {
       dispatch(galleryAdminDetails());
       dispatch(galleryDetails());
+      dispatch(galleryPurchaseDetails());
     }
 
     await sleep(1);

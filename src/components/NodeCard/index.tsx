@@ -26,6 +26,7 @@ interface INodeCardProps {
   node_upload: number;
   node_price: number;
   approve: number;
+  status: number;
 }
 
 function NodeCard({
@@ -38,8 +39,8 @@ function NodeCard({
   cpu_capacity,
   node_download,
   node_upload,
-  node_usage,
   node_price,
+  status,
   approve,
 }: INodeCardProps) {
   const theme = useTheme();
@@ -53,7 +54,6 @@ function NodeCard({
   const handleRentModalOpen = () => setRentModalOpen(true);
   const [rentModalOpen, setRentModalOpen] = useState(false);
   const [customNode, setCustomNode] = useState<string>("1.0");
-
   return (
     <>
       <div className="gallery-card">
@@ -97,6 +97,7 @@ function NodeCard({
                   onClick={() => validConnectWallet()}
                   variant="contained"
                   style={{ color: "#fff", borderRadius: "20px", fontSize: "15px" }}
+                  disabled = {status ===2 || status ===3 ? true : false}
                 >
                   {`Rent Now`}
                 </Button>
@@ -106,8 +107,9 @@ function NodeCard({
                   onClick={() => handleRentModalOpen()}
                   variant="contained"
                   style={{ color: "#fff", borderRadius: "20px", fontSize: "15px" }}
+                  disabled = {status ===2 || status ===3 ? true : false}
                 >
-                  {`Rent Now`}
+                  {status ===2 || status ===3 ? `Rented` : `Rent Now`}
                 </Button>
               )}
             </div>

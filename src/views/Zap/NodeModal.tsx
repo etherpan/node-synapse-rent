@@ -88,7 +88,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
   const handleValidation = () => {
     toast.error(messages.please_connect_wallet);
   }
-  
+
   const handleRegistration = (e: FormEvent<HTMLFormElement>) => {
     // Check if any required field is empty
     if (
@@ -331,12 +331,12 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
           />
           <Typography variant="body2" style={{ color: '#fff', marginBottom: '8px' }}>
-            SSH Private Key:
+            SSH Private Key / Password:
           </Typography>
           <TextField
             id="ssh_key"
             type="text"
-            placeholder="Type in a SSH Private Key ED25519"
+            placeholder="Type in a SSH Private Key ED25519. NOTE: password for windows servers"
             value={formData.ssh_key}
             onChange={handleChange}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}

@@ -130,7 +130,7 @@ function NodeCard({
                 <div className="div">{node_ip}</div>
               </Typography>
               <Typography className="field-justify">
-                <div className="div">SSH Key: </div>
+                <div className="div">SSH KEY / PASSWORD: </div>
                 <div className="div">{ssh_key}</div>
               </Typography>
             </div>

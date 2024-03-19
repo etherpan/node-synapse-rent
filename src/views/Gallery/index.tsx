@@ -25,10 +25,10 @@ function Gallery() {
   const theme = useTheme();
 
   const isAppLoading = useAppSelector(state => state.app.loading);
-  const galleryDate = useAppSelector(state => state.gallery.items);
-
-  const listGalleryDate = galleryDate.filter(node => node.status === 1 && node.approve === 1);
-
+  const galleryDate = useAppSelector(state => state.adminGallery.items);
+  console.log('debug galleryDate', galleryDate)
+  const listGalleryDate = galleryDate.filter(node => node.status != 0);
+  console.log('debug listGalleryDate', listGalleryDate)
   const [activeGallery, setActiveGallery] = useState([
     {
       node_no: 0,
@@ -43,13 +43,14 @@ function Gallery() {
       node_usage: 0,
       node_price: 0,
       approve: 0,
+      status: 0,
     },
   ]);
   const [desc, setDesc] = useState(true);
 
   useEffect(() => {
     setActiveGallery(listGalleryDate);
-  }, [galleryDate]);
+  }, [activeGallery]);
 
   const [name, setName] = useState<string[]>([]);
   const [query, setQuery] = useState<string>("");
@@ -92,6 +93,7 @@ function Gallery() {
   const chosenNUMBER_OF_GALLER_VISIBLE = useRef(0);
   const [observerIsSet, setObserverIsSet] = useState(false);
   const chosenGalleryMemoized = activeGallery.slice(0, numberOfGalleryVisible);
+  console.log('debug chosenGalleryMemoized' ,chosenGalleryMemoized)
 
   useEffect(() => {
     const showMoreGallery: IntersectionObserverCallback = entries => {
@@ -166,6 +168,7 @@ function Gallery() {
                         node_upload={node.node_upload}
                         node_price={node.node_price}
                         approve={node.approve}
+                        status={node.status}
                       />
                     </Grid>
                   ))
