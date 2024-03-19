@@ -30,6 +30,7 @@ export default function BasicTable() {
         <TableHead>
           <TableRow>
             <TableCell className='cell-name'>NODE</TableCell>
+            <TableCell align="right" className='cell-name'>NODE NAME</TableCell>
             <TableCell align="right" className='cell-name'>USER</TableCell>
             <TableCell align="right" className='cell-name'>RENTAL END</TableCell>
             <TableCell align="right" className='cell-name'>COST</TableCell>
@@ -47,6 +48,7 @@ export default function BasicTable() {
               <TableCell component="th" scope="row">
                 {row.node_no}
               </TableCell>
+              <TableCell align="right">{row.node_name}</TableCell>
               <TableCell align="right">{row.buyer_info}</TableCell>
               <TableCell align="right">{(30 - ((new Date()).getTime() - new Date(row.purchase_date).getTime()) / (1000 * 60 * 60 * 24)).toFixed(2)} Days</TableCell>
               <TableCell align="right">{row.purchase} ETH</TableCell>
