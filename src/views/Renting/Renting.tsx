@@ -20,6 +20,7 @@ import { PrimaryButton } from "@olympusdao/component-library";
 import axios from "axios";
 import RentalHistory from "../Zap/RentalHistory";
 import { BASEURL } from "src/constants";
+import { EthPrice } from "src/hooks/usePrices";
 // import { IReduxState } from "../../store/slices/state.interface";
 // import { IAppSlice } from "../../store/slices/app-slice";
 // // import { useHistory } from "react-router-dom";
@@ -51,41 +52,7 @@ const handleValidation = () => {
 
 
 function Renting() {
-  // const history = useHistory();
-  // const { chainID } = useWeb3Context();
-  // usePathForNetwork({ pathName: "dashboard", networkID: chainID, history });
-
-  // const isAppLoading = useSelector<IReduxState, boolean>(state => state.app.loading);
-  // const app = useSelector<IReduxState, IAppSlice>(state => state.app);
-  const [ethPrice, setEthPrice] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchEthPrice = async () => {
-      try {
-        const response = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD', {
-          headers: {
-            Authorization: 'Apikey bff1258846ff3b41d2d8932a685ee9613020f83688d873ff50dc148f005f264a'
-          }
-        });
-        const ethPriceData = response.data.USD;
-
-        setEthPrice(ethPriceData);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
-    };
-
-    fetchEthPrice();
-
-    // Cleanup function
-    return () => {
-      // Cancel ongoing requests or any cleanup needed
-    };
-  }, []);
-
+  const ethPrice = EthPrice();
   const { address = "", isConnected } = useAccount();
   
   interface PurchaseData {
@@ -103,37 +70,11 @@ function Renting() {
     status: number,
   }
   
-  const [totalPurchaseData, setData] = React.useState<PurchaseData[] | null>(null);
-  const purchaseNodeData = useAppSelector(state => state.adminPurchaseHistory.items);
+  const totalPurchaseData = useAppSelector(state => state.adminPurchaseHistory.items);
+
+  const activeNode = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address && node.status === 3) : [];
   
-  const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState<any>(null);
-  
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BASEURL}/node/adminpurchase`);
-        setData(response.data.items);
-        setLoading(false);
-      } catch (error) {
-        // setError(error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-
-    // Clean-up function
-    return () => {
-      // Any clean-up code here
-    };
-  }, []);
-
-  const totalNode = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address && node.status === 3) : [];
-
-  // const totalNodeData = useAppSelector(state => state.accountGallery.items);
-  // console.log('debug totalNodeData', totalNodeData)
-  // const totalNode = totalNodeData.filter(node => node.buyer_address === address && node.status === 3);
+  const rentedNode = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address) : [];
 
   const [value, setValue] = React.useState('1');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -161,7 +102,7 @@ function Renting() {
                 <Grid item xs={12} sm={6}>
                   <CardContent>
                     <div >
-                      <p className="card-value">{totalNode.length}</p>
+                      <p className="card-value">{rentedNode.length}</p>
                       <p className="card-title">Rented Nodes</p>
                     </div>
                   </CardContent>
@@ -169,7 +110,7 @@ function Renting() {
                 <Grid item xs={12} sm={6}>
                   <CardContent>
                     <div >
-                      <p className="card-value">{totalNode.length}</p>
+                      <p className="card-value">{activeNode.length}</p>
                       <p className="card-title">Active Rentals</p>
                     </div>
                   </CardContent>

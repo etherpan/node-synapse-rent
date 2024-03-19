@@ -12,8 +12,8 @@ import { useAccount } from 'wagmi';
 export default function BasicTable() {
   const dispatch = useAppDispatch();
   const { address = "", isConnected } = useAccount();
-  const totalNodeData = useAppSelector(state => state.accountGallery.items);
-  const rows = totalNodeData.filter(node => node.seller_address === address);
+  const totalNodeData = useAppSelector(state => state.adminPurchaseHistory.items);
+  const rows = totalNodeData.filter(node => node.buyer_address === address);
 
   return (
     <TableContainer component={Paper}>

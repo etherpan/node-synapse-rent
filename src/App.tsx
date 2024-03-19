@@ -48,7 +48,7 @@ const Renting = lazy(() => import("./views/Renting/Renting"));
 const NotFound = lazy(() => import("./views/404/NotFound"));
 const Referral = lazy(() => import("./views/Referral"));
 // const Landing = lazy(() => import("./views/Landing"));
-const Calculator = lazy(() => import("./views/Calculator"));
+// const Calculator = lazy(() => import("./views/Calculator"));
 
 const PREFIX = "App";
 

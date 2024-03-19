@@ -9,11 +9,14 @@ import Paper from '@mui/material/Paper';
 import { useAppSelector } from 'src/hooks';
 import { useAccount } from 'wagmi';
 import { EthPrice } from 'src/hooks/usePrices';
+import NotFound from '../404/NotFound';
+import { Grid } from '@mui/material';
 
 export default function BasicTable() {
   const { address = "", isConnected } = useAccount();
-  const totalNodeData = useAppSelector(state => state.accountGallery.items);
-  const rows = totalNodeData.filter(node => node.seller_address === address);
+  // const totalNodeData = useAppSelector(state => state.accountGallery.items);
+  const totalNodeData = useAppSelector(state => state.adminPurchaseHistory.items);
+  const rows = totalNodeData.filter(node => node.seller_address === address && node.status === 3);
 
   return (
     <TableContainer component={Paper}>
@@ -27,6 +30,9 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
+          {rows.length == 0 &&
+            <Grid pl={2}>Not Found</Grid>
+          }
           {rows.map((row) => (
             <TableRow
               key={row.node_no}
@@ -37,7 +43,7 @@ export default function BasicTable() {
               </TableCell>
               <TableCell align="right">{row.buyer_info}</TableCell>
               <TableCell align="right">{(30 - ((new Date()).getTime() - new Date(row.purchase_date).getTime()) / (1000 * 60 * 60 * 24)).toFixed(2)} Days</TableCell>
-              <TableCell align="right">{row.purchase}</TableCell>
+              <TableCell align="right">{row.purchase} ETH</TableCell>
             </TableRow>
           ))}
         </TableBody>

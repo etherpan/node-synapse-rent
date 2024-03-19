@@ -60,19 +60,6 @@ function Gallery() {
   };
 
   const [loading, setLoading] = useState<boolean>(false);
-  console.log('debug loading', loading)
-
-  const [open, setOpen] = useState(false);
-
-  const [nftId, setNftId] = useState("");
-
-  const handleOpen = (id: string) => {
-    setNftId(id);
-    setOpen(true);
-    if (typeof window !== "undefined") {
-      window.location.href = window.location.origin + "/nftitem?id=" + id;
-    }
-  };
 
   function sortGallery(value: number) {
     switch (value) {

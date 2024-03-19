@@ -45,7 +45,7 @@ const ActiveRentals: React.FC = () => {
 
   const totalPurchaseData = useAppSelector(state => state.adminPurchaseHistory.items);
 
-  const rows = totalPurchaseData ? totalPurchaseData.filter(node => node.seller_address === address && node.status === 3) : [];
+  const rows = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address && node.status === 3) : [];
 
   // const purchaseNodeData = useAppSelector(state => state.)
   interface PurchaseData {
@@ -75,6 +75,19 @@ const ActiveRentals: React.FC = () => {
     return `${str.slice(0, halfLength)}...${str.slice(-halfLength)}`;
   }
 
+  const [copiedSshKey, setCopiedSshKey] = useState<boolean[]>(new Array(totalPurchaseData?.length ?? 0).fill(false));
+  const copySshKeyToClipboard = (address: string, rowIndex: number) => {
+    navigator.clipboard.writeText(address);
+    setCopiedSshKey(prevState => prevState.map((copied, index) => index === rowIndex));
+  };
+
+  const [copiedNodeIp, setCopiedNodeIp] = useState<boolean[]>(new Array(totalPurchaseData?.length ?? 0).fill(false));
+  const copyNodeIpToClipboard = (address: string, rowIndex: number) => {
+    navigator.clipboard.writeText(address);
+    setCopiedNodeIp(prevState => prevState.map((copied, index) => index === rowIndex));
+  };
+
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -103,9 +116,15 @@ const ActiveRentals: React.FC = () => {
                 <TableCell align="right">{ } 30 days</TableCell>
                 <TableCell align="right">{(30 - ((new Date()).getTime() - new Date(row.purchase_date).getTime()) / (1000 * 60 * 60 * 24)).toFixed(2)}</TableCell>
                 <TableCell align="right">{row.purchase.toFixed(6)} ETH</TableCell>
-                <TableCell align="right">{shortenString(row.purchase_tx)}</TableCell>
-                <TableCell align="right">{shortenString(row.ssh_key)}</TableCell>
-                <TableCell align="right">{shortenString(row.node_ip)}</TableCell>
+                <TableCell align="right" >{shortenString(row.purchase_tx)}</TableCell>
+                <TableCell align="right"
+                  onClick={() => { copySshKeyToClipboard(row.ssh_key, index); }} style={{ cursor: 'pointer' }}>
+                  {copiedSshKey[index] ? "Copied!" : shortenString(row.ssh_key)}
+                </TableCell>
+                <TableCell align="right"
+                  onClick={() => { copyNodeIpToClipboard(row.node_ip, index); }} style={{ cursor: 'pointer' }}>
+                  {copiedNodeIp[index] ? "Copied!" : shortenString(row.node_ip)}
+                </TableCell>
                 {/* <TableCell align="right">{shortenString(row.ssh_username)}</TableCell> */}
                 {row.status == 1 ?
                   <TableCell align="right">ONLINE</TableCell>

@@ -8,7 +8,6 @@ export const galleryPurchaseDetails = createAsyncThunk(
   "app/galleryPurchaseDetails",
   async () => {
     const response = await fetch(`${BASEURL}/node/adminpurchase`);
-    console.log('debug node/adminpurchase`', response)
     const responseJson = await response.json();
     return {
       loading: false,

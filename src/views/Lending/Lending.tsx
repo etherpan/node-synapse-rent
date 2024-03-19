@@ -64,10 +64,9 @@ function Dashboard() {
       pastPayout += purchaseNode.purchase;
     }
   })
-  const approveNodeData = useAppSelector(state => state.gallery.items);
-  const approveNode = approveNodeData.filter(node => node.seller_address === address && node.approve === 1);
-
+  
   const totalNodeData = useAppSelector(state => state.adminGallery.items);
+  const approveNode = totalNodeData.filter(node => node.seller_address === address && node.status != 0);
   const totalNode = totalNodeData.filter(node => node.seller_address === address);
   let EstimatedPayout = 0;
   totalNodeData.forEach(node => {
