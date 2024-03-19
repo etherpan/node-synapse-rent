@@ -65,7 +65,7 @@ export default function BasicTable() {
               <TableCell align="right" className='cell-name'>CREATED AT</TableCell>
               <TableCell align="right" className='cell-name'>APPROVED</TableCell>
               <TableCell align="right" className='cell-name'>STATUS</TableCell>
-              <TableCell align="left" className='cell-name'>ACTION</TableCell>
+              <TableCell align="left" className='cell-name'></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -85,7 +85,7 @@ export default function BasicTable() {
                   <TableCell align="right"><DoneTwoToneIcon sx={{ color: red[500] }} /></TableCell>
                 }
                 {row.status != 0 || row.approve == 1 ?
-                  <TableCell align="right">ONLINE</TableCell>
+                  <TableCell align="right"  style={{ color: "#00ff08" }}>ONLINE</TableCell>
                   :
                   <TableCell align="right" style={{ color: "#00ff08" }}>ONLINE</TableCell>
                 }
