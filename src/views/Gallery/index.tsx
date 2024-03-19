@@ -12,13 +12,15 @@ import {
   useTheme,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import LoadingIcon from "src/assets/icons/loading.gif";
 import NodeCard from "src/components/NodeCard";
 import PageTitle from "src/components/PageTitle";
 import { NUMBER_OF_GALLER_VISIBLE } from "src/constants/data";
 import { useAppSelector } from "src/hooks";
 import NotFound from "../404/NotFound";
+import { accounts } from "src/testWagmiUtils";
+import { connect } from "http2";
 // import
 
 function Gallery() {
@@ -26,8 +28,7 @@ function Gallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const galleryDate = useAppSelector(state => state.adminGallery.items);
-  
-  const listGalleryDate = galleryDate.filter(node => node.status != 0 || node.approve === 1);
+  const listGalleryDate = useMemo(() => galleryDate.filter(node => node.status != 0 || node.approve === 1),[galleryDate]);
   console.log('debug listGalleryDate', listGalleryDate)
   const [activeGallery, setActiveGallery] = useState([
     {
@@ -50,8 +51,8 @@ function Gallery() {
 
   useEffect(() => {
     setActiveGallery(listGalleryDate);
-  }, []);
-
+  },[listGalleryDate]);
+  
   const [name, setName] = useState<string[]>([]);
   const [query, setQuery] = useState<string>("");
   const [filterQuery, setFilterQuery] = useState<string>("1");
@@ -66,18 +67,18 @@ function Gallery() {
     switch (value) {
       case 1:
         setActiveGallery(
-          galleryDate.slice().sort((a, b) => (a.node_price > b.node_price ? (desc ? -1 : 1) : desc ? 1 : -1)),
+          listGalleryDate.slice().sort((a, b) => (a.node_price > b.node_price ? (desc ? -1 : 1) : desc ? 1 : -1)),
         );
         return;
       case 2:
-        setActiveGallery(galleryDate.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
+        setActiveGallery(listGalleryDate.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
         return;
       case 3:
-        setActiveGallery(galleryDate.slice().sort((a, b) => (a.gpu_capacity > b.cpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
+        setActiveGallery(listGalleryDate.slice().sort((a, b) => (a.gpu_capacity > b.cpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)));
         return;
       case 4:
         setActiveGallery(
-          galleryDate.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)),
+          listGalleryDate.slice().sort((a, b) => (a.gpu_capacity > b.gpu_capacity ? (desc ? -1 : 1) : desc ? 1 : -1)),
         );
         return;
     }
@@ -85,14 +86,14 @@ function Gallery() {
 
   useEffect(() => {
     sortGallery(parseInt(filterQuery));
-  }, [desc, filterQuery, galleryDate]);
+  }, [desc, filterQuery, listGalleryDate]);
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const [numberOfGalleryVisible, setNumberOfGalleryVisible] = useState(9);
 
   const chosenNUMBER_OF_GALLER_VISIBLE = useRef(0);
   const [observerIsSet, setObserverIsSet] = useState(false);
-  const chosenGalleryMemoized = listGalleryDate.slice(0, numberOfGalleryVisible);
+  const chosenGalleryMemoized = activeGallery.slice(0, numberOfGalleryVisible);
 
   useEffect(() => {
     const showMoreGallery: IntersectionObserverCallback = entries => {
