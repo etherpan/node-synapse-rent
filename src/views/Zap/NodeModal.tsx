@@ -118,7 +118,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen }) => {
       const responseReg = await apiRequest(
         "regist/node",
         {
-          node_name: formData.node_ip,
+          node_name: formData.node_name,
           node_cpu: formData.node_cpu,
           node_gpu: formData.node_gpu,
           cpu_capacity: formData.cpu_capacity,

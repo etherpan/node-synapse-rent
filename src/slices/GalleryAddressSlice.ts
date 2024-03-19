@@ -40,6 +40,7 @@ export interface INodeItem {
   approve: number;
   status: number;
   node_ip: string;
+  ssh_username: string;
   ssh_hostname: string;
   ssh_key: string;
 }

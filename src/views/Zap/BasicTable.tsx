@@ -13,43 +13,46 @@ import { red } from '@mui/material/colors';
 import { Button } from '@mui/material';
 import EditNodeModal from './EditNodeModal';
 
-function createData(
-  name: string,
-  gpu: number,
-  pricePerHour: number,
-  createdAt: string,
-  approved: number,
-  status: number,
-) {
-  return { name, gpu, pricePerHour, createdAt, approved, status };
-}
-
-
-// const rows = [
-//   createData('Frozen yoghurt', 159, 6.0, '24', 4.0, 2),
-//   createData('Ice cream sandwich', 237, 9.0, '37', 4.3, 3),
-//   createData('Eclair', 262, 16.0, '24', 6.0, 3),
-//   createData('Cupcake', 305, 3.7, '67', 4.3, 4),
-//   createData('Gingerbread', 356, 16.0, '49', 3.9, 55),
-// ];
 
 export default function BasicTable() {
   const { address = "", isConnected } = useAccount();
   const totalNodeData = useAppSelector(state => state.adminGallery.items);
   const rows = totalNodeData.filter(node => node.seller_address === address);
   const [index, setIndex] = useState(0);
+  const [nodeModalOpen, setNodeModalOpen] = useState(false);
+  
   const handleNodeModalOpen = (index : any) => {
     setNodeModalOpen(true);
     setIndex(index);
   }
-  const [nodeModalOpen, setNodeModalOpen] = useState(false);
 
+  interface INodeItem {
+    ssh_key: string;
+    ssh_hostname: string;
+    ssh_username: string;
+    seller_info: string;
+    node_name: string;
+    node_no: number;
+    seller_address: string;
+    node_cpu: string;
+    node_gpu: string;
+    gpu_capacity: number;
+    cpu_capacity: number;
+    node_download: any;
+    node_upload: any;
+    node_usage: any;
+    node_price: number;
+    approve: number;
+    status: number;
+    node_ip: string;
+  }
+  
   return (
     <>
       <EditNodeModal
         handleClose={() => setNodeModalOpen(false)}
         modalOpen={nodeModalOpen}
-        currentNode={rows[index]}
+        currentNode={rows[index] as unknown as INodeItem}
       />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

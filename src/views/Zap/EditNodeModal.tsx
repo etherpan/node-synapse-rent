@@ -1,12 +1,15 @@
 import { Box, Dialog, DialogTitle, FormControl, Grid, Link, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Icon, PrimaryButton } from "@olympusdao/component-library";
-import { ChangeEvent, FC, FormEvent, SetStateAction, useState } from "react";
+import { ChangeEvent, FC, FormEvent, SetStateAction, useEffect, useState } from "react";
 import React from "react";
 import { toast } from "react-hot-toast";
 import { messages } from "src/constants/messages";
 import apiRequest from "src/helpers/connections";
 import { sleep } from "src/helpers/sleep";
+import { useAppDispatch } from "src/hooks";
+import { galleryAdminDetails } from "src/slices/GalleryAdminSlice";
+import { galleryDetails } from "src/slices/GallerySlice";
 // import { INodeItem } from "src/slices/GalleryAddressSlice";
 import { useAccount } from "wagmi";
 
@@ -37,9 +40,9 @@ interface INodeItem {
   ssh_hostname: string;
   ssh_username: string;
   seller_info: string;
+  seller_address: string;
   node_name: string;
   node_no: number;
-  seller_address: string;
   node_cpu: string;
   node_gpu: string;
   gpu_capacity: number;
@@ -69,11 +72,8 @@ interface FormData {
   ssh_key: string;
 }
 
-interface AuthState {
-  loggedIn: boolean;
-}
-
 const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
+  const dispatch = useAppDispatch();
   const { address = "", isConnected } = useAccount();
   const [formData, setCurrentNode] = useState<FormData>(!currentNode ? {
     node_name: "",
@@ -89,7 +89,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
     node_ip: "",
     ssh_username: "",
     ssh_key: "",
-  }:{
+  } : {
     node_name: currentNode.node_name,
     node_cpu: currentNode.node_cpu,
     node_gpu: currentNode.node_gpu,
@@ -105,6 +105,38 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
     ssh_key: currentNode.ssh_key,
   });
 
+  useEffect(() => {
+    setCurrentNode(!currentNode ? {
+      node_name: "",
+      node_cpu: "",
+      node_gpu: "",
+      cpu_capacity: 0,
+      gpu_capacity: 0,
+      node_price: 0,
+      node_download: 0,
+      node_upload: 0,
+      seller_info: "",
+      ssh_hostname: "",
+      node_ip: "",
+      ssh_username: "",
+      ssh_key: "",
+    } : {
+      node_name: currentNode.node_name,
+      node_cpu: currentNode.node_cpu,
+      node_gpu: currentNode.node_gpu,
+      cpu_capacity: currentNode.cpu_capacity,
+      gpu_capacity: currentNode.gpu_capacity,
+      node_price: currentNode.node_price,
+      node_download: currentNode.node_download,
+      node_upload: currentNode.node_upload,
+      seller_info: currentNode.seller_info,
+      ssh_username: currentNode.ssh_username,
+      ssh_hostname: currentNode.ssh_hostname,
+      node_ip: currentNode.node_ip,
+      ssh_key: currentNode.ssh_key,
+    })
+  }, [currentNode])
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
     setCurrentNode(prevState => ({
@@ -112,11 +144,6 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
       [id]: value
     }));
   };
-
-  const auth: { state: boolean } = {
-    state: false,
-  };
-  auth.state = true;
 
   const handleValidation = () => {
     toast.error(messages.please_connect_wallet);
@@ -170,7 +197,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
         "POST",
         undefined,
       );
-      // dispatch(notificationActions.setMessage("KYB request has been successfully submitted."))
+
       toast.success(messages.tx_successfully_send);
       await sleep(1);
     } catch (error: any) {
@@ -179,6 +206,9 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
       } else {
         toast.error(messages.error_else);
       }
+    } finally {
+      dispatch(galleryAdminDetails())
+      dispatch(galleryDetails())
     }
     handleClose();
   };
@@ -196,7 +226,7 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
           <Box />
           <Box>
             <Typography id="migration-modal-title" variant="h6" component="h2">
-              Edit Node {currentNode?currentNode.node_no:0} Information
+              Edit Node {currentNode ? currentNode.node_no : 0} Information
             </Typography>
           </Box>
           <Link onClick={handleClose} alignItems="center">
