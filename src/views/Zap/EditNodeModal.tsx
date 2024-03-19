@@ -99,9 +99,9 @@ const NodeModal: FC<NodeModal> = ({ handleClose, modalOpen, currentNode }) => {
     node_download: currentNode.node_download,
     node_upload: currentNode.node_upload,
     seller_info: currentNode.seller_info,
+    ssh_username: currentNode.ssh_username,
     ssh_hostname: currentNode.ssh_hostname,
     node_ip: currentNode.node_ip,
-    ssh_username: currentNode.ssh_username,
     ssh_key: currentNode.ssh_key,
   });
 

@@ -112,7 +112,9 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       const nodeEthPricedd = nodeEthPrice.toFixed(5)
       const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
       const purchase_tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
+      console.log('debug purchase_tx', purchase_tx.hash)
       await purchase_tx.wait();
+
       // const purchase_tx = "0xdddwefreregdddwefreregdddwefreregdddwefrereg"
       
       const responseReg = await apiRequest(
@@ -123,7 +125,7 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
           buyer_telegram: formData.buyer_telegram,
           buyer_address: address,
           nodeEthPurchase: nodeEthPrice,
-          purchase_tx: purchase_tx, 
+          purchase_tx: purchase_tx.hash, 
         },
         "POST",
         undefined,
