@@ -112,10 +112,10 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       const nodeEthPricedd = nodeEthPrice.toFixed(5)
       const nodeEthPriceInWei = ethers.utils.parseUnits(nodeEthPricedd.toString(), "ether");
       const purchase_tx = await contract.rentNode({ value: nodeEthPriceInWei, gasLimit: 300000 });
-      console.log('debug purchase_tx', purchase_tx.hash)
+      console.log('debug purchase_tx', `${purchase_tx.hash}`)
       await purchase_tx.wait();
 
-      // const purchase_tx = "0xdddwefreregdddwefreregdddwefreregdddwefrereg"
+      // const purchase_tx = 0x87d086cfc7af2733cad7fe7a7bd2ecd3a419f16e8758e3c7c256cb4c4fbbde83;
       
       const responseReg = await apiRequest(
         "regist/submit",
@@ -125,22 +125,22 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
           buyer_telegram: formData.buyer_telegram,
           buyer_address: address,
           nodeEthPurchase: nodeEthPrice,
-          purchase_tx: purchase_tx.hash, 
+          purchase_tx: `${purchase_tx.hash}`, 
         },
         "POST",
         undefined,
       );
       toast.success(messages.tx_successfully_send);
       setIsLoading(false);
-      dispatch(galleryAdminDetails());
-      dispatch(galleryDetails());
-      // dispatch(PurchaseAdminSlice());
       handleClose();
     } catch (error: any) {
       // toast.error(messages.error_401)
       setIsLoading(false);
       handleClose();
       toast.error(messages.error_else);
+    } finally {
+      dispatch(galleryAdminDetails());
+      dispatch(galleryDetails());
     }
   };
 
