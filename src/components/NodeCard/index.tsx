@@ -106,6 +106,7 @@ function NodeCard({
                   className="div"
                   onClick={() => handleRentModalOpen()}
                   variant="contained"
+                  color={status ===2 || status ===3 ? "warning" : "primary"}
                   style={{ color: "#fff", borderRadius: "20px", fontSize: "15px" }}
                   disabled = {status ===2 || status ===3 ? true : false}
                 >

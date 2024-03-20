@@ -132,11 +132,11 @@ const RentModal: FC<RentModal> = ({ handleClose, modalOpen, currentNode, NodePri
       </Box>
       <Box paddingBottom="15px" margin={"25px"}>
         <FormControl fullWidth sx={{ paddingBottom: "10px" }}>
-          <Typography>New SSK</Typography>
+          <Typography>SSH Key for buyer</Typography>
           <TextField
             id="rent_sshkey"
             type="text"
-            placeholder="Type a new ssk for rent"
+            placeholder="Type a new ssh key for rent"
             // value={"Node " + currentNode}
             style={{ marginBottom: "20px", background: "#030712", borderRadius: "12px" }}
             onChange={handleChange}
