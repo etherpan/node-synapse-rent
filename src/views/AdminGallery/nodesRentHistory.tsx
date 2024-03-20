@@ -65,7 +65,7 @@ export default function BasicTable() {
             <TableCell align="left" className='cell-name'>BUYER ADDRESS</TableCell>
             <TableCell align="left" className='cell-name'>BUYER TELEGRAM</TableCell>
             <TableCell align="left" className='cell-name'>NODE PRICE</TableCell>
-            <TableCell align="left" className='cell-name'>PURCHASE ETH</TableCell>
+            <TableCell align="left" className='cell-name'>PURCHASE</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -96,7 +96,7 @@ export default function BasicTable() {
               </TableCell>
               <TableCell align="left">{row.buyer_info ? row.buyer_info : "- - -"}</TableCell>
               <TableCell align="left">$ {row.node_price}</TableCell>
-              <TableCell align="left">$ {row.purchase} ETH</TableCell>
+              <TableCell align="left">{(row.purchase ).toFixed(5)} ETH</TableCell>
             </TableRow>
           ))}
         </TableBody>
