@@ -28,7 +28,8 @@ function Gallery() {
 
   const isAppLoading = useAppSelector(state => state.app.loading);
   const galleryDate = useAppSelector(state => state.adminGallery.items);
-  const listGalleryDate = useMemo(() => galleryDate.filter(node => node.status != 0 || node.approve === 1),[galleryDate]);
+  const listGalleryDate = useMemo(() => galleryDate.filter(node => (node.status != 0 || node.approve === 1)),[galleryDate]);
+  console.log('debug listGalleryDate', listGalleryDate)
   
   const [activeGallery, setActiveGallery] = useState([
     {

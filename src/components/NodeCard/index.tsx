@@ -109,7 +109,7 @@ function NodeCard({
                   style={{ color: "#fff", borderRadius: "20px", fontSize: "15px" }}
                   disabled = {status ===2 || status ===3 ? true : false}
                 >
-                  {status ===2 || status ===3 ? `Rented` : `Rent Now`}
+                  {status ===2 || status ===3 ? `Out of Stock` : `Rent Now`}
                 </Button>
               )}
             </div>
