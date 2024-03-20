@@ -4,6 +4,7 @@
 import "./nodecard.scss";
 import { Button, Grid, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
+import "./nodecard.scss";
 import toast from "react-hot-toast";
 import { messages } from "src/constants/messages";
 import BuyerModal from "src/views/Zap/BuyerModal";

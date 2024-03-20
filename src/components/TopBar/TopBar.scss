@@ -18,6 +18,12 @@
     text-decoration: none;
   }
 }
+
+.customNavItem .NavItem-title {
+  padding-left: 0 !important;
+  margin: 0 !important;
+}
+
 .tablet .dapp-topbar {
   justify-content: space-between;
 }

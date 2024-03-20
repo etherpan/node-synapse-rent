@@ -1,4 +1,4 @@
-// import "src/components/TopBar/TopBar.scss";
+import "./TopBar.scss";
 
 import { AppBar, Box, Button, SvgIcon, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -80,7 +80,8 @@ function TopBar({ colorTheme, toggleTheme, handleDrawerToggle }: TopBarProps) {
               <NavItem to="/nodes" label={`Nodes`} />
               {address != "" &&  <NavItem to="/lending" label={`Lending`} />}
               {address != "" &&  <NavItem to="/renting" label={`Renting`} />}
-              <NavItem href="https://staking.nodesynapse.app/" label={`Staking`}/>
+              <NavItem href="https://staking.nodesynapse.app/" label={`Staking`} />
+              <NavItem href="https://nodesynapse.cloud/" label={`Hosting`} style={{paddingLeft: "0px"}} className="customNavItem"/>
               {/* <NavItem to="/leaderboard" label={`Leaderboard`} /> */}
             </>
           )}
