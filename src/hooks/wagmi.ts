@@ -56,8 +56,8 @@ export const { chains, provider, webSocketProvider } = configureChains(
     //     },
     //   },
     // },
-    // mainnet,
-    bscTestnet
+    mainnet,
+    // bscTestnet
     // goerli,
   ],
   [
