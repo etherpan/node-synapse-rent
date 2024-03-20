@@ -120,7 +120,7 @@ const ActiveRentals: React.FC = () => {
               <TableCell align="right" className='cell-name'>TIME LEFT</TableCell>
               <TableCell align="right" className='cell-name'>COST</TableCell>
               <TableCell align="right" className='cell-name'>TX</TableCell>
-              <TableCell align="right" className='cell-name'>SSH USER NAME</TableCell>
+              <TableCell align="right" className='cell-name'>SSH/WIN USER NAME</TableCell>
               <TableCell align="right" className='cell-name'>SSH KEY / PASSWORD</TableCell>
               <TableCell align="right" className='cell-name'>NODE IP</TableCell>
               <TableCell align="right" className='cell-name'>STATUS</TableCell>
@@ -142,7 +142,7 @@ const ActiveRentals: React.FC = () => {
                 {/* <TableCell align="right">{shortenString(row.ssh_username)}</TableCell> */}
                 <TableCell align="right"
                   onClick={() => { copySshUserToClipboard(row.ssh_username, index); }} style={{ cursor: 'pointer' }}>
-                  {copiedSshUser[index] ? "Copied!" : shortenString(row.ssh_user)}
+                  {copiedSshUser[index] ? "Copied!" : shortenString(row.ssh_username)}
                 </TableCell>
                 <TableCell align="right"
                   onClick={() => { copySshKeyToClipboard(row.ssh_key, index); }} style={{ cursor: 'pointer' }}>
