@@ -150,7 +150,7 @@ function Gallery() {
         <div className="gallery-infos-nfts">
           {!loading && (
             <>
-              <Grid container rowSpacing={{ xs: 1, sm: 2, md: 4 }} pr={4} style={{ justifyContent: "center" }}>
+              <Grid container rowSpacing={{ xs: 1, sm: 2, md: 4 }} style={{ justifyContent: "center" }}>
                 {chosenGalleryMemoized.length == 0 ? (
                   <NotFound />
                 ) : (
