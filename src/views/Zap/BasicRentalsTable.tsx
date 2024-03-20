@@ -18,12 +18,6 @@ export default function BasicTable() {
   const totalNodeData = useAppSelector(state => state.adminPurchaseHistory.items);
   const rows = totalNodeData.filter(node => node.seller_address.toLowerCase() === address.toLowerCase());
 
-  // const 
-  // useEffect(() => {
-  //   setActiveGallery(rows);
-  // },[rows]);
-  console.log('debug totalNodeData', rows, totalNodeData, address)
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

@@ -14,7 +14,6 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import EditNodeModal from './EditNodeModal';
 import { BASEURL } from 'src/constants';
-import { EthPrice } from "src/hooks/usePrices";
 
 interface ActiveRentalsProps {
   totalNode: INodeItem[]; // Ensure this matches the filtered totalNode type
@@ -45,28 +44,43 @@ const ActiveRentals: React.FC = () => {
 
   const totalPurchaseData = useAppSelector(state => state.adminPurchaseHistory.items);
 
-  const rows = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address && node.status === 3) : [];
+  const rows = totalPurchaseData 
+    ? totalPurchaseData.filter(node => node.buyer_address === address && node.status === 3) 
+    : [];
 
-  // const purchaseNodeData = useAppSelector(state => state.)
   interface PurchaseData {
-    purchase_date: string;
-    purchase: number;
-    purchase_tx: string;
-    seller_info: string;
-    seller_address: string;
+    purchase_date: string,
+    purchase: number,
+    purchase_tx: string,
+    seller_info: string,
+    seller_address: string,
     buyer_address: string,
     buyer_info: string,
-    node_name: string;
+    node_name: string,
     node_no: string,
     gpu_capacity: number,
     node_price: number,
     node_createDate: string,
     approve: number,
     status: number,
+    ssh_key: string,
+    node_ip: string,
   }
 
-  const ethPrice = EthPrice();
-
+  const uniqueActiveRows = [];
+  for (let i = 0; i < rows.length; i++) {
+    let isDuplicate = false;
+    for (let j = 0; j < uniqueActiveRows.length; j++) {
+      if (rows[i].node_no === uniqueActiveRows[j].node_no) {
+        isDuplicate = true;
+        break;
+      }
+    }
+    if (!isDuplicate) {
+      uniqueActiveRows.push(rows[i]);
+    }
+  }
+  
   function shortenString(str: string, maxLength: number = 10): string {
     if (str.length <= maxLength) {
       return str;
@@ -105,7 +119,7 @@ const ActiveRentals: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {uniqueActiveRows.map((row, index) => (
               <TableRow
                 key={index}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

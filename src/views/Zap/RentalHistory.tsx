@@ -38,11 +38,13 @@ export default function BasicTable() {
               </TableCell>
               <TableCell align="right">{row.buyer_info}</TableCell>
               <TableCell align="right">{(30 - ((new Date()).getTime() - new Date(row.purchase_date).getTime()) / (1000 * 60 * 60 * 24)).toFixed(2)} Days</TableCell>
-              <TableCell align="right">{row.purchase}</TableCell>
-              {row.rent_approve == 1 ?
+              <TableCell align="right">{row.purchase.toFixed(5)} ETH</TableCell>
+              {row.rent_approve === 1 ?
                 <TableCell align="right" style={{ color: "#00ff08" }}>{`Rented`}</TableCell>
-                :
-                <TableCell align="right" style={{ color: "#ffdb0a" }}>{`Pending`}</TableCell>
+                : row.rent_approve === 0 ?
+                  <TableCell align="right" style={{ color: "#ffdb0a" }}>{`Pending`}</TableCell>
+                  :
+                  <TableCell align="right" style={{ color: "#ff0000" }}>{`Paused`}</TableCell>
               }
             </TableRow>
           ))}

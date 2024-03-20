@@ -50,7 +50,6 @@ const handleValidation = () => {
   toast.error(messages.please_connect_wallet);
 }
 
-
 function Renting() {
   const ethPrice = EthPrice();
   const { address = "", isConnected } = useAccount();
@@ -72,7 +71,21 @@ function Renting() {
   
   const totalPurchaseData = useAppSelector(state => state.adminPurchaseHistory.items);
 
-  const activeNode = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address && node.status === 3) : [];
+  const rows = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address && node.status === 3) : [];
+  
+  const uniqueActiveRows = [];
+  for (let i = 0; i < rows.length; i++) {
+    let isDuplicate = false;
+    for (let j = 0; j < uniqueActiveRows.length; j++) {
+      if (rows[i].node_no === uniqueActiveRows[j].node_no) {
+        isDuplicate = true;
+        break;
+      }
+    }
+    if (!isDuplicate) {
+      uniqueActiveRows.push(rows[i]);
+    }
+  }
   
   const rentedNode = totalPurchaseData ? totalPurchaseData.filter(node => node.buyer_address === address && node.rent_approve == 1) : [];
 
@@ -110,7 +123,7 @@ function Renting() {
                 <Grid item xs={12} sm={6}>
                   <CardContent>
                     <div >
-                      <p className="card-value">{activeNode.length}</p>
+                      <p className="card-value">{uniqueActiveRows.length}</p>
                       <p className="card-title">Active Rentals</p>
                     </div>
                   </CardContent>
