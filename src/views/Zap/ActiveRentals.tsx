@@ -64,6 +64,7 @@ const ActiveRentals: React.FC = () => {
     approve: number,
     status: number,
     ssh_key: string,
+    ssh_username: string,
     node_ip: string,
   }
 
@@ -89,6 +90,12 @@ const ActiveRentals: React.FC = () => {
     return `${str.slice(0, halfLength)}...${str.slice(-halfLength)}`;
   }
 
+  const [copiedSshUser, setCopiedSshUser] = useState<boolean[]>(new Array(totalPurchaseData?.length ?? 0).fill(false));
+  const copySshUserToClipboard = (address: string, rowIndex: number) => {
+    navigator.clipboard.writeText(address);
+    setCopiedSshUser(prevState => prevState.map((copied, index) => index === rowIndex));
+  };
+  
   const [copiedSshKey, setCopiedSshKey] = useState<boolean[]>(new Array(totalPurchaseData?.length ?? 0).fill(false));
   const copySshKeyToClipboard = (address: string, rowIndex: number) => {
     navigator.clipboard.writeText(address);
@@ -113,6 +120,7 @@ const ActiveRentals: React.FC = () => {
               <TableCell align="right" className='cell-name'>TIME LEFT</TableCell>
               <TableCell align="right" className='cell-name'>COST</TableCell>
               <TableCell align="right" className='cell-name'>TX</TableCell>
+              <TableCell align="right" className='cell-name'>SSH USER NAME</TableCell>
               <TableCell align="right" className='cell-name'>SSH KEY / PASSWORD</TableCell>
               <TableCell align="right" className='cell-name'>NODE IP</TableCell>
               <TableCell align="right" className='cell-name'>STATUS</TableCell>
@@ -131,6 +139,11 @@ const ActiveRentals: React.FC = () => {
                 <TableCell align="right">{(30 - ((new Date()).getTime() - new Date(row.purchase_date).getTime()) / (1000 * 60 * 60 * 24)).toFixed(2)}</TableCell>
                 <TableCell align="right">{row.purchase.toFixed(6)} ETH</TableCell>
                 <TableCell align="right" >{shortenString(row.purchase_tx)}</TableCell>
+                {/* <TableCell align="right">{shortenString(row.ssh_username)}</TableCell> */}
+                <TableCell align="right"
+                  onClick={() => { copySshUserToClipboard(row.ssh_username, index); }} style={{ cursor: 'pointer' }}>
+                  {copiedSshUser[index] ? "Copied!" : shortenString(row.ssh_user)}
+                </TableCell>
                 <TableCell align="right"
                   onClick={() => { copySshKeyToClipboard(row.ssh_key, index); }} style={{ cursor: 'pointer' }}>
                   {copiedSshKey[index] ? "Copied!" : shortenString(row.ssh_key)}
@@ -139,7 +152,6 @@ const ActiveRentals: React.FC = () => {
                   onClick={() => { copyNodeIpToClipboard(row.node_ip, index); }} style={{ cursor: 'pointer' }}>
                   {copiedNodeIp[index] ? "Copied!" : shortenString(row.node_ip)}
                 </TableCell>
-                {/* <TableCell align="right">{shortenString(row.ssh_username)}</TableCell> */}
                 {row.status == 1 ?
                   <TableCell align="right">ONLINE</TableCell>
                   :

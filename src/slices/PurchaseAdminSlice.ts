@@ -23,7 +23,6 @@ export interface IGalleryData {
 
 export interface INodeItem {
   rent_approve: number;
-  ssh_username(ssh_username: any): import("react").ReactNode;
   buyer_info: string;
   buyer_address:string;
   seller_info: string;
@@ -47,6 +46,7 @@ export interface INodeItem {
   ssh_hostname: "";
   node_ip: "";
   ssh_key: "";
+  ssh_username: "";
 }
 
 const initialState: IGalleryData = {
