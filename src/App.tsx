@@ -199,7 +199,7 @@ function App() {
   // ... been reloaded within App.
   useEffect(() => {
     if (shouldTriggerSafetyCheck()) {
-      toast("Safety Check: Always verify you're on nodesynapse.org");
+      toast("Safety Check: Always verify you're on nodesynapse.app");
     }
     loadDetails("app");
   }, []);

@@ -88,7 +88,7 @@ function Footer() {
               <Box fontSize="22px" lineHeight="24px" fontWeight={700}>
                 Resources
               </Box>
-              <Link href="https://docs.nodesynapse.org/" target="_blank" rel="noopener noreferrer" className="link-text">
+              <Link href="https://docs.nodesynapse.app/" target="_blank" rel="noopener noreferrer" className="link-text">
                 Docs
               </Link>
               <Link href="#" target="" rel="noopener noreferrer" className="link-text">
